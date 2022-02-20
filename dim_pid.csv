@@ -1,0 +1,3 @@
+platform,product_name,product_type,pid,address,token1,token1_address,token2,token2_address
+hermes,IRIS / WONE,LP,4,0x54c59cc0ad2ec1de3c5b7057d900d306f16453ef,iris,0x85fd5f8dbd0c9ef1806e6c7d4b787d438621c1dc,wone,0xcf664087a5bb0237a0bad6742852ec6c8d69a27a
+hermes,PLTS / DAI,LP,11,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,plts,0xd32858211fcefd0be0dd3fd6d069c3e821e0aef3,1dai,0xef977d2f931c1978db5f6747666fa1eacb0d0339
