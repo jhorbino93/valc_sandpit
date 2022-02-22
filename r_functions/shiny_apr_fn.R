@@ -30,7 +30,7 @@ fnGetAPR <- function(
   ## Query blockchain
   block_seq <- seq(content(fn_hmyv2_getBlock(rpc=rpc))$result,by=-approxBlocks,length.out=blockrange)
   # cores     <- detectCores()
-  cores     <- 1
+  cores     <- 4
   cl        <- makeCluster(cores[1]-1)
   on.exit(stopCluster(cl))
   registerDoParallel(cl)
