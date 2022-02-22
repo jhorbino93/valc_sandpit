@@ -1,4 +1,3 @@
-
 fnGetAPR <- function(
   granularity
   ,platform
@@ -11,31 +10,7 @@ fnGetAPR <- function(
                     ,"fn_hmyv2_call_poolInfo","fn_hmyv2_call_totalAllocPoints","fn_hmyv2_call_emissionPerBlock"
                     ,"fn_getDexScreener","fn_hmyv2_call_balanceOf","fn_hmyv2_call_totalSupply")
 ){
-  cat("Step1")
-  url_dim_masterchef <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_masterchef.csv"
-  cat("Step2")
-  url_dim_pid <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_pid.csv"
-  cat("Step3")
-  dim_masterchef <- read.csv(
-    url_dim_masterchef
-    ,stringsAsFactors = F
-    ,colClasses=c(
-      "masterchef_address"="character"
-      ,"treasury_address"="character"
-      ,"emission_token1_lp_address"="character"
-    )
-  )
-  cat("Step4")
-  dim_pid <- read.csv(
-    url_dim_pid
-    ,stringsAsFactors = F
-    ,colClasses=c(
-      "address"="character"
-      ,"token1_address"="character"
-      ,"token2_address"="character"
-    )
-  )
-  cat("Step5+")
+
   timeBlock      <- granularity*60*60 ## Number of theoretical seconds between each timepoint
   approxBlocks   <- timeBlock/2 ## Approx blocks between each time point
   
@@ -58,7 +33,7 @@ fnGetAPR <- function(
   cl        <- makeCluster(cores[1]-1)
   on.exit(stopCluster(cl))
   registerDoParallel(cl)
-  list_res <- foreach(x=block_seq,.packages=vct_packages,.export = parallelExport) %dopar% {
+  list_res <- foreach(x=block_seq,.packages=parallelPackages,.export = parallelExport) %dopar% {
     ## Get block time
     timestamp        <- fn_unixToTime(content(fn_hmyv2_getBlockByNumber(x))$result$timestamp)
     ## Get token1 balance in product
