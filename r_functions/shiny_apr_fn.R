@@ -10,6 +10,27 @@ fnGetAPR <- function(
                     ,"fn_hmyv2_call_poolInfo","fn_hmyv2_call_totalAllocPoints","fn_hmyv2_call_emissionPerBlock"
                     ,"fn_getDexScreener","fn_hmyv2_call_balanceOf","fn_hmyv2_call_totalSupply")
 ){
+  
+  url_dim_masterchef <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_masterchef.csv"
+  url_dim_pid <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_pid.csv"
+  dim_masterchef <- read.csv(
+    url_dim_masterchef
+    ,stringsAsFactors = F
+    ,colClasses=c(
+      "masterchef_address"="character"
+      ,"treasury_address"="character"
+      ,"emission_token1_lp_address"="character"
+    )
+  )
+  dim_pid <- read.csv(
+    url_dim_pid
+    ,stringsAsFactors = F
+    ,colClasses=c(
+      "address"="character"
+      ,"token1_address"="character"
+      ,"token2_address"="character"
+    )
+  )    
 
   timeBlock      <- granularity*60*60 ## Number of theoretical seconds between each timepoint
   approxBlocks   <- timeBlock/2 ## Approx blocks between each time point
