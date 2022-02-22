@@ -7,7 +7,7 @@ fnGetAPR <- function(
   ,rpc="https://a.api.s0.t.hmny.io/"
   ,dexscreen_url_base="io5.dexscreener.io"
   ,parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
-  ,parallelFuns = c("fn_unixToTime","fn_hmyv2_getBlockByNumber","fn_bnToReal","fn_hmyv2_call","fn_poolInfo_allocPoints"
+  ,parallelExport = c("fn_unixToTime","fn_hmyv2_getBlockByNumber","fn_bnToReal","fn_hmyv2_call","fn_poolInfo_allocPoints"
                     ,"fn_hmyv2_call_poolInfo","fn_hmyv2_call_totalAllocPoints","fn_hmyv2_call_emissionPerBlock"
                     ,"fn_getDexScreener","fn_hmyv2_call_balanceOf","fn_hmyv2_call_totalSupply"
                     ,"dim_pid","dim_masterchef")
@@ -36,7 +36,7 @@ fnGetAPR <- function(
   cl        <- makeCluster(cores[1]-1)
   on.exit(stopCluster(cl))
   registerDoParallel(cl)
-  list_res <- foreach(x=block_seq,.packages=vct_packages,.export = parallelFuns) %dopar% {
+  list_res <- foreach(x=block_seq,.packages=vct_packages,.export = parallelExport) %dopar% {
     ## Get block time
     timestamp        <- fn_unixToTime(content(fn_hmyv2_getBlockByNumber(x))$result$timestamp)
     ## Get token1 balance in product
