@@ -9,28 +9,31 @@ fnGetAPR <- function(
   ,parallelExport = c("fn_unixToTime","fn_hmyv2_getBlockByNumber","fn_bnToReal","fn_hmyv2_call","fn_poolInfo_allocPoints"
                     ,"fn_hmyv2_call_poolInfo","fn_hmyv2_call_totalAllocPoints","fn_hmyv2_call_emissionPerBlock"
                     ,"fn_getDexScreener","fn_hmyv2_call_balanceOf","fn_hmyv2_call_totalSupply")
+  ,dim_masterchef
+  ,dim_pid
+  ,network = "harmony"
 ){
-  network              <- "harmony"
-  url_dim_masterchef <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_masterchef.csv"
-  url_dim_pid <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_pid.csv"
-  dim_masterchef <- read.csv(
-    url_dim_masterchef
-    ,stringsAsFactors = F
-    ,colClasses=c(
-      "masterchef_address"="character"
-      ,"treasury_address"="character"
-      ,"emission_token1_lp_address"="character"
-    )
-  )
-  dim_pid <- read.csv(
-    url_dim_pid
-    ,stringsAsFactors = F
-    ,colClasses=c(
-      "address"="character"
-      ,"token1_address"="character"
-      ,"token2_address"="character"
-    )
-  )    
+  # network              <- "harmony"
+  # url_dim_masterchef <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_masterchef.csv"
+  # url_dim_pid <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_pid.csv"
+  # dim_masterchef <- read.csv(
+  #   url_dim_masterchef
+  #   ,stringsAsFactors = F
+  #   ,colClasses=c(
+  #     "masterchef_address"="character"
+  #     ,"treasury_address"="character"
+  #     ,"emission_token1_lp_address"="character"
+  #   )
+  # )
+  # dim_pid <- read.csv(
+  #   url_dim_pid
+  #   ,stringsAsFactors = F
+  #   ,colClasses=c(
+  #     "address"="character"
+  #     ,"token1_address"="character"
+  #     ,"token2_address"="character"
+  #   )
+  # )    
 
   timeBlock      <- granularity*60*60 ## Number of theoretical seconds between each timepoint
   approxBlocks   <- timeBlock/2 ## Approx blocks between each time point
@@ -57,26 +60,26 @@ fnGetAPR <- function(
   registerDoParallel(cl)
   list_res <- foreach(x=block_seq,.packages=parallelPackages,.export = parallelExport) %dopar% {
     
-    url_dim_masterchef <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_masterchef.csv"
-    url_dim_pid <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_pid.csv"
-    dim_masterchef <- read.csv(
-      url_dim_masterchef
-      ,stringsAsFactors = F
-      ,colClasses=c(
-        "masterchef_address"="character"
-        ,"treasury_address"="character"
-        ,"emission_token1_lp_address"="character"
-      )
-    )
-    dim_pid <- read.csv(
-      url_dim_pid
-      ,stringsAsFactors = F
-      ,colClasses=c(
-        "address"="character"
-        ,"token1_address"="character"
-        ,"token2_address"="character"
-      )
-    )    
+    # url_dim_masterchef <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_masterchef.csv"
+    # url_dim_pid <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dim_pid.csv"
+    # dim_masterchef <- read.csv(
+    #   url_dim_masterchef
+    #   ,stringsAsFactors = F
+    #   ,colClasses=c(
+    #     "masterchef_address"="character"
+    #     ,"treasury_address"="character"
+    #     ,"emission_token1_lp_address"="character"
+    #   )
+    # )
+    # dim_pid <- read.csv(
+    #   url_dim_pid
+    #   ,stringsAsFactors = F
+    #   ,colClasses=c(
+    #     "address"="character"
+    #     ,"token1_address"="character"
+    #     ,"token2_address"="character"
+    #   )
+    # )    
     
     ## Get block time
     timestamp        <- fn_unixToTime(content(fn_hmyv2_getBlockByNumber(x))$result$timestamp)
