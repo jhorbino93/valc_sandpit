@@ -7,6 +7,7 @@ fn_formatPlotBigNum <- function(tx) {
 }
 fnConvUnixToTime  <- function(x){as.POSIXct(x/1000,origin="1970-01-01",tz="UTC")}
 funConvTimeToUnix <- function(x){as.numeric(difftime(as_datetime(x),as_datetime("1970-01-01 00:00:00"),units="secs"))*1000}
+fnConvTimeToUnix <- function(x){as.numeric(difftime(as_datetime(x),as_datetime("1970-01-01 00:00:00"),units="secs"))*1000}
 fnImpermanentLoss <- function(k,rho=0){((2-rho)*sqrt(k)-(rho*k))/((k+1)*(1-rho))-1}
 fnScaleLabs       <- function(){function(x) format(100*x,digits=2)}
 fn_getDexScreener <- function(network,address,start,end,bar,cb){
