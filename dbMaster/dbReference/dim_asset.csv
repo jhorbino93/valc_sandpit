@@ -1,0 +1,30 @@
+short_name,long_name,project,asset_cat
+BTC,Bitcoin,Bitcoin,Layer 1
+ETH,Ethereum,Ethereum,Layer 1
+ADA,Cardano,Cardano,Layer 1
+ONE,Harmony One,Harmony One,Layer 1
+VET,Vechain Thor,Vechain Thor,Layer 1
+SOL,Solana,Solana,Layer 1
+LINK,Chainlink,Chainlink,Oracle
+AVAX,Avalanche,Avalanche,Layer 1
+LUNA,Terra Luna,Terra Luna,Layer 1
+COSMOS,Cosmos,Cosmos,Layer 1
+AAVE,Aave,Aave,DeFi
+BNB,Binance,Binance,Layer 1
+CAKE,Pancake Swap,Pancake Swap,DeFi
+FTM,Fantom,Fantom,Layer 1
+DOT,Polkadot,Polkadot,Layer 1
+MATIC,Matic,Matic,Layer 2
+UNISWAP,Uniswap,Uniswap,DeFi
+CURVE,Curve,Curve,DeFi
+ALGO,Algorand,Algorand,Layer 1
+FTT,FTX Token,FTX Token,CEX Token
+AR,Arweave,Arweave,Storage
+FIL,File Token,File Token,Storage
+SUSHI,Sushi Swap,Sushi Swap,DeFi
+IRIS,Iris,Hermes,Governance
+PLTS,Plutus,Hermes,Utility
+LUMEN,Lumen,Tranquility City,Utility
+FUZZ,Fuzz,Fuzz,Utility
+VIPER,Viper,ViperSwap,Utility/Governance
+JEWEL,Jewel,Defi Kingdoms,Utility/Governance
