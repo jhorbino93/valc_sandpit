@@ -1,0 +1,12 @@
+base_measure_type,base_measure_type_rank,base_measure_l1,base_measure_l1_rank,base_measure_l2,base_measure_l2_rank,quotation_type
+Price Open,1,Price,1,Open,1,usd
+Price Close,2,Price,1,Close,2,usd
+Price High,3,Price,1,High,3,usd
+Price Low,4,Price,1,Low,4,usd
+Volume Open,5,Volume,2,Open,1,usd
+Volume Close,6,Volume,2,Close,2,usd
+Price Open,1,Price,1,Open,1,token2
+Price Close,2,Price,1,Close,2,token2
+Price High,3,Price,1,High,3,token2
+Price Low,4,Price,1,Low,4,token2
+Volume Close,6,Volume,2,Close,2,token2

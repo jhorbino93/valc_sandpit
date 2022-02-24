@@ -1,0 +1,24 @@
+dim_ticker_id,ticker,short_name,project,cat_l1,token1,token2,cex_dex,exchange_src,network
+1,BTCUSDT,BTC,Bitcoin,Layer 1,BTC,USDT,cex,binance,cex_binance
+2,ETHUSDT,ETH,Ethereum,Layer 1,ETH,USDT,cex,binance,cex_binance
+3,ADAUSDT,ADA,Cardano,Layer 1,ADA,USDT,cex,binance,cex_binance
+4,ONEUSDT,ONE,Harmony One,Layer 1,ONE,USDT,cex,binance,cex_binance
+5,VETUSDT,VET,Vechain Thor,Layer 1,VET,USDT,cex,binance,cex_binance
+6,SOLUSDT,SOL,Solana,Layer 1,SOL,USDT,cex,binance,cex_binance
+7,LINKUSDT,LINK,Chainlink,Oracle,LINK,USDT,cex,binance,cex_binance
+8,AVAXUSDT,AVAX,Avalanche,Layer 1,AVAX,USDT,cex,binance,cex_binance
+9,LUNAUSDT,LUNA,Terra Luna,Layer 1,LUNA,USDT,cex,binance,cex_binance
+10,ATOMUSDT,COSMOS,Cosmos,Layer 1,COSMOS,USDT,cex,binance,cex_binance
+11,AAVEUSDT,AAVE,Aave,Defi,AAVE,USDT,cex,binance,cex_binance
+12,BNBUSDT,BNB,Binance,CEX Token,BNB,USDT,cex,binance,cex_binance
+13,CAKEUSDT,CAKE,Pancake Swap,Defi,CAKE,USDT,cex,binance,cex_binance
+14,FTMUSDT,FTM,Fantom,Layer 1,FTM,USDT,cex,binance,cex_binance
+15,DOTUSDT,DOT,Polkadot,Layer 1,DOT,USDT,cex,binance,cex_binance
+16,MATICUSDT,MATIC,Matic,Layer 2,MATIC,USDT,cex,binance,cex_binance
+17,UNIUSDT,UNISWAP,Uniswap,Defi,UNISWAP,USDT,cex,binance,cex_binance
+18,CRVUSDT,CURVE,Curve,Defi,CURVE,USDT,cex,binance,cex_binance
+19,ALGOUSDT,ALGO,Algorand,Layer 1,ALGO,USDT,cex,binance,cex_binance
+20,FTTUSDT,FTT,FTX Token,CEX Token,FTT,USDT,cex,binance,cex_binance
+21,ARUSDT,AR,Arweave,Storage,AR,USDT,cex,binance,cex_binance
+22,FILUSDT,FIL,File Token,Storage,FIL,USDT,cex,binance,cex_binance
+23,SUSHIUSDT,SUSHI,Sushi Swap,Defi,SUSHI,USDT,cex,binance,cex_binance

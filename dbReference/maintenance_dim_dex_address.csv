@@ -1,0 +1,7 @@
+dim_ticker_id,lp_address,network,lp_name,token1,token2,cex_dex,exchange_src,project,cat_l1
+1001,0x54c59cC0Ad2EC1DE3c5B7057d900D306F16453ef,harmony,hrc20_venom_lp_iris_wone,iris,wone,dex,viperswap,Hermes,Governance
+1002,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,harmony,hrc20_venom_lp_plts_dai,plts,dai,dex,viperswap,Hermes,Utility
+1003,0xf33ee94922326d7c1d220298cc9428a1fd15daea,harmony,hrc20_dfk_lp_lumen_wone,lumen,wone,dex,dfk,Tranquility City,Utility
+1004,0x6ef6c5f316f70b9fcefb753a4b004b8ee9506eb1,harmony,hrc20_fuzz_lp_fuzz_wone,fuzz,wone,dex,fuzz,Fuzz,Utility
+1005,0x96025483bd32c645b822a5a08004b84d674537cb,harmony,hrc20_venom_lp_viper_wone,viper,wone,dex,viperswap,Viper Swap,Utility/Governance
+1006,0xeb579ddcd49a7beb3f205c9ff6006bb6390f138f,harmony,hrc20_dfk_lp_jewel_wone,jewel,wone,dex,dfk,Defi Kingdoms,Utility/Governance

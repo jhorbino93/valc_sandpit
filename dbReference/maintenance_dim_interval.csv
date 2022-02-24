@@ -1,0 +1,8 @@
+dim_interval_id,interval_name,interval_shortname,rank
+1,1 Hour,1h,1
+2,2 Hour,2h,2
+3,4 Hour,4h,3
+4,6 Hour,6h,4
+5,1 Day,1d,5
+6,1 Week,1w,6
+7,1 Month,1M,7
