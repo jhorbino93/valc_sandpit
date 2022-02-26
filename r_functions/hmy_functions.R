@@ -242,6 +242,7 @@ fn_getClosestBlock <- function(block=content(fn_hmyv2_getBlock(rpc="https://a.ap
   attempt_count = 0
   attempt_block = block
   attempt_time  = startBlockTime
+  avg_block_time = 2 # Default start at 2
   list_res <- list()
   while(abs(diff_sec) >= tol_seconds & attempt_count <= attempts){
     attempt_count = attempt_count+1
@@ -249,14 +250,18 @@ fn_getClosestBlock <- function(block=content(fn_hmyv2_getBlock(rpc="https://a.ap
     print(paste0("Target time ",target))
     print(paste0("Attempting from block ",attempt_block," of time ",attempt_time))
     
-    
     n_sec = interval(target,attempt_time) %/% seconds()
-    n_block = floor(n_sec/2)
+    n_block = floor(n_sec/avg_block_time)
+    
+    prev_block = attempt_block
+    prev_time = attempt_time
     
     attempt_block = attempt_block-n_block
     attempt_time = fn_unixToTime(content(fn_hmyv2_getBlockByNumber(attempt_block))$result$timestamp)
     
     diff_sec = interval(target,attempt_time) %/% seconds()
+    
+    avg_block_time = abs(as.integer(difftime(attempt_time,prev_time,unit="secs"))/(attempt_block-prev_block))
     
     list_res[[attempt_count]] = 
       list(
@@ -266,6 +271,7 @@ fn_getClosestBlock <- function(block=content(fn_hmyv2_getBlock(rpc="https://a.ap
         ,attempt_time = attempt_time
         ,diff_sec = diff_sec
         ,target = target
+        ,avg_block_time = avg_block_time
       )
   }
   
