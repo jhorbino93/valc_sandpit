@@ -11,30 +11,36 @@ library(doParallel)
 ## Blockchain Queries ----
 dir              <- paste0(raw_dir,"/blockchain/harmony")
 
+cat("Preparing Parallel Requirements","\n")
 parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
 parallelExport = c("fn_unixToTime","fn_hmyv2_getBlockByNumber","fn_getClosestBlock")
 
+cat("Preparing Harmony Query Requirements","\n")
 rpc              <- "https://a.api.s0.t.hmny.io/"
 glbStartTime     <- with_tz(as_datetime("2021-07-01 00:00:00"),"UTC")
 maxDirDate       <- max(as.Date(gsub("target_date=","",list.files(dir))))
 startTime        <- with_tz(as_datetime(maxDirDate),"UTC")
 
 ## Remove latest day data
+cat("Removing latest day data","\n")
 unlink(paste0(dir,"/target_date=",maxDirDate),force=T,recursive=T) 
 
 ## Get latest block data
+cat("Retrieving blocks to query","\n")
 currentBlock     <- content(fn_hmyv2_getBlock(rpc=rpc))$result
 currentBlockTime <- fn_unixToTime(content(fn_hmyv2_getBlockByNumber(currentBlock))$result$timestamp)
 vct_time         <- seq(startTime,currentBlockTime,by="hour")
-
+cat(paste0("Block to retrieve = ",length(vct_time)))
 
 ## Start parallel retrieval
+cat("Starting Parallel Envrionments","\n")
 start.time <- Sys.time()
 cores <- detectCores()
 cl <- makeCluster(cores[1]-1)
 on.exit(stopCluster(cl))
 registerDoParallel(cl)
 
+cat("Begin Parallel Query - Harmony","\n")
 list_blocks <- foreach(
   x=vct_time
   ,.packages=parallelPackages
@@ -50,6 +56,7 @@ end.time <- Sys.time()
 time.taken <- end.time - start.time
 time.taken
 
+cat("Prepare Output Dataframe","\n")
 resOut <- lapply(
   list_blocks
   ,function(x){
