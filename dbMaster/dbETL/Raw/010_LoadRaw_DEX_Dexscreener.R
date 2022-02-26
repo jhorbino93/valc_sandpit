@@ -9,6 +9,7 @@ vct_tickers      <- maintenance_dim_ticker[which(maintenance_dim_ticker$ticker_s
 glbStartTime     <- with_tz(as_datetime("2021-07-01 00:00:00"),"UTC")
 dexscreener_base <- "io5.dexscreener.io"
 bar              <- 60
+loopDayJump      <- 14
 
 for(i in seq_along(vct_tickers)){
   k              <- vct_tickers[i]

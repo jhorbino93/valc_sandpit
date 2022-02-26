@@ -35,15 +35,18 @@ refTimeUnix             <- fnConvTimeToUnix(refTime)
 interval <- "1h"
 baseRObj <- c(ls(),"baseRObj")
 
-
 ## Load Binance ----
 url_010_LoadRaw_CEX_Binance <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_CEX_Binance.R"
 source_url(url_010_LoadRaw_CEX_Binance)
+rm(list=setdiff(ls(),baseRObj))
+
 
 ## Load Dexscreener ----
 url_010_LoadRaw_DEX_Dexscreener <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_DEX_Dexscreener.R"
 source_url(url_010_LoadRaw_DEX_Dexscreener)
+rm(list=setdiff(ls(),baseRObj))
 
 ## Load Blockchain Harmony ----
 url_010_LoadRaw_Blockchain_Harmony <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_Blockchain_Harmony.R"
 source_url(url_010_LoadRaw_Blockchain_Harmony)
+rm(list=setdiff(ls(),baseRObj))
