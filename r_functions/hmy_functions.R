@@ -232,5 +232,49 @@ fn_hmyv2_getBlockByNumber <- function(block,fullTx=T,inclTx=T,withSigners=F,rpc=
 }
 
 
+fn_getClosestBlock <- function(block,target,attempts=3,tol_seconds=6){
+  startBlockTime = fn_unixToTime(content(fn_hmyv2_getBlockByNumber(block))$result$timestamp)
+  
+  n_sec = interval(target,startBlockTime) %/% seconds()
+  n_block = floor(n_sec/2)
+  
+  diff_sec = tol_seconds+1
+  attempt_count = 0
+  attempt_block = block
+  attempt_time  = startBlockTime
+  list_res <- list()
+  while(abs(diff_sec) >= tol_seconds & attempt_count <= attempts){
+    attempt_count = attempt_count+1
+    print(paste0("Attempt ",attempt_count))
+    print(paste0("Target time ",target))
+    print(paste0("Attempting from block ",attempt_block," of time ",attempt_time))
+    
+    
+    n_sec = interval(target,attempt_time) %/% seconds()
+    n_block = floor(n_sec/2)
+    
+    attempt_block = attempt_block-n_block
+    attempt_time = fn_unixToTime(content(fn_hmyv2_getBlockByNumber(attempt_block))$result$timestamp)
+    
+    diff_sec = interval(target,attempt_time) %/% seconds()
+    
+    list_res[[attempt_count]] = 
+      list(
+        n_sec = n_sec
+        ,n_block = n_block
+        ,attempt_block = attempt_block
+        ,attempt_time = attempt_time
+        ,diff_sec = diff_sec
+        ,target = target
+      )
+  }
+  
+  return(list_res[[length(list_res)]])
+}
+
+
+
+
+
 
 
