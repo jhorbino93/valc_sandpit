@@ -28,6 +28,25 @@ ref_dir <- "/dbReference"
 ## Get Reference Data ----
 maintenance_dim_ticker  <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_ticker.csv"),stringsAsFactors = F)
 maintenance_dim_headers <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_headers.csv"),stringsAsFactors = F)
+maintenance_masterchef <- read.csv(
+  paste0(base_github,ref_dir,"/maintenance_masterchef.csv")
+  ,stringsAsFactors = F
+  ,colClasses=c(
+    "masterchef_address"="character"
+    ,"treasury_address"="character"
+    ,"emission_token1_lp_address"="character"
+  )
+)
+maintenance_pid <- read.csv(
+  paste0(base_github,ref_dir,"/maintenance_pid.csv")
+  ,stringsAsFactors = F
+  ,colClasses=c(
+    "address"="character"
+    ,"token1_address"="character"
+    ,"token2_address"="character"
+  )
+)
+
 refTime                 <- as.POSIXct(format(Sys.time()),tz="UTC")
 refTimeUnix             <- fnConvTimeToUnix(refTime)
 

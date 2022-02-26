@@ -278,7 +278,22 @@ fn_getClosestBlock <- function(block=content(fn_hmyv2_getBlock(rpc="https://a.ap
   return(list_res[[length(list_res)]])
 }
 
-
+fn_hmyv2_call_startBlock <- function(
+  masterchef_address = "0x8c8dca27e450d7d93fa951e79ec354dce543629e"
+  ,data = "0x48cd4cb1"
+  ,block=NULL
+  ,id="1"
+  ,jsonrpc="2.0"
+  ,rpc = "https://a.api.s0.t.hmny.io/"
+){
+  return(
+    as.numeric(
+      content(
+        fn_hmyv2_call(token_address=masterchef_address,rpc=rpc,data=data,block=block,id=id,jsonrpc=jsonrpc)
+      )$result
+    )
+  )
+}
 
 
 
