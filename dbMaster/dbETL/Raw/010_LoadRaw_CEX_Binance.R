@@ -25,7 +25,7 @@ for(i in seq_along(vct_tickers)){
     cat(paste0("File directory found for ",ticker,"\n"))
     loopStartDate <- max(as.Date(gsub("open_date=","",list.files(dir))))
   }
-  cat(paste0("Starting data retrieval from ",loopStartdate,"\n"))
+  cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
   
   unlink(paste0(dir,"/open_date=",loopStartDate),force=T,recursive=T)
   
