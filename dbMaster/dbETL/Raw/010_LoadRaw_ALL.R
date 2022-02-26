@@ -47,6 +47,15 @@ maintenance_pid <- read.csv(
   )
 )
 
+maintenance_account_balance <- read.csv(
+  paste0(base_github,ref_dir,"/maintenance_account_balance.csv")
+  ,stringsAsFactors = F
+  ,colClasses=c(
+    "product_address"="character"
+    ,"account_address"="character"
+  )
+)
+
 refTime                 <- as.POSIXct(format(Sys.time()),tz="UTC")
 refTimeUnix             <- fnConvTimeToUnix(refTime)
 

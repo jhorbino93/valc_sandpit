@@ -13,22 +13,28 @@ parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
 
 ## Blockchain Queries ----
 dir_harmony         <- paste0(raw_dir,"/blockchain/harmony/base")
-dir_hrc20           <- paste0(raw_dir,"/blockchain/harmony/hrc20")
-rpc              <- "https://a.api.s0.t.hmny.io/"
+dir_supply          <- paste0(raw_dir,"/blockchain/harmony/supply")
+dir_balances        <- paste0(raw_dir,"/blockchain/harmony/balances")
+rpc                 <- "https://a.api.s0.t.hmny.io/"
 
 ## Get Max Dates ----
 maxBlockDate     <- max(as_date(gsub("target_date=","",list.files(dir_harmony))))
-maxHrc20Date     <- max(as_date(gsub("target_date=","",list.files(dir_hrc20)))) 
+maxSupplyDate     <- max(as_date(gsub("target_date=","",list.files(dir_supply)))) 
 
-## Remove On/After Max Block Date From HRC Dir ----
-vctRemoveDate    <- as_date(gsub("target_date=","",list.files(dir_hrc20)))>=maxBlockDate
-unlink(paste0(dir_hrc20,"/",list.files(dir_hrc20)[vctRemoveDate]),force=T,recursive=T)
+## Remove On/After Max Block Date From Supply Dir ----
+vctRemoveDate    <- as_date(gsub("target_date=","",list.files(dir_supply)))>=maxBlockDate
+unlink(paste0(dir_supply,"/",list.files(dir_supply)[vctRemoveDate]),force=T,recursive=T)
+
+## Remove On/After Max Block Date From Supply Dir ----
+vctRemoveDate    <- as_date(gsub("target_date=","",list.files(dir_balances)))>=maxBlockDate
+unlink(paste0(dir_balances,"/",list.files(dir_balances)[vctRemoveDate]),force=T,recursive=T)
 
 ## Get raw blocks data ----
 vctFillDate      <- as_date(gsub("target_date=","",list.files(dir_harmony)))>=maxBlockDate
 
 list_blocks <- lapply(
-  list.files(dir_harmony,recursive = T)[vctFillDate]
+  # list.files(dir_harmony,recursive = T)[vctFillDate]
+  list.files(dir_harmony,recursive = T)
   ,function(x){
     arrow::read_parquet(paste0(c(dir_harmony,x),collapse="/"))   
   }
@@ -76,17 +82,17 @@ df_supply <-
   )
 
 cat("Writing raw supply data to parquet files","\n")
-supply_grid_search <- unique(df_supply[,c("target_date","address")])
+writeSupplyGridSearch<- unique(df_supply[,c("target_date","address")])
 l <- 1L
-while(l <= length(vct_target_date)){
+while(l <= nrow(writeSupplyGridSearch)){
   arrow::write_dataset(
     df_supply[
       which(
-        df_supply$target_date %in% supply_grid_search[l:(min(nrow(supply_grid_search),l+1023L)),]$target_date
-        & df_supply$address %in% supply_grid_search[l:(min(nrow(supply_grid_search),l+1023L)),]$address
+        df_supply$target_date %in% writeSupplyGridSearch[l:(min(nrow(writeSupplyGridSearch),l+1023L)),]$target_date
+        & df_supply$address %in% writeSupplyGridSearch[l:(min(nrow(writeSupplyGridSearch),l+1023L)),]$address
       )
       ,]
-    ,dir_hrc20
+    ,dir_supply
     ,format = "parquet"
     ,partitioning = c("target_date","address")
     ,basename_template = paste0(c("harmony_hrc20_",l,"{i}.parquet"),collapse="_")
@@ -96,4 +102,64 @@ while(l <= length(vct_target_date)){
 
 
 ## Get Balances ----
+library(data.table)
+tokenBalGrid <- merge(df_blocks[,"attempt_block"],maintenance_account_balance)
+tokenBalGrid <- split(tokenBalGrid,seq(nrow(tokenBalGrid)))
+
+cores <- detectCores()
+cl <- makeCluster(cores[1]-1)
+registerDoParallel(cl)
+
+start.time <- Sys.time()
+list_bal <- foreach(
+  # x=df_blocks$attempt_block
+  x=tokenBalGrid
+  ,.packages = parallelPackages
+  ,.verbose=T
+) %dopar% {
+  
+  bal   <- fn_hmyv2_call_balanceOf(x$account_address,x$product_address,rpc=rpc,block=x$attempt_block)
+  dfRes <- mutate(x,amount=bal)
+            
+  return(dfRes)
+}
+end.time <- Sys.time()
+stopCluster(cl)
+time.taken <- end.time-start.time
+time.taken
+
+df_bal <- bind_rows(list_bal) %>% as_tibble() %>% 
+  filter(!is.na(amount),amount>0) %>%
+  inner_join(
+    select(df_blocks,attempt_block,target_time)
+    ,by="attempt_block"
+  ) %>%
+  mutate(
+    target_date = as_date(target_time)
+  )
+
+cat("Writing raw balances data to parquet files","\n")
+writeBalGridSearch <- unique(df_bal[,c("target_date","product_address")])
+l <- 1L
+while(l <= nrow(writeBalGridSearch)){
+  arrow::write_dataset(
+    df_bal[
+      which(
+        df_bal$target_date %in% writeBalGridSearch[l:(min(nrow(writeBalGridSearch),l+1023L)),]$target_date
+        & df_bal$product_address %in% writeBalGridSearch[l:(min(nrow(writeBalGridSearch),l+1023L)),]$product_address
+      )
+      ,]
+    ,dir_balances
+    ,format = "parquet"
+    ,partitioning = c("target_date","product_address")
+    ,basename_template = paste0(c("harmony_balances_",l,"{i}.parquet"),collapse="_")
+  )
+  l <- l+1024L
+}
+
+## Get LP Data ----
+## Includes allocPoints, totalAllocPoints, emission
+maintenance_pid
+maintenance_account_balance
+
 
