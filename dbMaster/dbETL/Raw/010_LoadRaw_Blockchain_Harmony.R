@@ -39,8 +39,8 @@ cores <- detectCores()
 cl <- makeCluster(cores[1]-1)
 registerDoParallel(cl)
 list_blocks <- foreach(
-  ,.packages=parallelPackages
   x=vct_time
+  ,.packages=parallelPackages
   ,.verbose = T
 ) %dopar% {
   
