@@ -37,10 +37,7 @@ cat("Starting Parallel Envrionments","\n")
 start.time <- Sys.time()
 cores <- detectCores()
 cl <- makeCluster(cores[1]-1)
-on.exit(stopCluster(cl))
 registerDoParallel(cl)
-
-cat("Begin Parallel Query - Harmony","\n")
 list_blocks <- foreach(
   x=vct_time
   ,.packages=parallelPackages
