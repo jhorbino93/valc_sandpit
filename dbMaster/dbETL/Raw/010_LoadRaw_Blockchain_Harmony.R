@@ -44,6 +44,7 @@ cat("Begin Parallel Query - Harmony","\n")
 list_blocks <- foreach(
   x=vct_time
   ,.packages=parallelPackages
+  ,.verbose = T
 ) %dopar% {
   
   target <- x
