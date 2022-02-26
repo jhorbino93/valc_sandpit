@@ -35,6 +35,7 @@ for(i in seq_along(vct_tickers)){
   qryList   <- list()
   while(startTime <= refTime){
     endTime <- min(refTime,startTime + days(loopDayJump) - hours(1))
+    
     cat(paste0("Loop ",j," from ",startTime," to ",endTime,"\n"))
     
     startTimeUnix <- fnConvTimeToUnix(startTime)
