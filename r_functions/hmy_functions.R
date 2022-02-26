@@ -232,7 +232,7 @@ fn_hmyv2_getBlockByNumber <- function(block,fullTx=T,inclTx=T,withSigners=F,rpc=
 }
 
 
-fn_getClosestBlock <- function(block,target,attempts=3,tol_seconds=6){
+fn_getClosestBlock <- function(block=content(fn_hmyv2_getBlock(rpc="https://a.api.s0.t.hmny.io/"))$result,target,attempts=3,tol_seconds=6){
   startBlockTime = fn_unixToTime(content(fn_hmyv2_getBlockByNumber(block))$result$timestamp)
   
   n_sec = interval(target,startBlockTime) %/% seconds()
