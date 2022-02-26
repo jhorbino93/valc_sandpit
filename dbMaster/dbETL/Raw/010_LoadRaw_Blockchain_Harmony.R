@@ -9,7 +9,7 @@ library(foreach)
 library(doParallel)
 
 ## Blockchain Queries ----
-dir              <- paste0(raw_dir,"/blockchain/harmony")
+dir              <- paste0(raw_dir,"/blockchain/harmony/base")
 
 cat("Preparing Parallel Requirements","\n")
 parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
