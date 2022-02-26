@@ -30,3 +30,15 @@ maintenance_dim_ticker  <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim
 maintenance_dim_headers <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_headers.csv"),stringsAsFactors = F)
 refTime                 <- as.POSIXct(format(Sys.time()),tz="UTC")
 refTimeUnix             <- fnConvTimeToUnix(refTime)
+
+## Misc ----
+baseRObj <- c(ls(),"baseRObj")
+interval <- "1h"
+
+## Load Binance Data ----
+url_010_LoadRaw_CEX_Binance <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_CEX_Binance.R"
+source_url(url_010_LoadRaw_CEX_Binance)
+
+
+rm(list=setdiff(ls(),baseRObj))
+

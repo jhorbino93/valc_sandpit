@@ -43,7 +43,7 @@ for(i in seq_along(vct_tickers)){
     
     url           <- paste0(binance_base
                             ,"?symbol=",ticker
-                            ,"&interval=1h"
+                            ,"&interval=",interval
                             ,"&startTime=",startTimeUnix
                             ,"&endTime=",endTimeUnix)
     
