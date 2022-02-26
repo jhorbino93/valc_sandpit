@@ -30,7 +30,7 @@ cat("Retrieving blocks to query","\n")
 currentBlock     <- content(fn_hmyv2_getBlock(rpc=rpc))$result
 currentBlockTime <- fn_unixToTime(content(fn_hmyv2_getBlockByNumber(currentBlock))$result$timestamp)
 vct_time         <- seq(startTime,currentBlockTime,by="hour")
-cat(paste0("Block to retrieve = ",length(vct_time)))
+cat(paste0("Block to retrieve = ",length(vct_time)),"\n")
 
 ## Start parallel retrieval
 cat("Starting Parallel Envrionments","\n")
@@ -74,7 +74,7 @@ resOut <- lapply(
     ,target_date = as_date(target_time)
   ) 
 
-cat(paste0("Writing to parquet files","\n"))
+cat("Writing to parquet files","\n")
 vct_target_date <- unique(resOut$target_date)
 l <- 1L
 while(l <= length(vct_target_date)){
