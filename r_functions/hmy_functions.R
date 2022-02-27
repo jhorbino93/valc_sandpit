@@ -13,7 +13,7 @@ fn_getHermesPid <- function(address,token1,token2){
   
 }
 
-fn_hmyv2_getBlock <- function(rpc="https://rpc.hermesdefi.io",id="1",jsonrpc="2.0"){
+fn_hmyv2_getBlock <- function(rpc="https://a.api.s0.t.hmny.io/",id="1",jsonrpc="2.0"){
   res <- POST(
     url = rpc
     ,body = jsonlite::toJSON(
@@ -31,7 +31,7 @@ fn_hmyv2_getBlock <- function(rpc="https://rpc.hermesdefi.io",id="1",jsonrpc="2.
   return(res)
 }
 
-fn_hmyv2_getBalance <- function(address,rpc="https://rpc.hermesdefi.io",id="1",jsonrpc="2.0"){
+fn_hmyv2_getBalance <- function(address,rpc="https://a.api.s0.t.hmny.io/",id="1",jsonrpc="2.0"){
   body = jsonlite::toJSON(
     list(
       id       = id
@@ -46,7 +46,22 @@ fn_hmyv2_getBalance <- function(address,rpc="https://rpc.hermesdefi.io",id="1",j
   return(res)
 }
 
-fn_hmyv2_getBalanceByBlockNumber <- function(address,block = content(fn_hmyv2_getBlock(rpc=rpc_url_base))$result,offset=0,rpc="https://rpc.hermesdefi.io",id="1",jsonrpc="2.0"){
+fn_hmyv2_getCode <- function(address,block=NULL,rpc="https://a.api.s0.t.hmny.io/",id="1",jsonrpc="2.0"){
+  body = jsonlite::toJSON(
+    list(
+      id       = id
+      ,jsonrpc = jsonrpc
+      ,method  = "hmyv2_getCode"
+      ,params  = list(address,block)
+    )
+    ,auto_unbox=T
+    ,pretty=T
+  )   
+  res <- POST(url = rpc,body=body,httr::content_type("application/json"))
+  return(res)
+}
+
+fn_hmyv2_getBalanceByBlockNumber <- function(address,block = content(fn_hmyv2_getBlock(rpc=rpc_url_base))$result,offset=0,rpc="https://a.api.s0.t.hmny.io/",id="1",jsonrpc="2.0"){
   body = jsonlite::toJSON(
     list(
       id       = id
@@ -65,7 +80,7 @@ fn_hmyv2_call <- function(
   token_address
   # ,ABI
   ,data
-  ,rpc="https://rpc.hermesdefi.io"
+  ,rpc="https://a.api.s0.t.hmny.io/"
   ,block=NULL
   ,id="1"
   ,jsonrpc="2.0"
@@ -115,7 +130,7 @@ fn_hmyv2_call <- function(
 fn_hmyv2_call_emissionPerBlock <- function(
   masterchef_address
   ,data = "0x4198709a"
-  ,rpc="https://rpc.hermesdefi.io"
+  ,rpc="https://a.api.s0.t.hmny.io/"
   ,block=NULL
   ,id="1"
   ,jsonrpc="2.0"
@@ -156,7 +171,7 @@ fn_hmyv2_call_poolInfo <- function(
   masterchef_address
   ,data = NULL
   ,pid = NULL
-  ,rpc="https://rpc.hermesdefi.io"
+  ,rpc="https://a.api.s0.t.hmny.io/"
   ,block=NULL
   ,id="1"
   ,jsonrpc="2.0"
@@ -189,7 +204,7 @@ fn_poolInfo_allocPoints <- function(x){
 fn_hmyv2_call_balanceOf <- function(
     token_address
     ,my_address
-    ,rpc="https://rpc.hermesdefi.io"
+    ,rpc="https://a.api.s0.t.hmny.io/"
     ,block=NULL
     ,id="1"
     ,jsonrpc="2.0"
@@ -205,7 +220,7 @@ fn_hmyv2_call_balanceOf <- function(
     return(as.numeric(content(res)$result)/1e18)
   }
 
-fn_hmyv2_getBlockByNumber <- function(block,fullTx=T,inclTx=T,withSigners=F,rpc="https://rpc.hermesdefi.io",id="1",jsonrpc="2.0"){
+fn_hmyv2_getBlockByNumber <- function(block,fullTx=T,inclTx=T,withSigners=F,rpc="https://a.api.s0.t.hmny.io/",id="1",jsonrpc="2.0"){
   
   list_additional <- list()
   if(fullTx){list_additional[["fullTx"]]=T}
@@ -295,7 +310,131 @@ fn_hmyv2_call_startBlock <- function(
   )
 }
 
-
+fn_getCodeStartBlock <- function(
+  address
+  ,.block=content(fn_hmyv2_getBlock(rpc="https://a.api.s0.t.hmny.io/"))$result
+  ,attempts=5
+){
+  
+  block = .block
+  delta_block = floor(block/2)
+  numCode = 0
+  attempt_count = 0
+  list_res = list()
+  while(numCode == 0 & attempt_count <= attempts){
+    attempt_count = attempt_count+1
+    
+    new_block = block - delta_block
+    new_res = as.numeric(content(fn_hmyv2_getCode(address=address,block=new_block))$result)
+    
+    print(paste0("Attempt ",attempt_count))
+    print(paste0("Attempting from block ",block," to block ",new_block))
+    
+    ## Get existing loop results + current loop result new res
+    vct_code_found = c(do.call("c",lapply(list_res,function(x) x$new_res)),new_res)
+    vct_code_found = !is.na(vct_code_found)
+    
+    code_found = sum(vct_code_found)>0
+    list_code_found = c(list_res,list(list(prev_delta_block = delta_block, prev_block = block, new_block = new_block)))[vct_code_found]
+    
+    ## Get latest list entry that has opposite new_res status
+    # if(attempt_count == 1 | !code_found){
+    #   latest_prev_new_block = new_block
+    # } else {
+    #   new_res_status = !is.na(new_res)
+    #   latest_prev_status = max(which(vct_code_found == !new_res_status))
+    #   latest_prev = list_res[[latest_prev_status]]
+    #   latest_prev_new_block = latest_prev$new_block
+    # }
+    
+    
+    ## Get existing min code block
+    if(all(do.call("c",lapply(list_code_found,is.null)))){
+      floor_block = 1
+      ceiling_block = .block
+    } else {
+      min_code_found = 
+        lapply(
+          list_code_found
+          ,function(x){
+            if(x$prev_delta_block < 0){
+              res = x$prev_block
+            } else if (x$prev_delta_block >= 0){
+              res = x$new_block
+            }
+          }
+        )
+      floor_block = min(do.call("c",min_code_found))
+      
+      max_code_found = 
+        lapply(
+          list_code_found
+          ,function(x){
+            if(x$prev_delta_block < 0){
+              res = x$new_block
+            } else if (x$prev_delta_block >= 0){
+              res = x$prev_block
+            }
+          }
+        )
+      ceiling_block = max(do.call("c",max_code_found))
+    }
+    
+    ## Use halving grid search technique to find closest block
+    ## Ignore floor/ceiling limits
+    if(is.na(new_res) & delta_block >= 0){
+      # No code and direction down, then need to go up
+      new_delta_block = floor((new_block-block)/2)  
+    } else if (is.na(new_res) & delta_block < 0){
+      # No code and direction up, then need to go up
+      new_delta_block = floor((block-new_block)/2)
+    } else if (!is.na(new_res) & delta_block < 0){
+      # Found code and direction up, then need to go down
+      new_delta_block = floor(new_block/2)
+    } else if (!is.na(new_res) & delta_block >= 0){
+      # Found code and direction down, then need to go down
+      new_delta_block = floor((block-new_block)/2)
+    }
+    
+    ## For floor/ceiling limits
+    if(code_found & new_delta_block < 0){
+      ## If new delta block would increase higher than max_code_found, then adj so it hits max_code_found
+      new_delta_block = floor(new_delta_block - min(0,ceiling_block - (new_block - new_delta_block)))
+      new_delta_block = floor(new_delta_block/2)
+    } else if (code_found & new_delta_block >= 0){
+      ## If new delta block would decrease lower than min_code_found, then adj so it hits min_code_found
+      new_delta_block = floor(new_delta_block + min(0,(new_block - new_delta_block) - floor_block))
+      new_delta_block = floor(new_delta_block/2)
+    }
+    
+    list_res[[attempt_count]] =
+      list(
+        prev_delta_block = delta_block
+        ,prev_block = block
+        ,new_delta_block = new_delta_block
+        ,new_block = new_block
+        ,new_res = new_res
+      )
+    
+    block = new_block
+    delta_block = new_delta_block
+  }
+  
+  ## If final try returns Code Block then get previous tried block
+  ## If final try doesn't return code block then get last tried block
+  if(!is.na(list_res[[length(list_res)]]$new_res)){
+    res_block = list_res[[length(list_res)]]$prev_block
+  } else {
+    res_block = list_res[[length(list_res)]]$new_block
+  }
+  
+  return(
+    list(
+      res = res_block
+      ,attempts = list_res
+    )
+  )
+}
 
 
 
