@@ -216,7 +216,7 @@ fn_hmyv2_call_balanceOf <- function(
     ,id="1"
     ,jsonrpc="2.0"
     ,ABI="70a08231"
-    .autoconv=T
+    ,autoconv=T
   ){
     ## Default ABI is hermes balanceOf first 4 bytes
     my_address2 = sub("..","",my_address)
