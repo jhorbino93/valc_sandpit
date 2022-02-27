@@ -437,4 +437,24 @@ fn_getCodeStartBlock <- function(
 }
 
 
+fn_hmyv2_Call_startBlock <- function(
+  address
+  ,block=NULL
+  ,rpc="https://a.api.s0.t.hmny.io/"  
+  ,id="1"
+  ,jsonrpc="2.0"
+){
+  as.numeric(
+    content(
+      fn_hmyv2_call(
+        token_address=address
+        ,data="0x48cd4cb1"
+        ,rpc=rpc
+        ,id=id
+        ,jsonrpc=jsonrpc
+      )
+    )$result
+  )
+}
+
 

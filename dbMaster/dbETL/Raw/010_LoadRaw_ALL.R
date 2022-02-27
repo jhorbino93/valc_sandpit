@@ -4,6 +4,7 @@ library(httr)
 library(jsonlite)
 library(devtools)
 library(arrow)
+library(ether)
 
 library(foreach)
 library(doParallel)
@@ -76,6 +77,11 @@ rm(list=setdiff(ls(),baseRObj))
 
 ## Load Blockchain Harmony ----
 url_010_LoadRaw_Blockchain_Harmony <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_Blockchain_Harmony.R"
+source_url(url_010_LoadRaw_Blockchain_Harmony)
+rm(list=setdiff(ls(),baseRObj))
+
+## Load Blockchain Additional Harmony ----
+url_011_LoadRaw_Blockchain_Additional_Harmony <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_Blockchain_Harmony.R"
 source_url(url_010_LoadRaw_Blockchain_Harmony)
 rm(list=setdiff(ls(),baseRObj))
 

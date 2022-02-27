@@ -11,16 +11,12 @@ library(doParallel)
 ## Parallel Parameters ----
 parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
 
-## Blockchain Queries ----
+## Environment ----
 dir_harmony         <- paste0(raw_dir,"/blockchain/harmony/base")
 dir_supply          <- paste0(raw_dir,"/blockchain/harmony/supply")
 dir_balances        <- paste0(raw_dir,"/blockchain/harmony/balances")
 dir_lp              <- paste0(raw_dir,"/blockchain/harmony/lp")
 rpc                 <- "https://a.api.s0.t.hmny.io/"
-
-## Get Max Dates ----
-maxBlockDate      <- max(as_date(gsub("target_date=","",list.files(dir_harmony))))
-maxSupplyDate     <- max(as_date(gsub("target_date=","",list.files(dir_supply)))) 
 
 ## Get raw blocks data ----
 list_blocks <- lapply(
@@ -44,14 +40,14 @@ for(i in 1:nrow(maintenance_pid)){
   if(length(list.files(dir))==0){
     cat(paste0("File directory NOT found for ",dir,"\n"))
     
-    minBlockSearch <- fn_getCodeStartBlock(address=address)
+    minBlockSearch <- fn_getCodeStartBlock(address=address)$res
     loopStartDate  <- filter(df_blocks,attempt_block >= minBlockSearch) %>%
                       mutate(target_time = as_date(target_time)) %>%
                       pull() %>% min()
     cat(paste0("Creating directory at ",dir,"\n"))
     dir.create(dir,recursive=T)
   } else {
-    cat(paste0("File directory found for ",product_address))
+    cat(paste0("File directory found for ",address,"\n"))
     loopStartDate <- max(as.Date(gsub("target_date=","",list.files(dir))))
   }
   
@@ -111,7 +107,6 @@ for(i in 1:nrow(maintenance_pid)){
 
 
 ## Get Balances ----
-
 vct_min_token_dates <- 
   lapply(
     setNames(list.files(dir_supply),list.files(dir_supply))
@@ -149,10 +144,10 @@ for(i in seq_along(account_balance_dist)){
   unlink(paste0(dir,"/",list.files(dir)[vctRemoveDate]),force=T,recursive=T)
 
   tokenBalGrid <- merge(
-                    filter(df_blocks,target_time >= loopStartDate) %>% select(attempt_block)
+                    filter(df_blocks,target_time >= loopStartDate) %>% select(attempt_block,target_time)
                     ,loop_df
-                  ) %>% inner_join(df_min_token_dates,by=c("address"="account_address")) %>%
-                  filter(target_time >= min_date) %>% select(-min_date)
+                  ) %>% inner_join(df_min_token_dates,by=c("account_address"="address")) %>%
+                  filter(target_time >= min_date) %>% select(-c(min_date,target_time))
   tokenBalGrid <- split(tokenBalGrid,seq(nrow(tokenBalGrid)))
   
   cores <- detectCores()
@@ -201,8 +196,6 @@ for(i in seq_along(account_balance_dist)){
   }
 }
 
-
-
 ## Get LP Data ----
 ## Includes allocPoints, totalAllocPoints, emission
 ref_lp <- filter(maintenance_pid,product_type == "LP")
@@ -231,7 +224,8 @@ for(i in 1:nrow(ref_lp)){
   unlink(paste0(dir,"/",list.files(dir)[vctRemoveDate]),force=T,recursive=T)
   
   ## Begin parallel retrieval
-  tmp_blocks <- filter(df_blocks,as_date(target_time) >= loopStartDate)
+  startBlock <- fn_hmyv2_Call_startBlock(masterchef)
+  tmp_blocks <- filter(df_blocks,as_date(target_time) >= loopStartDate, attempt_block >= startBlock)
   tmp_blocks <- split(tmp_blocks,seq(nrow(tmp_blocks)))
   
   cores <- detectCores()
@@ -240,9 +234,8 @@ for(i in 1:nrow(ref_lp)){
   
   list_lp <- foreach(
     x = tmp_blocks
-    ,x.packages = parallelPackages
+    ,.packages = parallelPackages
   ) %dopar% {
-    
     alloc_points        <- fn_poolInfo_allocPoints(
                             content(
                               fn_hmyv2_call_poolInfo(masterchef,pid=pid,block=x$attempt_block,rpc=rpc)
@@ -252,7 +245,7 @@ for(i in 1:nrow(ref_lp)){
     emission            <- fn_bnToReal(
                             as.numeric(
                               content(
-                                fn_hmyv2_call_emissionPerBlock(masterchef_address,block=x,rpc=rpc)
+                                fn_hmyv2_call_emissionPerBlock(masterchef,block=x$attempt_block,rpc=rpc)
                               )$result
                             )
                           )
@@ -286,7 +279,7 @@ for(i in 1:nrow(ref_lp)){
       df_lp[
         which(
           df_lp$target_date %in% writeLPGridSearch[l:(min(nrow(writeLPGridSearch),l+1023L)),]$target_date
-          & df_lp$product_address %in% writeLPGridSearch[l:(min(nrow(writeLPGridSearch),l+1023L)),]$address
+          & df_lp$address %in% writeLPGridSearch[l:(min(nrow(writeLPGridSearch),l+1023L)),]$address
           & df_lp$masterchef_address %in% writeLPGridSearch[l:(min(nrow(writeLPGridSearch),l+1023L)),]$masterchef_address
         )
         ,]
