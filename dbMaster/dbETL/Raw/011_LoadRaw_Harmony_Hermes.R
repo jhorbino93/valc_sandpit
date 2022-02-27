@@ -63,13 +63,15 @@ for(i in 1:nrow(maintenance_pid)){
     ,.packages = parallelPackages
   ) %dopar% {
     
-    supply  <- fn_hmyv2_call_totalSupply(address,block=x,rpc=rpc)
+    supply  <- fn_hmyv2_call_totalSupply(address,block=x,rpc=rpc,autoconv = F)
   
     dfRes   <- data.frame(block=x,supply=supply)
     
     return(dfRes)
   }
   stopCluster(cl)  
+  
+  dec <- fn_hmyv2_call_decimals(address,rpc=rpc)
   
   df_supply <- 
     bind_rows(
@@ -84,6 +86,7 @@ for(i in 1:nrow(maintenance_pid)){
       target_date = as_date(target_time)
       ,address=address
       ,name=name
+      ,supply=supply/(10^dec)
     )
   
   cat("Writing raw supply data to parquet files","\n")
@@ -160,12 +163,14 @@ for(i in seq_along(account_balance_dist)){
     ,.packages = parallelPackages
   ) %dopar% {
     
-    bal   <- fn_hmyv2_call_balanceOf(x$account_address,x$product_address,rpc=rpc,block=x$attempt_block)
+    bal   <- fn_hmyv2_call_balanceOf(x$account_address,x$product_address,rpc=rpc,block=x$attempt_block,autoconv = F)
     dfRes <- mutate(x,amount=bal)
     
     return(dfRes)
   }
   stopCluster(cl)
+  
+  dec <- fn_hmyv2_call_decimals(address,rpc=rpc)
   
   df_bal <- bind_rows(list_bal) %>% as_tibble() %>% 
     filter(!is.na(amount),amount>0) %>%
@@ -175,6 +180,7 @@ for(i in seq_along(account_balance_dist)){
     ) %>%
     mutate(
       target_date = as_date(target_time)
+      ,amount = amount/(10^dec)
     )
   
   cat("Writing raw balances data to parquet files","\n")

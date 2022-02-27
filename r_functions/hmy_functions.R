@@ -191,9 +191,16 @@ fn_hmyv2_call_totalSupply <- function(
   ,block=NULL
   ,id="1"
   ,jsonrpc="2.0"
+  ,autoconv=T
 ){
   res <- fn_hmyv2_call(token=address,data=data,rpc=rpc,block=block)
-  return(as.numeric(content(res)$result)/1e18)
+  if(autoconv){
+    dec <- fn_hmyv2_call_decimals(address=address,block=block)
+    out <- as.numeric(content(res)$result)/(10^dec)
+  } else {
+    out <- as.numeric(content(res)$result)
+  }
+  return(out)
 }
 
 fn_poolInfo_allocPoints <- function(x){
@@ -209,6 +216,7 @@ fn_hmyv2_call_balanceOf <- function(
     ,id="1"
     ,jsonrpc="2.0"
     ,ABI="70a08231"
+    .autoconv=T
   ){
     ## Default ABI is hermes balanceOf first 4 bytes
     my_address2 = sub("..","",my_address)
@@ -217,7 +225,14 @@ fn_hmyv2_call_balanceOf <- function(
   
     res = fn_hmyv2_call(token_address=token_address,rpc=rpc,block=block,id=id,jsonrpc=jsonrpc,data=data)
     
-    return(as.numeric(content(res)$result)/1e18)
+    if(autoconv){
+      dec <- fn_hmyv2_call_decimals(address=address,block=block)
+      out <- as.numeric(content(res)$result)/(10^dec)
+    } else {
+      out <- as.numeric(content(res)$result)
+    }
+    
+    return(out)
   }
 
 fn_hmyv2_getBlockByNumber <- function(block,fullTx=T,inclTx=T,withSigners=F,rpc="https://a.api.s0.t.hmny.io/",id="1",jsonrpc="2.0"){
@@ -457,4 +472,23 @@ fn_hmyv2_Call_startBlock <- function(
   )
 }
 
-
+fn_hmyv2_call_decimals <- function(
+  address
+  ,block=NULL
+  ,rpc="https://a.api.s0.t.hmny.io/"  
+  ,id="1"
+  ,jsonrpc="2.0"
+){
+  as.numeric(
+    content(
+      fn_hmyv2_call(
+        token_address=address
+        ,data="0x313ce567"
+        ,block=block
+        ,rpc=rpc
+        ,id=id
+        ,jsonrpc=jsonrpc
+      )
+    )$result
+  )
+}
