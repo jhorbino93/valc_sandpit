@@ -40,3 +40,5 @@ id,ticker_name,ticker_alias,short_name,ticker_src_cat,ticker_src_network,direct_
 39,0x3e478ed607f79a50f286a5a6ce52a049897291b2,hrc20_dfk_lp_hly_wone,HOLY,dex,harmony,0,HOLY,ONE,dexscreener
 40,0xb8ce0515381009932020d359eda6263353de63b1,hrc20_loot_lp_eth_uni,ETH,dex,harmony,0,ETH,UNI,dexscreener
 41,0x52b9449a26357f893257901341253b89d6ca0c4a,hrc20_venom_lp_xviper_wone,XVIPER,dex,harmony,0,XVIPER,ONE,dexscreener
+42,0x643f94fc0a804ea13adb88b9e17244bf94022a25,hrc20_sushi_lp_tranq_wone,TRANQ,dex,harmony,0,TRANQ,ONE,dexscreener
+43,0xb91945e55bb4ff672ace118179cfdf281877bf35,hrc20_defira_lp_tranq_wone,TRANQ,dex,harmony,0,TRANQ,ONE,dexscreener

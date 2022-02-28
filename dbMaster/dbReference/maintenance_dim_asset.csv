@@ -50,3 +50,6 @@ id,short_name,long_name,project,asset_cat
 49,hrc20_dfk_lp_hly_wone,hrc20_dfk_lp_hly_wone,Defi Kingdoms,Liquidity Pool
 50,hrc20_loot_lp_eth_uni,hrc20_loot_lp_eth_uni,LootSwap,Liquidity Pool
 51,hrc20_venom_lp_xviper_wone,hrc20_venom_lp_xviper_wone,ViperSwap,Liquidity Pool
+52,hrc20_sushi_lp_tranq_wone,hrc20_sushi_lp_tranq_wone,Tranquil Finance,Liquidity Pool
+53,hrc20_defira_lp_tranq_wone,hrc20_defira_lp_tranq_wone,Tranquil Finance,Liquidity Pool
+54,TRANQ,Tranq,Tranquil Finance,DeFi
