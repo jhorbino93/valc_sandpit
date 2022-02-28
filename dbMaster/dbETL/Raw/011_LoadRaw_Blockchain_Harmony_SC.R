@@ -243,11 +243,9 @@ for(i in 1:nrow(ref_lp)){
     ,.packages = parallelPackages
   ) %dopar% {
     alloc_points        <- fn_poolInfo_allocPoints(
-                            content(
-                              fn_hmyv2_call_poolInfo(masterchef,pid=pid,block=x$attempt_block,rpc=rpc)
-                            )$result
+                            content(fn_hmyv2_call_poolInfo(masterchef,pid=pid,block=x$attempt_block,rpc=rpc))$result
                           )
-    total_alloc_points  <- fn_hmyv2_call_totalAllocPoints(masterchef)
+    total_alloc_points  <- fn_hmyv2_call_totalAllocPoints(masterchef,.block=x$attempt_block)
     emission            <- fn_bnToReal(
                             as.numeric(
                               content(

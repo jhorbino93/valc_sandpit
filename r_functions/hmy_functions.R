@@ -161,7 +161,7 @@ fn_hmyv2_call_totalAllocPoints <- function(
   ,.id="1"
   ,.jsonrpc="2.0"
 ){
-  res <- fn_hmyv2_call(token_address=.masterchef_address,data=.data,rpc=.rpc,id=.id,jsonrpc=.jsonrpc)
+  res <- fn_hmyv2_call(token_address=.masterchef_address,data=.data,rpc=.rpc,id=.id,jsonrpc=.jsonrpc,block=.block)
   res <- content(res)$result
   return(hex_to_dec(res))
 }
@@ -205,7 +205,12 @@ fn_hmyv2_call_totalSupply <- function(
 
 fn_poolInfo_allocPoints <- function(x){
   ## Assumes result structure in line with address/uint256/uint256/uint16/uint256
-  hex_to_dec(paste0("0x",substr(x,67,130)))
+  if(x == "0x"){
+    res = NA
+  } else {
+    res = hex_to_dec(paste0("0x",substr(x,67,130)))
+  }
+  return(res)
 }
 
 fn_hmyv2_call_balanceOf <- function(
