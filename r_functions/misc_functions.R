@@ -5,6 +5,9 @@ fn_formatPlotBigNum <- function(tx) {
   paste(round( as.numeric(gsub("\\,","",tx))/10^(3*(div-1)), 2), 
         c("","K","M","B","T")[div] )
 }
+funConvertDateTimeToInt = function(datetime){
+  year(datetime)*1000000 + month(datetime)*10000 + day(datetime)*100+hour(datetime)
+}
 fnConvUnixToTime  <- function(x){as.POSIXct(x/1000,origin="1970-01-01",tz="UTC")}
 funConvTimeToUnix <- function(x){as.numeric(difftime(as_datetime(x),as_datetime("1970-01-01 00:00:00"),units="secs"))*1000}
 fnConvTimeToUnix <- function(x){as.numeric(difftime(as_datetime(x),as_datetime("1970-01-01 00:00:00"),units="secs"))*1000}
