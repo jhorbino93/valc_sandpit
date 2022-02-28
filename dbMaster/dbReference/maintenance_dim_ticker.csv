@@ -31,3 +31,12 @@ id,ticker_name,ticker_alias,short_name,ticker_src_cat,ticker_src_network,direct_
 30,0x6ef6c5f316f70b9fcefb753a4b004b8ee9506eb1,hrc20_fuzz_lp_fuzz_wone,FUZZ,dex,harmony,0,FUZZ,ONE,dexscreener
 31,0x96025483bd32c645b822a5a08004b84d674537cb,hrc20_venom_lp_viper_wone,VIPER,dex,harmony,0,VIPER,ONE,dexscreener
 32,0xeb579ddcd49a7beb3f205c9ff6006bb6390f138f,hrc20_dfk_lp_jewel_wone,JEWEL,dex,harmony,0,JEWEL,ONE,dexscreener
+33,0x1cb93763241e0eee22b098f7d26baa0562f688e7,hrc20_venom_lp_wswagmi_wone,WSWAGMI,dex,harmony,0,WSWAGMI,ONE,dexscreener
+34,0x7629a8782192a5b87efd40d2eef366e865a984ae,hrc20_loot_lp_magic_wone,MAGIC,dex,harmony,0,MAGIC,ONE,dexscreener
+35,0x98c2b8f03f8200fe5eaebb8ff4cce6718c8a4134,hrc20_loot_lp_cosmic_wone,COSMIC,dex,harmony,0,COSMIC,ONE,dexscreener
+36,0x529be44dc5379ce49cd91141740f6b11d9246757,hrc20_venom_lp_ape_wone,APE,dex,harmony,0,APE,ONE,dexscreener
+37,0x4db87db6eadb02c5612eb4cf522d8188fb80a9ad,hrc20_venom_lp_roy_wone,ROY,dex,harmony,0,ROY,ONE,dexscreener
+38,0xf33ee94922326d7c1d220298cc9428a1fd15daea,hrc20_dfk_lp_lumen_wone,LUMEN,dex,harmony,0,LUMEN,ONE,dexscreener
+39,0x3e478ed607f79a50f286a5a6ce52a049897291b2,hrc20_dfk_lp_hly_wone,HOLY,dex,harmony,0,HOLY,ONE,dexscreener
+40,0xb8ce0515381009932020d359eda6263353de63b1,hrc20_loot_lp_eth_uni,ETH,dex,harmony,0,ETH,UNI,dexscreener
+41,0x52b9449a26357f893257901341253b89d6ca0c4a,hrc20_venom_lp_xviper_wone,XVIPER,dex,harmony,0,XVIPER,ONE,dexscreener
