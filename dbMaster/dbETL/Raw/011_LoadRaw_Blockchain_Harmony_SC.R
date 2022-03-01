@@ -110,6 +110,20 @@ for(i in 1:nrow(maintenance_pid)){
 
 
 ## Get Balances ----
+vct_min_token_dates <- 
+  lapply(
+    setNames(list.files(dir_supply),list.files(dir_supply))
+    ,function(x){
+      res = min(as_date(gsub("target_date=","",list.files(paste0(c(dir_supply,x),collapse="/")))))
+      res
+    }
+  ) %>% do.call("c",.)
+df_min_token_dates <-
+  data.frame(
+    address = names(vct_min_token_dates)
+    ,min_date = vct_min_token_dates
+  )
+
 account_balance_dist <- unique(maintenance_account_balance$product_address)
 for(i in seq_along(account_balance_dist)){
   print(i)
@@ -190,7 +204,7 @@ for(i in seq_along(account_balance_dist)){
 
 ## Get LP Data ----
 ## Includes allocPoints, totalAllocPoints, emission
-ref_lp <- filter(maintenance_pid,product_type == "LP")
+ref_lp <- filter(maintenance_pid,product_type == "LP",!is.na(pid))
 for(i in 1:nrow(ref_lp)){
   print(i)
   

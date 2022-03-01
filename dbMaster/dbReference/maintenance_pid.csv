@@ -1,4 +1,4 @@
-host_platform,platform,product_name,product_type,pid,address,friendly_alias
+project_platform,masterchef_platform,product_name,product_type,pid,address,friendly_alias
 hermes,hermes,IRIS / WONE,LP,4,0x54c59cc0ad2ec1de3c5b7057d900d306f16453ef,IRIS/WONE
 hermes,hermes,PLTS / DAI,LP,11,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,PLTS/DAI
 hermes,hermes,IRIS,HRC20,,0x85fd5f8dbd0c9ef1806e6c7d4b787d438621c1dc,IRIS/WONE
