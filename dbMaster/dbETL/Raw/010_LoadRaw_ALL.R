@@ -43,6 +43,7 @@ maintenance_pid <- read.csv(
   ,stringsAsFactors = F
   ,colClasses=c(
     "address"="character"
+    ,"masterchef_address"="character"
     ,"token1_address"="character"
     ,"token2_address"="character"
   )

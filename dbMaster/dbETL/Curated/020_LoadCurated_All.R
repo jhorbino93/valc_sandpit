@@ -59,12 +59,14 @@ maintenance_masterchef <- read.csv(
 )
 maintenance_pid <- read.csv(
   paste0(base_github,ref_dir,"/maintenance_pid.csv")
-  ,stringsAsFactors = F
+  # ,stringsAsFactors = F
   ,colClasses=c(
     "address"="character"
+    ,"masterchef_address"="character"
     ,"token1_address"="character"
     ,"token2_address"="character"
   )
+  ,na.string=c("")
 )
 
 maintenance_account_balance <- read.csv(
@@ -183,11 +185,72 @@ dim_time <-
 maintenance_dim_ticker
 maintenance_pid
 
-as_tibble(maintenance_dim_ticker) %>%
-  rename(product_name )
+tmp_product1 <- 
+  as_tibble(maintenance_dim_ticker) %>%
+  ## Add other attributes 
+  mutate(
+    masterchef_address = NA_character_
+    ,onchain_address = ticker_name
+    ,pid = NA_integer_
+    ,product_type_l1 = case_when(
+      ticker_src_cat == "cex"~"CEX"
+      ,ticker_src_cat == "dex"~"On-chain"
+    )
+    ,product_type_l2 = case_when(
+      ticker_src_cat == "cex"~"CEX ticker"
+      ,ticker_src_cat == "dex"~"LP"
+      ,T ~ "Other"
+    )
+    ,product_type_l3 = product_type_l2
+    ,onchain_network = ticker_src_network
+  ) %>%
+  ## Select order
+  select(
+    short_name
+    ,ticker_alias
+    ,product_type_l1
+    ,product_type_l2
+    
+    ## Ticker related columns
+    ,ticker_name
+    
+    ,ticker_src_cat
+    ,ticker_src_network
+    ,asset1
+    ,asset2
+    ,data_src
+    
+    ## On chain stuff
+    ,onchain_network
+    ,onchain_address
+  ) %>%
   
+  ## Rename output 
+  rename(
+    product_name = short_name
+    ,asset_to = asset1
+    ,asset_from = asset2
+  )
 
+tmp_product1 %>% filter(ticker_name == "0x643f94fc0a804ea13adb88b9e17244bf94022a25")
 
+as_tibble(maintenance_pid) %>%
+  filter(!address %in% tmp_product1$onchain_address) %>%
+  mutate(
+    ticker_name = address
+    ,ticker_alias = product_name
+    ,product_type_l1 = "On-chain"
+    ,product_type_l2 = product_type
+    ,product_type_l3 = product_type_l2
+    ,ticker_src_cat = case_when(
+      product_type == "LP" ~ "dex"
+      ,product_type %in% c("HRC20") ~ "address"
+      ,T ~ "Other"
+    )
+  ) %>%
+  select(
+    product_name
+  )
 
 
 dim_ticker <- maintenance_dim_ticker %>% rename(dim_ticker_id = id)
