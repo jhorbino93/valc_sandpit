@@ -247,6 +247,12 @@ as_tibble(maintenance_pid) %>%
       ,product_type %in% c("HRC20") ~ "address"
       ,T ~ "Other"
     )
+    ,ticker_src_network = network
+    ,asset_to = NA_character_
+    ,asset_from = NA_character_
+    ,data_src = "On-chain"
+    ,onchain_network = network
+    ,onchain_address = address
   ) %>%
   select(
     product_name

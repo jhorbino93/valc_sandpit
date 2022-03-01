@@ -1,35 +1,35 @@
-project_platform,masterchef_platform,masterchef_address,product_name,product_type,pid,address,friendly_alias,network
-hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,IRIS/WONE,LP,4,0x54c59cc0ad2ec1de3c5b7057d900d306f16453ef,IRIS/WONE,Harmony Network
-hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,PLTS/DAI,LP,11,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,PLTS/DAI,Harmony Network
-hermes,hermes,,IRIS,HRC20,,0x85fd5f8dbd0c9ef1806e6c7d4b787d438621c1dc,IRIS/WONE,Harmony Network
-hermes,hermes,,PLTS,HRC20,,0xd32858211fcefd0be0dd3fd6d069c3e821e0aef3,PLTS/DAI,Harmony Network
-harmony,harmony,,eth1DAI,HRC20,,0xef977d2f931c1978db5f6747666fa1eacb0d0339,1DAI,Harmony Network
-harmony,harmony,,WONE,HRC20,,0xcf664087a5bb0237a0bad6742852ec6c8d69a27a,ONE,Harmony Network
-harmony,harmony,,eth1USDC,HRC20,,0x985458e523db3d53125813ed68c274899e9dfab4,USDC,Harmony Network
-harmony,harmony,,eth1USDT,HRC20,,0x3c2b8be99c50593081eaa2a724f0b8285f5aba8f,USDT,Harmony Network
-harmony,harmony,,eth1BUSD,HRC20,,0xe176ebe47d621b984a73036b9da5d834411ef734,BUSD,Harmony Network
-harmony,harmony,,bsc1BUSD,HRC20,,0x0ab43550a6915f9f67d0c454c2e90385e6497eaa,BUSD,Harmony Network
-harmony,harmony,,bsc1USDC,HRC20,,0x44ced87b9f1492bf2dcf5c16004832569f7f6cba,USDC,Harmony Network
-harmony,harmony,,eth1WBTC,HRC20,,0x3095c7557bcb296ccc6e363de01b760ba031f2d9,BTC,Harmony Network
-harmony,harmony,,eth1ETH,HRC20,,0x6983d1e6def3690c4d616b13597a09e6193ea013,ETH,Harmony Network
-harmony,harmony,,btc1BTC,HRC20,,0xdc54046c0451f9269fee1840aec808d36015697d,BTC,Harmony Network
-tranquil finance,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,STONE/WONE,LP,15,0x6b53ca1ed597ed7ccd5664ec9e03329992c2ba87,STONE/WONE,Harmony Network
-viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,WSWAGMI/ONE,LP,5,0x1cb93763241e0eee22b098f7d26baa0562f688e7,WSWAGMI/ONE,Harmony Network
-viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,ONE/VIPER,LP,6,0x96025483bd32c645b822a5a08004b84d674537cb,WONE / VIPER,Harmony Network
-sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,1WBTC/1ETH,LP,8,0x39be7c95276954a6f7070f9baa38db2123691ed0,1WBTC/1ETH,Harmony Network
-sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,1ETH/WONE,LP,9,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,1ETH/WONE,Harmony Network
-sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,1FRAX/1USDC,LP,13,0x29fc6e830ca8586a68dff325f6d2349fb58be951,1FRAX/1USDC,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,WSWAGMI,HRC20,2,0xbb948620fa9cd554ef9a331b13edea9b181f9d45,WSWAGMI,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,MAGIC,HRC20,27,0x892d81221484f690c0a97d3dd18b9144a3ecdfb7,MAGIC,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,COSMIC,HRC20,28,0x6008c8769bfacd92251ba838382e7e5637c7e74d,COSMIC,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,APE,HRC20,10,0xd3a50c0dce15c12fe64941ffd2b864e887c9b9e1,APE,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,ROY,HRC20,14,0xfe1b516a7297eb03229a8b5afad80703911e81cb,ROY,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,LUMEN,HRC20,16,0xda7fe71960cd1c19e1b86d6929efd36058f60a03,LUMEN,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,HLY,HRC20,29,0x8d760497554eecc3b9036fb0364156ef2f0d02bc,HLY,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,eth1UNI,HRC20,23,0x90d81749da8867962c760414c1c25ec926e889b6,1UNI,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,XVIPER,HRC20,3,0xe064a68994e9380250cfee3e8c0e2ac5c0924548,XVIPER,Harmony Network
-harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,JEWEL,HRC20,12,0x72cb10c6bfa5624dd07ef608027e366bd690048f,JEWEL,Harmony Network
-harmony,tranquil finance,,TRANQ,HRC20,,0xcf1709ad76a79d5a60210f23e81ce2460542a836,TRANQ,Harmony Network
-sushi swap,tranquil finance,,TRANQ/WONE,LP,,0x643f94fc0a804ea13adb88b9e17244bf94022a25,TRANQ,Harmony Network
-defira,tranquil finance,,TRANQ/WONE,LP,,0xb91945e55bb4ff672ace118179cfdf281877bf35,TRANQ,Harmony Network
-tranquil finance,tranquil finance,,stONE,HRC20,,0x22d62b19b7039333ad773b7185bb61294f3adc19,STONE,Harmony Network
+dex_platform,project_platform,masterchef_platform,masterchef_address,product_name,product_type,pid,address,friendly_alias,network
+Viper Swap,hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,IRIS/WONE,LP,4,0x54c59cc0ad2ec1de3c5b7057d900d306f16453ef,IRIS/WONE,Harmony Network
+Viper Swap,hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,PLTS/DAI,LP,11,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,PLTS/DAI,Harmony Network
+Harmony,hermes,hermes,,IRIS,HRC20,,0x85fd5f8dbd0c9ef1806e6c7d4b787d438621c1dc,IRIS/WONE,Harmony Network
+Harmony,hermes,hermes,,PLTS,HRC20,,0xd32858211fcefd0be0dd3fd6d069c3e821e0aef3,PLTS/DAI,Harmony Network
+Harmony,harmony,harmony,,eth1DAI,HRC20,,0xef977d2f931c1978db5f6747666fa1eacb0d0339,1DAI,Harmony Network
+Harmony,harmony,harmony,,WONE,HRC20,,0xcf664087a5bb0237a0bad6742852ec6c8d69a27a,ONE,Harmony Network
+Harmony,harmony,harmony,,eth1USDC,HRC20,,0x985458e523db3d53125813ed68c274899e9dfab4,USDC,Harmony Network
+Harmony,harmony,harmony,,eth1USDT,HRC20,,0x3c2b8be99c50593081eaa2a724f0b8285f5aba8f,USDT,Harmony Network
+Harmony,harmony,harmony,,eth1BUSD,HRC20,,0xe176ebe47d621b984a73036b9da5d834411ef734,BUSD,Harmony Network
+Harmony,harmony,harmony,,bsc1BUSD,HRC20,,0x0ab43550a6915f9f67d0c454c2e90385e6497eaa,BUSD,Harmony Network
+Harmony,harmony,harmony,,bsc1USDC,HRC20,,0x44ced87b9f1492bf2dcf5c16004832569f7f6cba,USDC,Harmony Network
+Harmony,harmony,harmony,,eth1WBTC,HRC20,,0x3095c7557bcb296ccc6e363de01b760ba031f2d9,BTC,Harmony Network
+Harmony,harmony,harmony,,eth1ETH,HRC20,,0x6983d1e6def3690c4d616b13597a09e6193ea013,ETH,Harmony Network
+Harmony,harmony,harmony,,btc1BTC,HRC20,,0xdc54046c0451f9269fee1840aec808d36015697d,BTC,Harmony Network
+Defira,defira,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,STONE/WONE,LP,15,0x6b53ca1ed597ed7ccd5664ec9e03329992c2ba87,STONE/WONE,Harmony Network
+Viper Swap,viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,WSWAGMI/ONE,LP,5,0x1cb93763241e0eee22b098f7d26baa0562f688e7,WSWAGMI/ONE,Harmony Network
+Viper Swap,viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,ONE/VIPER,LP,6,0x96025483bd32c645b822a5a08004b84d674537cb,WONE / VIPER,Harmony Network
+Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,1WBTC/1ETH,LP,8,0x39be7c95276954a6f7070f9baa38db2123691ed0,1WBTC/1ETH,Harmony Network
+Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,1ETH/WONE,LP,9,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,1ETH/WONE,Harmony Network
+Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,1FRAX/1USDC,LP,13,0x29fc6e830ca8586a68dff325f6d2349fb58be951,1FRAX/1USDC,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,WSWAGMI,HRC20,2,0xbb948620fa9cd554ef9a331b13edea9b181f9d45,WSWAGMI,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,MAGIC,HRC20,27,0x892d81221484f690c0a97d3dd18b9144a3ecdfb7,MAGIC,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,COSMIC,HRC20,28,0x6008c8769bfacd92251ba838382e7e5637c7e74d,COSMIC,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,APE,HRC20,10,0xd3a50c0dce15c12fe64941ffd2b864e887c9b9e1,APE,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,ROY,HRC20,14,0xfe1b516a7297eb03229a8b5afad80703911e81cb,ROY,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,LUMEN,HRC20,16,0xda7fe71960cd1c19e1b86d6929efd36058f60a03,LUMEN,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,HLY,HRC20,29,0x8d760497554eecc3b9036fb0364156ef2f0d02bc,HLY,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,eth1UNI,HRC20,23,0x90d81749da8867962c760414c1c25ec926e889b6,1UNI,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,XVIPER,HRC20,3,0xe064a68994e9380250cfee3e8c0e2ac5c0924548,XVIPER,Harmony Network
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,JEWEL,HRC20,12,0x72cb10c6bfa5624dd07ef608027e366bd690048f,JEWEL,Harmony Network
+Harmony,harmony,tranquil finance,,TRANQ,HRC20,,0xcf1709ad76a79d5a60210f23e81ce2460542a836,TRANQ,Harmony Network
+Sushi Swap,sushi swap,tranquil finance,,TRANQ/WONE,LP,,0x643f94fc0a804ea13adb88b9e17244bf94022a25,TRANQ,Harmony Network
+Defira,defira,tranquil finance,,TRANQ/WONE,LP,,0xb91945e55bb4ff672ace118179cfdf281877bf35,TRANQ,Harmony Network
+Defira,defira,tranquil finance,,stONE,HRC20,,0x22d62b19b7039333ad773b7185bb61294f3adc19,STONE,Harmony Network
