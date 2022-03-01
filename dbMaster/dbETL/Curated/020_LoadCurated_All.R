@@ -2,6 +2,7 @@ library(tidyverse)
 library(arrow)
 library(sparklyr)
 library(lubridate)
+library(devtools)
 
 ## Initialise Spark
 config <- spark_config()
@@ -10,18 +11,43 @@ config$`sparklyr.shell.executor-memory` <- '16G'
 config$`sparklyr.cores.local` <- 4
 
 
-sc <- spark_connect(master = "local"
-                    ,spark_home = paste0("C:/Users/",Sys.getenv("USERNAME"),"/AppData/Local/spark/spark-3.0.2-bin-hadoop2.7")
-                    ,packages = 'io.delta:delta-core_2.12:0.8.0'
-                    ,config = config
-)
+# sc <- spark_connect(master = "local"
+#                     ,spark_home = paste0("C:/Users/",Sys.getenv("USERNAME"),"/AppData/Local/spark/spark-3.0.2-bin-hadoop2.7")
+#                     ,packages = 'io.delta:delta-core_2.12:0.8.0'
+#                     ,config = config
+# )
+# 
+# sparklyr::invoke_static(sc, "java.util.TimeZone",  "getTimeZone", "GMT") %>%
+# sparklyr::invoke_static(sc, "java.util.TimeZone", "setDefault", .)
+# 
+# spark_disconnect_all()
 
-sparklyr::invoke_static(sc, "java.util.TimeZone",  "getTimeZone", "GMT") %>%
-sparklyr::invoke_static(sc, "java.util.TimeZone", "setDefault", .)
+  ## Initialise Env ----
+dir_raw <- "C:/Users/jehor/Documents/GitHub/Hermes/dbMaster/dbData/001Raw"
+
+base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
+ref_dir <- "/dbReference"
+
+## Load Functions
+url_r_misc_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/misc_functions.R"
+source_url(url_r_misc_fn)
+
+url_r_hmy_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/hmy_functions.R"
+source_url(url_r_hmy_fn)
+
+## Local data directory
+raw_dir <- "C:/Users/jehor/Documents/GitHub/Hermes/dbMaster/dbData/001Raw"
+
+## Github directory
+base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
+ref_dir <- "/dbReference"
 
 ## Get Reference Data ----
-maintenance_dim_ticker  <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_ticker.csv"),stringsAsFactors = F)
-maintenance_dim_headers <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_headers.csv"),stringsAsFactors = F)
+maintenance_dim_ticker  <- read.csv(
+  paste0(base_github,ref_dir,"/maintenance_dim_ticker.csv")
+  ,stringsAsFactors = F
+)  
+
 maintenance_masterchef <- read.csv(
   paste0(base_github,ref_dir,"/maintenance_masterchef.csv")
   ,stringsAsFactors = F
@@ -49,14 +75,6 @@ maintenance_account_balance <- read.csv(
     ,"account_address"="character"
   )
 )
-
-maintenance_dim_asset <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_asset.csv"))
-
-## Initialise Env ----
-dir_raw <- "C:/Users/jehor/Documents/GitHub/Hermes/dbMaster/dbData/001Raw"
-
-base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
-ref_dir <- "/dbReference"
 
 date_start <-  as_date("2017-01-01")
 date_end   <-  Sys.Date() + days(100)
@@ -105,7 +123,7 @@ dim_time <-
   tmp_btc_date <- as_date(gsub("open_date=","",list.files(paste0(dir_raw,"/binance/BTCUSDT"))))
   max_open_time <- arrow::read_parquet(
       list.files(paste0(dir_raw,"/binance/BTCUSDT"),full.name=T,recursive=T)[which(tmp_btc_date == max(tmp_btc_date))]
-    ) %>% summarise(max(open_time)) %>%
+    ) %>% summarise(max(open_time)) %>% pull()
   rm(tmp_btc_date)
 
   ## Create dim_date_time
@@ -162,8 +180,19 @@ dim_time <-
     select(-c(dim_date_id,cy_start,cy_end,fy_start,fy_end))
   
 ## Load dim_tickers ----  
-maintenance_dim_ticker  <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_ticker.csv"),stringsAsFactors = F) %>% as_tibble()
+maintenance_dim_ticker
+maintenance_pid
+
+as_tibble(maintenance_dim_ticker) %>%
+  rename(product_name )
+  
+
+
+
+
 dim_ticker <- maintenance_dim_ticker %>% rename(dim_ticker_id = id)
+
+maintenance_pid
 
 ## Load dim products ----
 unique(c(dim_ticker$asset1,dim_ticker$asset2))

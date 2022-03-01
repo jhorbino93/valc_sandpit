@@ -54,12 +54,14 @@ for(i in 1:nrow(maintenance_pid)){
   vctRemoveDate    <- as_date(gsub("target_date=","",list.files(dir)))>=loopStartDate
   unlink(paste0(dir,"/",list.files(dir)[vctRemoveDate]),force=T,recursive=T)
   
+  tmp_block_search <- filter(df_blocks,as_date(target_time)>=loopStartDate) %>% pull(attempt_block)
+  
   cores <- detectCores()
   cl <- makeCluster(cores[1]-1)
   registerDoParallel(cl)
   
   list_supply <- foreach(
-    x=filter(df_blocks,as_date(target_time)>=loopStartDate) %>% pull(attempt_block)
+    x=tmp_block_search
     ,.packages = parallelPackages
   ) %dopar% {
     
@@ -124,14 +126,14 @@ df_min_token_dates <-
     ,min_date = vct_min_token_dates
   )
 
-account_balance_dist <- unique(maintenance_account_balance$product_address)
+account_balance_dist <- unique(maintenance_account_balance$account_address)
 for(i in seq_along(account_balance_dist)){
   print(i)
   
-  sel_product_address <- account_balance_dist[i]
-  loop_df         <- filter(maintenance_account_balance,product_address == sel_product_address)
+  sel_account_address <- account_balance_dist[i]
+  loop_df         <- filter(maintenance_account_balance,account_address == sel_account_address)
   
-  dir             <- paste0(c(dir_balances,sel_product_address),collapse="/")
+  dir             <- paste0(c(dir_balances,sel_account_address),collapse="/")
   
   if(length(list.files(dir))==0){
     cat(paste0("File directory NOT found for ",dir," or is empty.\n"))
@@ -139,7 +141,7 @@ for(i in seq_along(account_balance_dist)){
     cat(paste0("Creating directory at ",dir,"\n"))
     dir.create(dir,recursive=T)
   } else {
-    cat(paste0("File directory found for ",sel_product_address))
+    cat(paste0("File directory found for ",sel_account_address))
     loopStartDate <- max(as.Date(gsub("target_date=","",list.files(dir))))
   }
   
@@ -149,7 +151,7 @@ for(i in seq_along(account_balance_dist)){
   tokenBalGrid <- merge(
                     filter(df_blocks,target_time >= loopStartDate) %>% select(attempt_block,target_time)
                     ,loop_df
-                  ) %>% inner_join(df_min_token_dates,by=c("account_address"="address")) %>%
+                  ) %>% inner_join(df_min_token_dates,by=c("product_address"="address")) %>%
                   filter(target_time >= min_date) %>% select(-c(min_date,target_time))
   tokenBalGrid <- split(tokenBalGrid,seq(nrow(tokenBalGrid)))
   
@@ -163,7 +165,7 @@ for(i in seq_along(account_balance_dist)){
     ,.packages = parallelPackages
   ) %dopar% {
     
-    bal   <- fn_hmyv2_call_balanceOf(x$account_address,x$product_address,rpc=rpc,block=x$attempt_block,autoconv = F)
+    bal   <- fn_hmyv2_call_balanceOf(x$product_address,x$account_address,rpc=rpc,block=x$attempt_block,autoconv = F)
     dfRes <- mutate(x,amount=bal)
     
     return(dfRes)
@@ -196,7 +198,7 @@ for(i in seq_along(account_balance_dist)){
       ,dir
       ,format = "parquet"
       ,partitioning = c("target_date")
-      ,basename_template = paste0(c("harmony_balances_",sel_product_address,"_",l,"_{i}.parquet"),collapse="_")
+      ,basename_template = paste0(c("harmony_balances_",sel_account_address,"_",l,"_{i}.parquet"),collapse="_")
     )
     l <- l+1024L
   }
@@ -204,6 +206,7 @@ for(i in seq_along(account_balance_dist)){
 
 ## Get LP Data ----
 ## Includes allocPoints, totalAllocPoints, emission
+
 ref_lp <- filter(maintenance_pid,product_type == "LP",!is.na(pid))
 for(i in 1:nrow(ref_lp)){
   print(i)
@@ -211,7 +214,7 @@ for(i in 1:nrow(ref_lp)){
   name        <- ref_lp[i,]$product_name
   address     <- ref_lp[i,]$address
   pid         <- ref_lp[i,]$pid
-  platform    <- ref_lp[i,]$platform
+  platform    <- ref_lp[i,]$masterchef_platform
   masterchef  <- filter(maintenance_masterchef,platform==platform) %>% pull(masterchef_address)
   
   dir         <- paste0(c(dir_lp,address),collapse="/")

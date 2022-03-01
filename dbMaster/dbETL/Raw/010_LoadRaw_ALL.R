@@ -61,7 +61,6 @@ refTime                 <- as.POSIXct(format(Sys.time()),tz="UTC")
 refTimeUnix             <- fnConvTimeToUnix(refTime)
 
 ## Misc ----
-interval <- "1h"
 baseRObj <- c(ls(),"baseRObj")
 
 ## Load Binance ----

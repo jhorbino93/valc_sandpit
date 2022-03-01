@@ -9,6 +9,7 @@ vct_tickers <- maintenance_dim_ticker[which(maintenance_dim_ticker$ticker_src_ne
 glbStartTime <- with_tz(as_datetime("2017-09-01 00:00:00"),"UTC")
 binance_base <- "https://api.binance.com/api/v3/klines"
 loopDayJump  <- 14
+interval <- "1h"
 
 for(i in seq_along(vct_tickers)){
   k             <- vct_tickers[i]
