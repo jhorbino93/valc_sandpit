@@ -46,6 +46,7 @@ ref_dir <- "/dbReference"
 maintenance_dim_ticker  <- read.csv(
   paste0(base_github,ref_dir,"/maintenance_dim_ticker.csv")
   ,stringsAsFactors = F
+  ,na.string=c("")
 )  
 
 maintenance_masterchef <- read.csv(
@@ -56,6 +57,7 @@ maintenance_masterchef <- read.csv(
     ,"treasury_address"="character"
     ,"emission_token1_lp_address"="character"
   )
+  ,na.string=c("")
 )
 maintenance_pid <- read.csv(
   paste0(base_github,ref_dir,"/maintenance_pid.csv")
@@ -76,6 +78,7 @@ maintenance_account_balance <- read.csv(
     "product_address"="character"
     ,"account_address"="character"
   )
+  ,na.string=c("")
 )
 
 date_start <-  as_date("2017-01-01")
@@ -181,11 +184,8 @@ dim_time <-
     ) %>%
     select(-c(dim_date_id,cy_start,cy_end,fy_start,fy_end))
   
-## Load dim_tickers ----  
-maintenance_dim_ticker
-maintenance_pid
-
-tmp_product1 <- 
+## Load dim_assets ----  
+tmp_asset1 <- 
   as_tibble(maintenance_dim_ticker) %>%
   ## Add other attributes 
   mutate(
@@ -203,22 +203,24 @@ tmp_product1 <-
     )
     ,product_type_l3 = product_type_l2
     ,onchain_network = ticker_src_network
+    ,ticker_alias2 = ticker_alias
   ) %>%
   ## Select order
   select(
     short_name
     ,ticker_alias
+    ,ticker_alias2
     ,product_type_l1
     ,product_type_l2
     
     ## Ticker related columns
     ,ticker_name
-    
     ,ticker_src_cat
     ,ticker_src_network
     ,asset1
     ,asset2
     ,data_src
+    ,exchange_name
     
     ## On chain stuff
     ,onchain_network
@@ -232,13 +234,12 @@ tmp_product1 <-
     ,asset_from = asset2
   )
 
-tmp_product1 %>% filter(ticker_name == "0x643f94fc0a804ea13adb88b9e17244bf94022a25")
-
-as_tibble(maintenance_pid) %>%
+tmp_product2 <- as_tibble(maintenance_pid) %>%
   filter(!address %in% tmp_product1$onchain_address) %>%
   mutate(
     ticker_name = address
     ,ticker_alias = product_name
+    ,ticker_alias2 = friendly_alias
     ,product_type_l1 = "On-chain"
     ,product_type_l2 = product_type
     ,product_type_l3 = product_type_l2
@@ -253,10 +254,11 @@ as_tibble(maintenance_pid) %>%
     ,data_src = "On-chain"
     ,onchain_network = network
     ,onchain_address = address
+    ,exchange_name = dex_platform
   ) %>%
-  select(
-    product_name
-  )
+  select_at(colnames(tmp_product1))
+
+
 
 
 dim_ticker <- maintenance_dim_ticker %>% rename(dim_ticker_id = id)
