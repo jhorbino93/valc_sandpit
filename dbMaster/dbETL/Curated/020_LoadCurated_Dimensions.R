@@ -62,11 +62,22 @@ maintenance_masterchef <- read.csv(
   ,stringsAsFactors = F
   ,colClasses=c(
     "masterchef_address"="character"
-    ,"treasury_address"="character"
-    ,"emission_token1_lp_address"="character"
   )
   ,na.string=c("")
 )
+
+read.csv(paste0(base_github,ref_dir,"/maintenance_masterchef_emission.csv"))
+
+maintenance_masterchef_emission <- read.csv(
+  paste0(base_github,ref_dir,"/maintenance_masterchef_emission.csv")
+  ,stringsAsFactors = F
+  ,colClasses=c(
+    "masterchef_address"="character"
+    ,"emission_token_address"="character"
+  )
+  ,na.string=c("")
+)
+
 maintenance_pid <- read.csv(
   paste0(base_github,ref_dir,"/maintenance_pid.csv")
   # ,stringsAsFactors = F
