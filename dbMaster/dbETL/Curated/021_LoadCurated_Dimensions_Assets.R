@@ -1,7 +1,7 @@
 dir_dim_asset <- paste0(c(dir_cur,"dim_asset.parquet"),collapse="/")
 
 if(file.exists(dir_dim_asset)){
-  vct_exist_asset <- vct_arrow::read_parquet(paste0(c(dir_cur,"dim_asset.parquet"),collapse="/"))
+  old_dim_asset <- arrow::read_parquet(paste0(c(dir_cur,"dim_asset.parquet"),collapse="/"))
 }
 
 ## Load dim_assets ----  
@@ -23,18 +23,20 @@ tmp_asset1 <-
     )
     ,asset_type_l3 = asset_type_l2
     ,onchain_network = ticker_src_network
-    ,ticker_alias2 = ticker_alias
+    ,asset_alias = short_name
+    ,asset_name = ticker_alias
   ) %>%
   ## Select order
   select(
-    short_name
-    ,ticker_alias
-    ,ticker_alias2
+    asset_name
+    ,short_name
+    ,asset_alias
     ,asset_type_l1
     ,asset_type_l2
     
     ## Ticker related columns
     ,ticker_name
+    ,ticker_alias
     ,ticker_src_cat
     ,ticker_src_network
     ,asset1
@@ -49,20 +51,21 @@ tmp_asset1 <-
   
   ## Rename output 
   rename(
-    asset_name = short_name
-    ,asset_to = asset1
+    asset_to = asset1
     ,asset_from = asset2
+    ,asset_short_name = short_name
   )
 
 tmp_asset2 <- as_tibble(maintenance_pid) %>%
   filter(!address %in% tmp_asset1$onchain_address) %>%
   mutate(
     ticker_name = address
-    ,ticker_alias = product_name
-    ,ticker_alias2 = friendly_alias
+    ,asset_short_name  = friendly_alias
+    ,asset_alias = friendly_alias
     ,asset_type_l1 = "On-chain"
     ,asset_type_l2 = product_type
     ,asset_type_l3 = asset_type_l2
+    ,ticker_alias = product_name
     ,ticker_src_cat = case_when(
       product_type == "LP" ~ "dex"
       ,product_type %in% c("HRC20") ~ "address"
@@ -81,10 +84,14 @@ tmp_asset2 <- as_tibble(maintenance_pid) %>%
   ) %>%
   select_at(colnames(tmp_asset1))
 
-dim_asset <- bind_rows(tmp_asset1,tmp_asset2) %>%
-  mutate(
-    dim_asset_id = row_number()
-  ) %>%
-  select_at(c("dim_asset_id",colnames(tmp_asset1)))
 
-arrow::write_parquet(dim_asset,dir_dim_asset)
+dim_asset <- bind_rows(tmp_asset1,tmp_asset2) %>%select_at(colnames(tmp_asset1))
+rm(list=c("tmp_asset1","tmp_asset2"))
+
+vct_pk_dim_asset <- c("asset_name","ticker_name","ticker_src_network","data_src")
+
+## Match & merge
+dim_asset <- fn_db_merge_dim(dim_asset,old_dim_asset,vct_pk_dim_asset,"dim_asset_id")
+
+## Write to dir
+arrow::write_parquet(dim_asset,paste0(c(dir_cur,"dim_asset.parquet"),collapse="/"))
