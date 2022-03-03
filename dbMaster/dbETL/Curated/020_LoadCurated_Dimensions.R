@@ -90,12 +90,31 @@ maintenance_account_balance <- read.csv(
 )
 
 
-
+### dim_lp ----
 dim_asset <- arrow::read_parquet(paste0(c(dir_cur,"dim_asset.parquet"),collapse="/"))
 
-as_tibble(maintenance_pid) %>%
+
+dim_lp <-
+  as_tibble(maintenance_pid) %>%
   filter(product_type == "LP") %>%
-  select(masterchef_address,product_name,product_type,pid,address,friendly_alias,network)
+  select(masterchef_address,product_type,pid,address,network) %>%
+  inner_join(
+    select(dim_asset,dim_asset_id,onchain_address,onchain_network)    
+    ,by=c("address"="onchain_address","network"="onchain_network")
+  ) %>%
+  inner_join(
+    maintenance_masterchef
+    ,by=c("masterchef_address","network")
+  ) %>%
+  mutate(
+    dim_lp_id = row_number()
+  ) %>%
+  rename(
+    lp_dim_asset_id = dim_asset_id
+  ) %>%
+  select(dim_lp_id,lp_dim_asset_id,masterchef_address,emission_token1_id)
+  
+
 
 as_tibble(maintenance_masterchef)
 
