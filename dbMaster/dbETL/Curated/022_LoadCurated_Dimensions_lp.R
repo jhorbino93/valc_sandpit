@@ -11,7 +11,7 @@ if(file.exists(dir_dim_masterchef)){
   dim_masterchef <- maintenance_masterchef
   dim_masterchef <- fn_db_merge_dim(dim_masterchef,old_dim_masterchef,vct_pk_dim_masterchef,"dim_masterchef_id")
 } else {
-  dim_masterchef <- mutate(maintenance_masterchef,dim_masterchef_id = row_number) %>% 
+  dim_masterchef <- mutate(maintenance_masterchef,dim_masterchef_id = row_number()) %>% 
                     select_at(c("dim_masterchef_id",colnames(maintenance_masterchef)[which(!colnames(maintenance_masterchef) %in% c("dim_masterchef_id"))]))
 }
 write_parquet(dim_masterchef,paste0(dir_dim_masterchef))

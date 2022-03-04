@@ -10,7 +10,8 @@ tmp_asset1 <-
   ## Add other attributes 
   mutate(
     masterchef_address = NA_character_
-    ,onchain_address = ticker_name
+    ,ticker_name = str_to_lower(ticker_name)
+    ,onchain_address = str_to_lower(ticker_name)
     ,pid = NA_integer_
     ,asset_type_l1 = case_when(
       ticker_src_cat == "cex"~"CEX"
@@ -56,9 +57,11 @@ tmp_asset1 <-
     ,asset_short_name = short_name
   )
 
+
 tmp_asset2 <- 
   as_tibble(maintenance_pid) %>%
-  filter(!str_to_lower(address) %in% str_to_lower(tmp_asset1$onchain_address)) %>%
+  mutate(address = str_to_lower(address)) %>%
+  filter(!address %in% tmp_asset1$onchain_address) %>%
   mutate(
     ticker_name = address
     ,asset_short_name  = friendly_alias
@@ -76,6 +79,8 @@ tmp_asset2 <-
     ,asset_to = NA_character_
     ,asset_from = NA_character_
     ,data_src = "On-chain"
+    ,address = str_to_lower(address)
+    ,masterchef_address = str_to_lower(masterchef_address)
     ,onchain_network = network
     ,onchain_address = address
     ,exchange_name = dex_platform
@@ -88,10 +93,15 @@ tmp_asset2 <-
 dim_asset <- bind_rows(tmp_asset1,tmp_asset2) %>%select_at(colnames(tmp_asset1))
 rm(list=c("tmp_asset1","tmp_asset2"))
 
-
-
 ## Match & merge
-dim_asset <- fn_db_merge_dim(dim_asset,old_dim_asset,vct_pk_dim_asset,"dim_asset_id")
+if(file.exists(dir_dim_asset)){
+  old_dim_asset <- arrow::read_parquet(dir_dim_asset)
+  dim_asset <- fn_db_merge_dim(dim_asset,old_dim_asset,vct_pk_dim_asset,"dim_asset_id")
+} else {
+  vct_attributes <- colnames(dim_asset)[which(!colnames(dim_asset) %in% c("dim_asset_id",vct_pk_dim_asset))]
+  dim_asset <- mutate(dim_asset,dim_asset_id=row_number()) %>% select_at(c("dim_asset_id",vct_pk_dim_asset,vct_attributes))
+}
 
 ## Write to dir
 arrow::write_parquet(dim_asset,dir_dim_asset)
+

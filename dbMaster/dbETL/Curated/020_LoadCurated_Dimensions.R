@@ -116,6 +116,10 @@ dim_asset$onchain_network
 
 df_account <- 
   as_tibble(maintenance_account_balance) %>%
+  mutate(
+    account_address = str_to_lower(account_address)
+    ,product_address = str_to_lower(product_address)
+  ) %>%
   inner_join(
     select(dim_asset,dim_asset_id,onchain_address,onchain_network) %>%
       rename(account_dim_asset_id=dim_asset_id)
