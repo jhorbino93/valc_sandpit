@@ -1,0 +1,58 @@
+dir_dim_asset     <- paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/")
+dim_asset         <- read_parquet(dir_dim_asset)
+
+dir_dim_masterchef     <- paste0(c(dir_cur,"Dim","dim_masterchef.parquet"),collapse="/")
+dim_masterchef    <- read_parquet(dir_dim_masterchef)
+
+## Start Dataframe
+df_account <- 
+  as_tibble(maintenance_account_balance) %>%
+  mutate(
+    account_address = str_to_lower(account_address)
+    ,product_address = str_to_lower(product_address)
+  ) %>%
+  left_join(
+    select(dim_asset,dim_asset_id,onchain_address,onchain_network) %>%
+      rename(account_dim_asset_id=dim_asset_id)
+    ,by=c("account_address"="onchain_address","network"="onchain_network")
+  ) %>%
+  left_join(
+    select(dim_asset,dim_asset_id,onchain_address,onchain_network) %>%
+      rename(product_dim_asset_id=dim_asset_id)
+    ,by=c("product_address"="onchain_address","network"="onchain_network")
+  ) %>%
+  select(platform,account_address,account_name,account_type,account_dim_asset_id,product_dim_asset_id,network,product_address
+         ,product_name,product_address)
+
+
+## Load Accounts
+    dir_dim_account <- paste0(c(dir_cur,"Dim","dim_account.parquet"),collapse="/")
+    vct_pk_dim_account <- c("account_address","network")
+    if(file.exists(dir_dim_account)){
+      old_dim_account <- arrow::read_parquet(dir_dim_account)
+    }
+    
+    ## Intermediate dim_account
+    dim_account <- df_account %>% distinct(platform,account_address,account_name,account_type,network)
+    
+    ## Match & merge
+    if(file.exists(dir_dim_account)){
+      dim_account <- fn_db_merge_dim(dim_account,old_dim_account,vct_pk_dim_account,"dim_account_id")
+    } else {
+      vct_attributes <- colnames(dim_account)[which(!colnames(dim_account) %in% c("dim_account_id",vct_pk_dim_account))]
+      dim_account <- mutate(dim_account,dim_account_id=row_number()) %>% select_at(c("dim_account_id",vct_pk_dim_account,vct_attributes))
+    }
+    
+    arrow::write_parquet(dim_account,dir_dim_account)
+    
+## Load Account Bridge To Products
+
+    dir_bridge_account_product <- paste0(c(dir_cur,"Dim","bridge_account_product.parquet"),collapse="/")
+    bridge_account_product <- 
+      inner_join(
+        df_account
+        ,dim_account
+      ) %>% 
+      select(dim_account_id,product_dim_asset_id,network)
+    write_parquet(bridge_account_product,dir_bridge_account_product)
+    

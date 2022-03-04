@@ -96,12 +96,12 @@ rm(list=c("tmp_asset1","tmp_asset2"))
 
 ## Match & merge
 if(file.exists(dir_dim_asset)){
-  old_dim_asset <- arrow::read_parquet(dir_dim_asset)
   dim_asset <- fn_db_merge_dim(dim_asset,old_dim_asset,vct_pk_dim_asset,"dim_asset_id")
 } else {
   vct_attributes <- colnames(dim_asset)[which(!colnames(dim_asset) %in% c("dim_asset_id",vct_pk_dim_asset))]
   dim_asset <- mutate(dim_asset,dim_asset_id=row_number()) %>% select_at(c("dim_asset_id",vct_pk_dim_asset,vct_attributes))
 }
+
 
 ## Write to dir
 arrow::write_parquet(dim_asset,dir_dim_asset)

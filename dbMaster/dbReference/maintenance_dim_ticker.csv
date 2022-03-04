@@ -42,3 +42,7 @@ id,ticker_name,ticker_alias,short_name,ticker_src_cat,ticker_src_network,exchang
 41,0x52b9449a26357f893257901341253b89d6ca0c4a,hrc20_venom_lp_xviper_wone,XVIPER/WONE,dex,Harmony Network,Viper Swap,0,XVIPER,WONE,dexscreener
 42,0x643f94fc0a804ea13adb88b9e17244bf94022a25,hrc20_sushi_lp_tranq_wone,TRANQ/WONE,dex,Harmony Network,Sushi Swap,0,TRANQ,WONE,dexscreener
 43,0xb91945e55bb4ff672ace118179cfdf281877bf35,hrc20_defira_lp_tranq_wone,TRANQ/WONE,dex,Harmony Network,Defira,0,TRANQ,WONE,dexscreener
+44,0x6b53ca1ed597ed7ccd5664ec9e03329992c2ba87,hrc20_defira_lp_stone_wone,STONE/WONE,dex,Harmony Network,Defira,0,STONE,WONE,dexscreener
+45,0x39be7c95276954a6f7070f9baa38db2123691ed0,hrc20_sushi_lp_wbtc_eth,1WBTC/1ETH,dex,Harmony Network,Sushi Swap,0,1WBTC,1ETH,dexscreener
+46,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,hrc20_sushi_lp_eth_wone,1ETH/WONE,dex,Harmony Network,Sushi Swap,0,1ETH,WONE,dexscreener
+47,0x29fc6e830ca8586a68dff325f6d2349fb58be951,hrc20_sushi_lp_frax_usdc,1FRAX/1USDC,dex,Harmony Network,Sushi Swap,0,1ETH,1WONE,dexscreener
