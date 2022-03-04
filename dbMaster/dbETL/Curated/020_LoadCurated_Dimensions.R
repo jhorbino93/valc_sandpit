@@ -109,30 +109,28 @@ dim_asset         <- read_parquet(dir_dim_asset)
 dir_dim_masterchef     <- paste0(c(dir_cur,"Dim","dim_masterchef.parquet"),collapse="/")
 dim_masterchef    <- read_parquet(dir_dim_masterchef)
 
-select(dim_asset,dim_asset_id,onchain_address) %>%
-  rename(account_dim_asset_id=dim_asset_id)
-
-dim_asset$onchain_network
-
 df_account <- 
   as_tibble(maintenance_account_balance) %>%
   mutate(
     account_address = str_to_lower(account_address)
     ,product_address = str_to_lower(product_address)
   ) %>%
-  inner_join(
+  left_join(
     select(dim_asset,dim_asset_id,onchain_address,onchain_network) %>%
       rename(account_dim_asset_id=dim_asset_id)
     ,by=c("account_address"="onchain_address","network"="onchain_network")
   ) %>%
-  inner_join(
+  left_join(
     select(dim_asset,dim_asset_id,onchain_address,onchain_network) %>%
       rename(product_dim_asset_id=dim_asset_id)
     ,by=c("product_address"="onchain_address","network"="onchain_network")
   ) %>%
-  select(platform,account_name,account_type,account_dim_asset_id,product_dim_asset_id,network)
+  select(platform,account_address,account_name,account_type,account_dim_asset_id,product_dim_asset_id,network,product_address
+         ,product_name,product_address)
 
-nrow(maintenance_account_balance)
+filter(df_account,is.na(product_dim_asset_id))
+
+view(df_account)
   
 as_tibble(maintenance_account_balance) %>%
   mutate(
@@ -144,7 +142,8 @@ as_tibble(maintenance_account_balance) %>%
       rename(account_dim_asset_id=dim_asset_id)
     ,by=c("account_address"="onchain_address","network"="onchain_network")
   ) %>%
-  filter(is.na(account_dim_asset_id))
+  filter(is.na(account_dim_asset_id)) %>%
+  view()
 
 filter(dim_asset,asset_short_name == "IRIS/WONE")
        

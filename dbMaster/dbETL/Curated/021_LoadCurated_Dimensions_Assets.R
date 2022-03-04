@@ -90,6 +90,7 @@ tmp_asset2 <-
   ) %>%
   select_at(colnames(tmp_asset1))
 
+
 dim_asset <- bind_rows(tmp_asset1,tmp_asset2) %>%select_at(colnames(tmp_asset1))
 rm(list=c("tmp_asset1","tmp_asset2"))
 
