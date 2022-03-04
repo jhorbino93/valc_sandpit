@@ -1,7 +1,7 @@
-dir_dim_asset <- paste0(c(dir_cur,"dim_asset.parquet"),collapse="/")
-
+dir_dim_asset <- paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/")
+vct_pk_dim_asset <- c("asset_name","ticker_name","ticker_src_network","data_src")
 if(file.exists(dir_dim_asset)){
-  old_dim_asset <- arrow::read_parquet(paste0(c(dir_cur,"dim_asset.parquet"),collapse="/"))
+  old_dim_asset <- arrow::read_parquet(dir_dim_asset)
 }
 
 ## Load dim_assets ----  
@@ -56,8 +56,9 @@ tmp_asset1 <-
     ,asset_short_name = short_name
   )
 
-tmp_asset2 <- as_tibble(maintenance_pid) %>%
-  filter(!address %in% tmp_asset1$onchain_address) %>%
+tmp_asset2 <- 
+  as_tibble(maintenance_pid) %>%
+  filter(!str_to_lower(address) %in% str_to_lower(tmp_asset1$onchain_address)) %>%
   mutate(
     ticker_name = address
     ,asset_short_name  = friendly_alias
@@ -84,14 +85,13 @@ tmp_asset2 <- as_tibble(maintenance_pid) %>%
   ) %>%
   select_at(colnames(tmp_asset1))
 
-
 dim_asset <- bind_rows(tmp_asset1,tmp_asset2) %>%select_at(colnames(tmp_asset1))
 rm(list=c("tmp_asset1","tmp_asset2"))
 
-vct_pk_dim_asset <- c("asset_name","ticker_name","ticker_src_network","data_src")
+
 
 ## Match & merge
 dim_asset <- fn_db_merge_dim(dim_asset,old_dim_asset,vct_pk_dim_asset,"dim_asset_id")
 
 ## Write to dir
-arrow::write_parquet(dim_asset,paste0(c(dir_cur,"dim_asset.parquet"),collapse="/"))
+arrow::write_parquet(dim_asset,dir_dim_asset)

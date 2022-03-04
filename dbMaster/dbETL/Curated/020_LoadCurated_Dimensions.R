@@ -4,11 +4,14 @@ library(sparklyr)
 library(lubridate)
 library(devtools)
 
+# library(foreach)
+# library(doParallel)
+
 ## Initialise Spark
-config <- spark_config()
-config$`sparklyr.shell.driver-memory`   <- '16G'
-config$`sparklyr.shell.executor-memory` <- '16G'
-config$`sparklyr.cores.local` <- 4
+# config <- spark_config()
+# config$`sparklyr.shell.driver-memory`   <- '16G'
+# config$`sparklyr.shell.executor-memory` <- '16G'
+# config$`sparklyr.cores.local` <- 4
 
 
 # sc <- spark_connect(master = "local"
@@ -98,47 +101,25 @@ maintenance_account_balance <- read.csv(
   ,na.string=c("")
 )
 
-## Binance ----
-vct_binance_assets <- list.files(paste0(dir_raw,"/binance"))
 
-  ## Generate spark tbls
-  sdf_binance <-
-    lapply(
-      setNames(vct_binance_assets,vct_binance_assets)
-      ,function(x){
-        dir = paste0(dir_raw,"/binance/",x)
-        spark_read_parquet(sc,name=x,path=dir) %>% sdf_register(name=x)
-      }
-    ) %>% do.call(sdf_bind_rows,.) %>% sdf_register("sdf_binance")
+
+dir_dim_asset     <- paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/")
+maintenance_account_balance
+
+as_tibble(maintenance_account_balance)
+
+## Facts ----
+
+  ## Get necessary dims
+  dir_dim_datetime  <- paste0(c(dir_cur,"Dim","dim_datetime.parquet"),collapse="/")
+  dir_dim_interval  <- paste0(c(dir_cur,"Dim","dim_interval.parquet"),collapse="/")
+  dir_dim_asset     <- paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/")
   
-  ## Remove component tbls
-  sapply(
-    vct_binance_assets
-    ,function(x){
-      sdf_sql(sc,paste0("DROP TABLE ",str_to_lower(x)))
-    }
+  dim_datetime      <- read_parquet(dir_dim_datetime)
+  dim_interval      <- read_parquet(dir_dim_interval)
+  dim_asset         <- read_parquet(dir_dim_asset)
+
+  vct_schema_cols <- c("datetime","date","dim_asset_id","dim_interval_id","quote_type","data_src"
+                       ,"o","h","l","c","v","qav","num_trades"
   )
-  
-  sdf_binance %>% select(open_time,o,h,l,c,v,ticker,interval,network)
 
-  
-  
-list.files(vct_binance_dir[1])
-
-list_raw <- list()
-for(i in seq_along(vct_binance_dir)){
-  dir <- vct_binance_dir[i]
-  print(i)
-  print(dir)
-  # res <- arrow::open_dataset(dir) %>% collect()
-  # list_raw[[i]] <- res
-  
-  files <- list.files(dir,full.names = T,recursive=T)
-  
-  list_files <- list()
-  for(k in seq_along(files)){
-    print(k)
-    list_files[[k]] <- arrow::read_parquet(files[[k]])
-  }
-  list_raw[[i]] <- list_files
-}
