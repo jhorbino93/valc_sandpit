@@ -31,15 +31,13 @@ dir_cur <- "C:/Users/jehor/Documents/GitHub/Hermes/dbMaster/dbData/020Curated"
 
 base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
 ref_dir <- "/dbReference"
+dir_etl_cur_dim <- "dbETL/Curated/020_LoadCurated_Dimensions.R"
+dir_etl_cur_fact <- "dbETL/Curated/020_LoadCurated_Facts.R"
 
 default_start_date = as_date("1970-01-01")
 default_end_date = as_date("2099-12-31")
 current_date = as_date(Sys.Date())
 default_prior_date = current_date - days(1)
-
-## Github directory
-base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
-ref_dir <- "/dbReference"
 
 ## Load Functions ----
 url_r_misc_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/misc_functions.R"
@@ -47,11 +45,6 @@ source_url(url_r_misc_fn)
 
 url_r_hmy_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/hmy_functions.R"
 source_url(url_r_hmy_fn)
-
-
-## Github directory
-base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
-ref_dir <- "/dbReference"
 
 ## Get Reference Data ----
 maintenance_dim_ticker  <- read.csv(
