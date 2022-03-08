@@ -1,22 +1,18 @@
-library(tidyverse)
-library(lubridate)
-library(httr)
-library(jsonlite)
-library(arrow)
-
 ## DEXSCREENER ----
-vct_tickers      <- maintenance_dim_ticker[which(maintenance_dim_ticker$ticker_src_network == "harmony" & maintenance_dim_ticker$data_src == "dexscreener"),]$id
+vct_tickers      <- maintenance_dim_ticker[which(maintenance_dim_ticker$ticker_src_network == "Harmony Network" & maintenance_dim_ticker$data_src == "dexscreener"),]$id
 glbStartTime     <- with_tz(as_datetime("2021-07-01 00:00:00"),"UTC")
 dexscreener_base <- "io5.dexscreener.io"
 bar              <- 60
+interval         <- "1h"
 loopDayJump      <- 14
 
 for(i in seq_along(vct_tickers)){
   k              <- vct_tickers[i]
-  ticker         <- maintenance_dim_ticker[k,]$ticker_name
-  network        <- maintenance_dim_ticker[k,]$ticker_src_network
+  ticker         <- str_to_lower(maintenance_dim_ticker[k,]$ticker_name)
+  network        <- maintenance_dim_ticker[k,]$data_src_network
   data_src       <- maintenance_dim_ticker[k,]$data_src
-  dir            <- paste0(raw_dir,"/dexscreener/",network,"/",ticker) 
+  dir            <- paste0(dir_raw,"/dexscreener/",network,"/",ticker) 
+  interval       <- "1h"
   
   ## Get latest day existing data
   if(length(list.files(dir)) == 0){
@@ -61,8 +57,6 @@ for(i in seq_along(vct_tickers)){
       resGet        <- httr::GET(url)
       resCont       <- content(resGet,"text")
     }
-    
-    
     
     if(resCont != "Internal Server Error"){
       resJson       <- fromJSON(resCont,flatten=T)  

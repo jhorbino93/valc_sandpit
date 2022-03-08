@@ -1,21 +1,11 @@
-library(tidyverse)
-library(lubridate)
-library(httr)
-library(jsonlite)
-library(devtools)
-library(arrow)
-
-library(foreach)
-library(doParallel)
-
 ## Parallel Parameters ----
 parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
 
 ## Environment ----
-dir_harmony         <- paste0(raw_dir,"/blockchain/harmony/base")
-dir_supply          <- paste0(raw_dir,"/blockchain/harmony/supply")
-dir_balances        <- paste0(raw_dir,"/blockchain/harmony/balances")
-dir_lp              <- paste0(raw_dir,"/blockchain/harmony/lp")
+dir_harmony         <- paste0(dir_raw,"/blockchain/harmony/base")
+dir_supply          <- paste0(dir_raw,"/blockchain/harmony/supply")
+dir_balances        <- paste0(dir_raw,"/blockchain/harmony/balances")
+dir_lp              <- paste0(dir_raw,"/blockchain/harmony/lp")
 rpc                 <- "https://a.api.s0.t.hmny.io/"
 
 ## Get raw blocks data ----

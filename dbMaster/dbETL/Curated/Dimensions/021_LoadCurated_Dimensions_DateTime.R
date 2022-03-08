@@ -102,6 +102,6 @@ dim_date_time <-
   select(-c(dim_date_id,cy_start,cy_end,fy_start,fy_end))
 
 ## Write all
-write_parquet(dim_date,paste0(c(dir_cur,"Dim","dim_date.parquet"),collapse="/"))
-write_parquet(dim_time,paste0(c(dir_cur,"Dim","dim_time.parquet"),collapse="/"))
-write_parquet(dim_date_time,paste0(c(dir_cur,"Dim","dim_datetime.parquet"),collapse="/"))
+write_parquet(dim_date,paste0(c(dir_data_cur_dim,"dim_date.parquet"),collapse="/"))
+write_parquet(dim_time,paste0(c(dir_data_cur_dim,"dim_time.parquet"),collapse="/"))
+write_parquet(dim_date_time,paste0(c(dir_data_cur_dim,"dim_datetime.parquet"),collapse="/"))

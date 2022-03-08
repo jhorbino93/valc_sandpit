@@ -25,36 +25,36 @@ library(doParallel)
 # 
 # spark_disconnect_all()
 
-  ## Initialise Env ----
-dir_raw <- "C:/Users/jehor/Documents/GitHub/Hermes/dbMaster/dbData/001Raw"
-dir_cur <- "C:/Users/jehor/Documents/GitHub/Hermes/dbMaster/dbData/020Curated"
+## Initialise Env ----
+setwd("C:/Users/jehor/Documents/GitHub/Hermes")
 
-base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
-ref_dir <- "/dbReference"
-dir_etl_cur_dim <- "dbETL/Curated/020_LoadCurated_Dimensions.R"
-dir_etl_cur_fact <- "dbETL/Curated/020_LoadCurated_Facts.R"
 
-default_start_date = as_date("1970-01-01")
-default_end_date = as_date("2099-12-31")
-current_date = as_date(Sys.Date())
-default_prior_date = current_date - days(1)
+dir_raw <- "./dbMaster/dbData/001Raw"
+dir_cur <- "./dbMaster/dbData/020Curated"
+dir_ref <- "./dbMaster/dbReference"
+
+dir_etl <- "./dbMaster/dbETL"
+
+dir_data_cur_dim <- paste0(c(dir_cur,"Dim"),collapse="/")
+dir_data_cur_fact <- paste0(c(dir_cur,"Fact"),collapse="/")
+
+dir_etl_cur_dim <- paste0(c(dir_etl,"Curated","Dimensions"),collapse="/")
+dir_etl_cur_fact <- paste0(c(dir_etl,"Curated","Facts"),collapse="/")
+
+dir_functions <- "./r_functions"
 
 ## Load Functions ----
-url_r_misc_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/misc_functions.R"
-source_url(url_r_misc_fn)
-
-url_r_hmy_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/hmy_functions.R"
-source_url(url_r_hmy_fn)
+sapply(list.files(dir_functions,full.names = T,recursive=T),source)
 
 ## Get Reference Data ----
 maintenance_dim_ticker  <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_dim_ticker.csv")
+  paste0(c(dir_ref,"maintenance_dim_ticker.csv"),collapse="/")
   ,stringsAsFactors = F
   ,na.string=c("")
-)  
+) 
 
 maintenance_masterchef <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_masterchef.csv")
+  paste0(c(dir_ref,"maintenance_masterchef.csv"),collapse="/")
   ,stringsAsFactors = F
   ,colClasses=c(
     "masterchef_address"="character"
@@ -63,7 +63,7 @@ maintenance_masterchef <- read.csv(
 )
 
 maintenance_masterchef_emission <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_masterchef_emission.csv")
+  paste0(c(dir_ref,"maintenance_masterchef_emission.csv"),collapse="/")
   ,stringsAsFactors = F
   ,colClasses=c(
     "masterchef_address"="character"
@@ -73,8 +73,7 @@ maintenance_masterchef_emission <- read.csv(
 )
 
 maintenance_pid <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_pid.csv")
-  # ,stringsAsFactors = F
+  paste0(c(dir_ref,"maintenance_pid.csv"),collapse="/")
   ,colClasses=c(
     "address"="character"
     ,"masterchef_address"="character"
@@ -85,7 +84,7 @@ maintenance_pid <- read.csv(
 )
 
 maintenance_account_balance <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_account_balance.csv")
+  paste0(c(dir_ref,"maintenance_account_balance.csv"),collapse="/")
   ,stringsAsFactors = F
   ,colClasses=c(
     "product_address"="character"
@@ -94,5 +93,15 @@ maintenance_account_balance <- read.csv(
   ,na.string=c("")
 )
 
-## Misc ----
+## Begin load ----
 baseRObj <- c(ls(),"baseRObj")
+
+  ## Execute dimensions load
+  source(paste0(c(dir_etl,"Curated","020_LoadCurated_Dimensions.R"),collapse="/"))
+  rm(list=setdiff(ls(),baseRObj))
+    
+  ## Execute fact load
+  source(paste0(c(dir_etl,"Curated","030_LoadCurated_Facts.R"),collapse="/"))
+  rm(list=setdiff(ls(),baseRObj))
+  gc()  
+

@@ -1,4 +1,4 @@
-dir_dim_asset <- paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/")
+dir_dim_asset <- paste0(c(dir_data_cur_dim,"dim_asset.parquet"),collapse="/")
 vct_pk_dim_asset <- c("asset_name","ticker_name","ticker_src_network","data_src")
 if(file.exists(dir_dim_asset)){
   old_dim_asset <- arrow::read_parquet(dir_dim_asset)
@@ -57,14 +57,13 @@ tmp_asset1 <-
     ,asset_short_name = short_name
   )
 
-
 tmp_asset2 <- 
   as_tibble(maintenance_pid) %>%
   mutate(address = str_to_lower(address)) %>%
   filter(!address %in% tmp_asset1$onchain_address) %>%
   mutate(
     ticker_name = address
-    ,asset_short_name  = friendly_alias
+    ,asset_short_name  = product_short_name
     ,asset_alias = friendly_alias
     ,asset_type_l1 = "On-chain"
     ,asset_type_l2 = product_type
@@ -90,9 +89,31 @@ tmp_asset2 <-
   ) %>%
   select_at(colnames(tmp_asset1))
 
-
 dim_asset <- bind_rows(tmp_asset1,tmp_asset2) %>%select_at(colnames(tmp_asset1))
-rm(list=c("tmp_asset1","tmp_asset2"))
+
+tmp_asset3 <- 
+  dim_asset %>% distinct(asset_short_name) %>%
+  mutate(
+    asset_name = asset_short_name
+    ,ticker_name = asset_name
+    ,ticker_src_network = "Calculated"
+    ,data_src = "Calculated"
+    ,asset_alias = asset_short_name
+    ,asset_alias = asset_short_name
+    ,asset_type_l1 = "Calculated"
+    # ,asset_type_l2 = ifelse(asset_type_l2 == "LP","LP VWAP","VWAP")
+    ,asset_type_l2 = "VWAP"
+    ,ticker_alias = asset_short_name
+    ,ticker_src_cat = "calculated"
+    ,asset_to = asset_short_name
+    ,asset_from = "USD"
+    ,exchange_name = "Calculated"
+    ,onchain_network = "Calculated"
+    ,onchain_address = "Calculated"
+  )  %>%
+  select_at(colnames(dim_asset))
+
+dim_asset <- bind_rows(dim_asset,tmp_asset3)
 
 ## Match & merge
 if(file.exists(dir_dim_asset)){
@@ -101,7 +122,6 @@ if(file.exists(dir_dim_asset)){
   vct_attributes <- colnames(dim_asset)[which(!colnames(dim_asset) %in% c("dim_asset_id",vct_pk_dim_asset))]
   dim_asset <- mutate(dim_asset,dim_asset_id=row_number()) %>% select_at(c("dim_asset_id",vct_pk_dim_asset,vct_attributes))
 }
-
 
 ## Write to dir
 arrow::write_parquet(dim_asset,dir_dim_asset)

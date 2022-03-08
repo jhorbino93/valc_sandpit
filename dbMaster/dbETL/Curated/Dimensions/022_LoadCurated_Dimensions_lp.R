@@ -1,9 +1,9 @@
 ### Masterchef, Emission Token, LP ----
-dim_asset <- arrow::read_parquet(paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/"))
+dim_asset <- arrow::read_parquet(paste0(c(dir_data_cur_dim,"dim_asset.parquet"),collapse="/"))
 
 
 ## Masterchef
-dir_dim_masterchef <- paste0(c(dir_cur,"Dim","dim_masterchef.parquet"),collapse="/")
+dir_dim_masterchef <- paste0(c(dir_data_cur_dim,"dim_masterchef.parquet"),collapse="/")
 vct_pk_dim_masterchef <- c("masterchef_address","platform","category","network")
 
 if(file.exists(dir_dim_masterchef)){
@@ -18,7 +18,7 @@ write_parquet(dim_masterchef,paste0(dir_dim_masterchef))
 
 ## Masterchef Emissions
 ## Bridging table doesn't need type 2 checking
-dir_bridge_masterchef_emission <- paste0(c(dir_cur,"Dim","bridge_masterchef_emission.parquet"),collapse="/")
+dir_bridge_masterchef_emission <- paste0(c(dir_data_cur_dim,"bridge_masterchef_emission.parquet"),collapse="/")
 bridge_masterchef_emission <- 
   maintenance_masterchef_emission %>%
   inner_join(select(dim_masterchef,dim_masterchef_id,masterchef_address,network),by=c("masterchef_address","network")) %>%
@@ -28,7 +28,7 @@ bridge_masterchef_emission <-
 write_parquet(bridge_masterchef_emission,dir_bridge_masterchef_emission)
 
 ## Liquidity Pool
-dir_dim_lp <- paste0(c(dir_cur,"Dim","dim_lp.parquet"),collapse="/")
+dir_dim_lp <- paste0(c(dir_data_cur_dim,"dim_lp.parquet"),collapse="/")
 vct_pk_dim_lp <- c("lp_dim_asset_id","dim_masterchef_id")
 
 if(file.exists(dir_dim_lp)){

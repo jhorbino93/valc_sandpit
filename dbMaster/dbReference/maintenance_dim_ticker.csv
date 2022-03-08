@@ -1,48 +1,47 @@
-id,ticker_name,ticker_alias,short_name,ticker_src_cat,ticker_src_network,exchange_name,direct_to_stable,asset1,asset2,data_src
-1,BTCUSDT,BTCUSDT,BTC,cex,Binance,Binance,1,BTC,USDT,binance
-2,ETHUSDT,ETHUSDT,ETH,cex,Binance,Binance,1,ETH,USDT,binance
-3,ADAUSDT,ADAUSDT,ADA,cex,Binance,Binance,1,ADA,USDT,binance
-4,ONEUSDT,ONEUSDT,ONE,cex,Binance,Binance,1,ONE,USDT,binance
-5,VETUSDT,VETUSDT,VET,cex,Binance,Binance,1,VET,USDT,binance
-6,SOLUSDT,SOLUSDT,SOL,cex,Binance,Binance,1,SOL,USDT,binance
-7,LINKUSDT,LINKUSDT,LINK,cex,Binance,Binance,1,LINK,USDT,binance
-8,AVAXUSDT,AVAXUSDT,AVAX,cex,Binance,Binance,1,AVAX,USDT,binance
-9,LUNAUSDT,LUNAUSDT,LUNA,cex,Binance,Binance,1,LUNA,USDT,binance
-10,ATOMUSDT,ATOMUSDT,COSMOS,cex,Binance,Binance,1,COSMOS,USDT,binance
-11,AAVEUSDT,AAVEUSDT,AAVE,cex,Binance,Binance,1,AAVE,USDT,binance
-12,BNBUSDT,BNBUSDT,BNB,cex,Binance,Binance,1,BNB,USDT,binance
-13,CAKEUSDT,CAKEUSDT,CAKE,cex,Binance,Binance,1,CAKE,USDT,binance
-14,FTMUSDT,FTMUSDT,FTM,cex,Binance,Binance,1,FTM,USDT,binance
-15,DOTUSDT,DOTUSDT,DOT,cex,Binance,Binance,1,DOT,USDT,binance
-16,MATICUSDT,MATICUSDT,MATIC,cex,Binance,Binance,1,MATIC,USDT,binance
-17,UNIUSDT,UNIUSDT,UNISWAP,cex,Binance,Binance,1,UNISWAP,USDT,binance
-18,CRVUSDT,CRVUSDT,CURVE,cex,Binance,Binance,1,CURVE,USDT,binance
-19,ALGOUSDT,ALGOUSDT,ALGO,cex,Binance,Binance,1,ALGO,USDT,binance
-20,FTTUSDT,FTTUSDT,FTT,cex,Binance,Binance,1,FTT,USDT,binance
-21,ARUSDT,ARUSDT,AR,cex,Binance,Binance,1,AR,USDT,binance
-22,FILUSDT,FILUSDT,FIL,cex,Binance,Binance,1,FIL,USDT,binance
-23,SUSHIUSDT,SUSHIUSDT,SUSHI,cex,Binance,Binance,1,SUSHI,USDT,binance
-24,BTCBUSD,BTCBUSD,BTC,cex,Binance,Binance,1,BTC,BUSD,binance
-25,ETHBUSD,ETHBUSD,ETH,cex,Binance,Binance,1,ETH,BUSD,binance
-26,ETHBTC,ETHBTC,ETH,cex,Binance,Binance,0,ETH,BTC,binance
-27,0x54c59cC0Ad2EC1DE3c5B7057d900D306F16453ef,hrc20_venom_lp_iris_wone,IRIS/WONE,dex,Harmony Network,Viper Swap,0,IRIS,WONE,dexscreener
-28,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,hrc20_venom_lp_plts_dai,PLTS/DAI,dex,Harmony Network,Viper Swap,0,PLTS,DAI,dexscreener
-29,0xf33ee94922326d7c1d220298cc9428a1fd15daea,hrc20_dfk_lp_lumen_wone,LUMEN/WONE,dex,Harmony Network,Defi Kingdoms,0,LUMEN,WONE,dexscreener
-30,0x6ef6c5f316f70b9fcefb753a4b004b8ee9506eb1,hrc20_fuzz_lp_fuzz_wone,FUZZ/WONE,dex,Harmony Network,Fuzz Finance,0,FUZZ,WONE,dexscreener
-31,0x96025483bd32c645b822a5a08004b84d674537cb,hrc20_venom_lp_viper_wone,VIPER/WONE,dex,Harmony Network,Viper Swap,0,VIPER,WONE,dexscreener
-32,0xeb579ddcd49a7beb3f205c9ff6006bb6390f138f,hrc20_dfk_lp_jewel_wone,JEWEL/WONE,dex,Harmony Network,Defi Kingdoms,0,JEWEL,WONE,dexscreener
-33,0x1cb93763241e0eee22b098f7d26baa0562f688e7,hrc20_venom_lp_wswagmi_wone,WSWAGMI/WONE,dex,Harmony Network,Viper Swap,0,WSWAGMI,WONE,dexscreener
-34,0x7629a8782192a5b87efd40d2eef366e865a984ae,hrc20_loot_lp_magic_wone,MAGIC/WONE,dex,Harmony Network,Loot Swap,0,MAGIC,WONE,dexscreener
-35,0x98c2b8f03f8200fe5eaebb8ff4cce6718c8a4134,hrc20_loot_lp_cosmic_wone,COSMIC/WONE,dex,Harmony Network,Loot Swap,0,COSMIC,WONE,dexscreener
-36,0x529be44dc5379ce49cd91141740f6b11d9246757,hrc20_venom_lp_ape_wone,APE/WONE,dex,Harmony Network,Viper Swap,0,APE,WONE,dexscreener
-37,0x4db87db6eadb02c5612eb4cf522d8188fb80a9ad,hrc20_venom_lp_roy_wone,ROY/WONE,dex,Harmony Network,Viper Swap,0,ROY,WONE,dexscreener
-38,0xf33ee94922326d7c1d220298cc9428a1fd15daea,hrc20_dfk_lp_lumen_wone,LUMEN/WONE,dex,Harmony Network,Defi Kingdoms,0,LUMEN,WONE,dexscreener
-39,0x3e478ed607f79a50f286a5a6ce52a049897291b2,hrc20_dfk_lp_hly_wone,HOLY/WONE,dex,Harmony Network,Defi Kingdoms,0,HOLY,WONE,dexscreener
-40,0xb8ce0515381009932020d359eda6263353de63b1,hrc20_loot_lp_eth_uni,1ETH/1UNI,dex,Harmony Network,Loot Swap,0,1ETH,1UNI,dexscreener
-41,0x52b9449a26357f893257901341253b89d6ca0c4a,hrc20_venom_lp_xviper_wone,XVIPER/WONE,dex,Harmony Network,Viper Swap,0,XVIPER,WONE,dexscreener
-42,0x643f94fc0a804ea13adb88b9e17244bf94022a25,hrc20_sushi_lp_tranq_wone,TRANQ/WONE,dex,Harmony Network,Sushi Swap,0,TRANQ,WONE,dexscreener
-43,0xb91945e55bb4ff672ace118179cfdf281877bf35,hrc20_defira_lp_tranq_wone,TRANQ/WONE,dex,Harmony Network,Defira,0,TRANQ,WONE,dexscreener
-44,0x6b53ca1ed597ed7ccd5664ec9e03329992c2ba87,hrc20_defira_lp_stone_wone,STONE/WONE,dex,Harmony Network,Defira,0,STONE,WONE,dexscreener
-45,0x39be7c95276954a6f7070f9baa38db2123691ed0,hrc20_sushi_lp_wbtc_eth,1WBTC/1ETH,dex,Harmony Network,Sushi Swap,0,1WBTC,1ETH,dexscreener
-46,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,hrc20_sushi_lp_eth_wone,1ETH/WONE,dex,Harmony Network,Sushi Swap,0,1ETH,WONE,dexscreener
-47,0x29fc6e830ca8586a68dff325f6d2349fb58be951,hrc20_sushi_lp_frax_usdc,1FRAX/1USDC,dex,Harmony Network,Sushi Swap,0,1ETH,1WONE,dexscreener
+id,ticker_name,ticker_alias,short_name,ticker_src_cat,ticker_src_network,exchange_name,direct_to_stable,asset1,asset2,data_src,data_src_network
+1,BTCUSDT,BTCUSDT,BTC,cex,Binance,Binance,1,BTC,USDT,binance,binance
+2,ETHUSDT,ETHUSDT,ETH,cex,Binance,Binance,1,ETH,USDT,binance,binance
+3,ADAUSDT,ADAUSDT,ADA,cex,Binance,Binance,1,ADA,USDT,binance,binance
+4,ONEUSDT,ONEUSDT,ONE,cex,Binance,Binance,1,ONE,USDT,binance,binance
+5,VETUSDT,VETUSDT,VET,cex,Binance,Binance,1,VET,USDT,binance,binance
+6,SOLUSDT,SOLUSDT,SOL,cex,Binance,Binance,1,SOL,USDT,binance,binance
+7,LINKUSDT,LINKUSDT,LINK,cex,Binance,Binance,1,LINK,USDT,binance,binance
+8,AVAXUSDT,AVAXUSDT,AVAX,cex,Binance,Binance,1,AVAX,USDT,binance,binance
+9,LUNAUSDT,LUNAUSDT,LUNA,cex,Binance,Binance,1,LUNA,USDT,binance,binance
+10,ATOMUSDT,ATOMUSDT,COSMOS,cex,Binance,Binance,1,COSMOS,USDT,binance,binance
+11,AAVEUSDT,AAVEUSDT,AAVE,cex,Binance,Binance,1,AAVE,USDT,binance,binance
+12,BNBUSDT,BNBUSDT,BNB,cex,Binance,Binance,1,BNB,USDT,binance,binance
+13,CAKEUSDT,CAKEUSDT,CAKE,cex,Binance,Binance,1,CAKE,USDT,binance,binance
+14,FTMUSDT,FTMUSDT,FTM,cex,Binance,Binance,1,FTM,USDT,binance,binance
+15,DOTUSDT,DOTUSDT,DOT,cex,Binance,Binance,1,DOT,USDT,binance,binance
+16,MATICUSDT,MATICUSDT,MATIC,cex,Binance,Binance,1,MATIC,USDT,binance,binance
+17,UNIUSDT,UNIUSDT,UNISWAP,cex,Binance,Binance,1,UNISWAP,USDT,binance,binance
+18,CRVUSDT,CRVUSDT,CURVE,cex,Binance,Binance,1,CURVE,USDT,binance,binance
+19,ALGOUSDT,ALGOUSDT,ALGO,cex,Binance,Binance,1,ALGO,USDT,binance,binance
+20,FTTUSDT,FTTUSDT,FTT,cex,Binance,Binance,1,FTT,USDT,binance,binance
+21,ARUSDT,ARUSDT,AR,cex,Binance,Binance,1,AR,USDT,binance,binance
+22,FILUSDT,FILUSDT,FIL,cex,Binance,Binance,1,FIL,USDT,binance,binance
+23,SUSHIUSDT,SUSHIUSDT,SUSHI,cex,Binance,Binance,1,SUSHI,USDT,binance,binance
+24,BTCBUSD,BTCBUSD,BTC,cex,Binance,Binance,1,BTC,BUSD,binance,binance
+25,ETHBUSD,ETHBUSD,ETH,cex,Binance,Binance,1,ETH,BUSD,binance,binance
+26,ETHBTC,ETHBTC,ETH,cex,Binance,Binance,0,ETH,BTC,binance,binance
+27,0x54c59cc0ad2ec1de3c5b7057d900d306f16453ef,hrc20_venom_lp_iris_wone,IRIS/WONE,dex,Harmony Network,Viper Swap,0,IRIS,WONE,dexscreener,harmony
+28,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,hrc20_venom_lp_plts_dai,PLTS/DAI,dex,Harmony Network,Viper Swap,0,PLTS,eth1DAI,dexscreener,harmony
+29,0xf33ee94922326d7c1d220298cc9428a1fd15daea,hrc20_dfk_lp_lumen_wone,LUMEN/WONE,dex,Harmony Network,Defi Kingdoms,0,LUMEN,WONE,dexscreener,harmony
+30,0x6ef6c5f316f70b9fcefb753a4b004b8ee9506eb1,hrc20_fuzz_lp_fuzz_wone,FUZZ/WONE,dex,Harmony Network,Fuzz Finance,0,FUZZ,WONE,dexscreener,harmony
+31,0x96025483bd32c645b822a5a08004b84d674537cb,hrc20_venom_lp_viper_wone,VIPER/WONE,dex,Harmony Network,Viper Swap,0,VIPER,WONE,dexscreener,harmony
+32,0xeb579ddcd49a7beb3f205c9ff6006bb6390f138f,hrc20_dfk_lp_jewel_wone,JEWEL/WONE,dex,Harmony Network,Defi Kingdoms,0,JEWEL,WONE,dexscreener,harmony
+33,0x1cb93763241e0eee22b098f7d26baa0562f688e7,hrc20_venom_lp_wswagmi_wone,WSWAGMI/WONE,dex,Harmony Network,Viper Swap,0,WSWAGMI,WONE,dexscreener,harmony
+34,0x7629a8782192a5b87efd40d2eef366e865a984ae,hrc20_loot_lp_magic_wone,MAGIC/WONE,dex,Harmony Network,Loot Swap,0,MAGIC,WONE,dexscreener,harmony
+35,0x98c2b8f03f8200fe5eaebb8ff4cce6718c8a4134,hrc20_loot_lp_cosmic_wone,COSMIC/WONE,dex,Harmony Network,Loot Swap,0,COSMIC,WONE,dexscreener,harmony
+36,0x529be44dc5379ce49cd91141740f6b11d9246757,hrc20_venom_lp_ape_wone,APE/WONE,dex,Harmony Network,Viper Swap,0,APE,WONE,dexscreener,harmony
+37,0x4db87db6eadb02c5612eb4cf522d8188fb80a9ad,hrc20_venom_lp_roy_wone,ROY/WONE,dex,Harmony Network,Viper Swap,0,ROY,WONE,dexscreener,harmony
+38,0x3e478ed607f79a50f286a5a6ce52a049897291b2,hrc20_dfk_lp_hly_wone,HOLY/WONE,dex,Harmony Network,Defi Kingdoms,0,HOLY,WONE,dexscreener,harmony
+39,0xb8ce0515381009932020d359eda6263353de63b1,hrc20_loot_lp_eth_uni,1ETH/1UNI,dex,Harmony Network,Loot Swap,0,eth1ETH,eth1UNI,dexscreener,harmony
+40,0x52b9449a26357f893257901341253b89d6ca0c4a,hrc20_venom_lp_xviper_wone,XVIPER/WONE,dex,Harmony Network,Viper Swap,0,XVIPER,WONE,dexscreener,harmony
+41,0x643f94fc0a804ea13adb88b9e17244bf94022a25,hrc20_sushi_lp_tranq_wone,TRANQ/WONE,dex,Harmony Network,Sushi Swap,0,TRANQ,WONE,dexscreener,harmony
+42,0xb91945e55bb4ff672ace118179cfdf281877bf35,hrc20_defira_lp_tranq_wone,TRANQ/WONE,dex,Harmony Network,Defira,0,TRANQ,WONE,dexscreener,harmony
+43,0x6b53ca1ed597ed7ccd5664ec9e03329992c2ba87,hrc20_defira_lp_stone_wone,STONE/WONE,dex,Harmony Network,Defira,0,STONE,WONE,dexscreener,harmony
+44,0x39be7c95276954a6f7070f9baa38db2123691ed0,hrc20_sushi_lp_wbtc_eth,1WBTC/1ETH,dex,Harmony Network,Sushi Swap,0,eth1WBTC,eth1ETH,dexscreener,harmony
+45,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,hrc20_sushi_lp_eth_wone,1ETH/WONE,dex,Harmony Network,Sushi Swap,0,eth1ETH,WONE,dexscreener,harmony
+46,0x29fc6e830ca8586a68dff325f6d2349fb58be951,hrc20_sushi_lp_frax_usdc,1FRAX/1USDC,dex,Harmony Network,Sushi Swap,0,eth1FRAX,eth1USDC,dexscreener,harmony

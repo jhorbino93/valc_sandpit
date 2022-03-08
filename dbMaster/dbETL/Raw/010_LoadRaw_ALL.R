@@ -9,80 +9,93 @@ library(ether)
 library(foreach)
 library(doParallel)
 
-## Initialise Environment ----
+
+## Initialise Env ----
 options(scipen = 999)
+setwd("C:/Users/jehor/Documents/GitHub/Hermes")
 
-## Load Functions
-url_r_misc_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/misc_functions.R"
-source_url(url_r_misc_fn)
+dir_raw <- "./dbMaster/dbData/001Raw"
+dir_cur <- "./dbMaster/dbData/020Curated"
+dir_ref <- "./dbMaster/dbReference"
 
-url_r_hmy_fn <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/r_functions/hmy_functions.R"
-source_url(url_r_hmy_fn)
+dir_data_cur_dim <- paste0(c(dir_cur,"Dim"),collapse="/")
+dir_data_cur_fact <- paste0(c(dir_cur,"Fact"),collapse="/")
 
-## Local data directory
-raw_dir <- "C:/Users/jehor/Documents/GitHub/Hermes/dbMaster/dbData/001Raw"
+dir_etl <- "./dbMaster/dbETL"
+dir_etl_raw <- paste0(c(dir_etl,"Raw"),collapse="/")
+dir_etl_cur_dim <- paste0(c(dir_etl,"Curated","Dimensions"),collapse="/")
+dir_etl_cur_fact <- paste0(c(dir_etl,"Curated","Facts"),collapse="/")
 
-## Github directory
-base_github <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster"
-ref_dir <- "/dbReference"
+dir_functions <- "./r_functions"
+
+## Load Functions ----
+sapply(list.files(dir_functions,full.names = T,recursive=T),source)
 
 ## Get Reference Data ----
-maintenance_dim_ticker  <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_ticker.csv"),stringsAsFactors = F)
-maintenance_dim_headers <- read.csv(paste0(base_github,ref_dir,"/maintenance_dim_headers.csv"),stringsAsFactors = F)
+maintenance_dim_ticker  <- read.csv(
+  paste0(c(dir_ref,"maintenance_dim_ticker.csv"),collapse="/")
+  ,stringsAsFactors = F
+  ,na.string=c("")
+) 
+
 maintenance_masterchef <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_masterchef.csv")
+  paste0(c(dir_ref,"maintenance_masterchef.csv"),collapse="/")
   ,stringsAsFactors = F
   ,colClasses=c(
     "masterchef_address"="character"
-    ,"treasury_address"="character"
-    ,"emission_token1_lp_address"="character"
   )
+  ,na.string=c("")
 )
-maintenance_pid <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_pid.csv")
+
+maintenance_masterchef_emission <- read.csv(
+  paste0(c(dir_ref,"maintenance_masterchef_emission.csv"),collapse="/")
   ,stringsAsFactors = F
+  ,colClasses=c(
+    "masterchef_address"="character"
+    ,"emission_token_address"="character"
+  )
+  ,na.string=c("")
+)
+
+maintenance_pid <- read.csv(
+  paste0(c(dir_ref,"maintenance_pid.csv"),collapse="/")
   ,colClasses=c(
     "address"="character"
     ,"masterchef_address"="character"
     ,"token1_address"="character"
     ,"token2_address"="character"
   )
+  ,na.string=c("")
 )
 
 maintenance_account_balance <- read.csv(
-  paste0(base_github,ref_dir,"/maintenance_account_balance.csv")
+  paste0(c(dir_ref,"maintenance_account_balance.csv"),collapse="/")
   ,stringsAsFactors = F
   ,colClasses=c(
     "product_address"="character"
     ,"account_address"="character"
   )
+  ,na.string=c("")
 )
 
 refTime                 <- as.POSIXct(format(Sys.time()),tz="UTC")
 refTimeUnix             <- fnConvTimeToUnix(refTime)
 
-## Misc ----
+## Begin load ----
 baseRObj <- c(ls(),"baseRObj")
 
 ## Load Binance ----
-url_010_LoadRaw_CEX_Binance <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_CEX_Binance.R"
-source_url(url_010_LoadRaw_CEX_Binance)
+source(paste0(c(dir_etl_raw,"010_LoadRaw_CEX_Binance.R"),collapse="/"),echo=T)
 rm(list=setdiff(ls(),baseRObj))
 
-
 ## Load Dexscreener ----
-url_010_LoadRaw_DEX_Dexscreener <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_DEX_Dexscreener.R"
-source_url(url_010_LoadRaw_DEX_Dexscreener)
+source(paste0(c(dir_etl_raw,"010_LoadRaw_DEX_Dexscreener.R"),collapse="/"))
 rm(list=setdiff(ls(),baseRObj))
 
 ## Load Blockchain Harmony ----
-url_010_LoadRaw_Blockchain_Harmony <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/010_LoadRaw_Blockchain_Harmony.R"
-source_url(url_010_LoadRaw_Blockchain_Harmony)
+source(paste0(c(dir_etl_raw,"010_LoadRaw_Blockchain_Harmony.R"),collapse="/"))
 rm(list=setdiff(ls(),baseRObj))
 
 ## Load Blockchain Additional Harmony ----
-url_011_LoadRaw_Blockchain_Harmony_SC <- "https://raw.githubusercontent.com/jhorbino93/ShinyHermes/main/dbMaster/dbETL/Raw/011_LoadRaw_Blockchain_Harmony_SC.R"
-source_url(url_011_LoadRaw_Blockchain_Harmony_SC)
+source(paste0(c(dir_etl_raw,"011_LoadRaw_Blockchain_Harmony_SC.R"),collapse="/"))
 rm(list=setdiff(ls(),baseRObj))
-
-stopCluster(cl)

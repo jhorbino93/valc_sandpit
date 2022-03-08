@@ -1,8 +1,5 @@
-dir_dim_asset     <- paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/")
-dim_asset         <- read_parquet(dir_dim_asset)
-
-dir_dim_masterchef     <- paste0(c(dir_cur,"Dim","dim_masterchef.parquet"),collapse="/")
-dim_masterchef    <- read_parquet(dir_dim_masterchef)
+dir_dim_asset      <- paste0(c(dir_data_cur_dim,"dim_asset.parquet"),collapse="/")
+dim_asset          <- read_parquet(dir_dim_asset)
 
 ## Start Dataframe
 df_account <- 
@@ -26,7 +23,7 @@ df_account <-
 
 
 ## Load Accounts
-    dir_dim_account <- paste0(c(dir_cur,"Dim","dim_account.parquet"),collapse="/")
+    dir_dim_account <- paste0(c(dir_data_cur_dim,"dim_account.parquet"),collapse="/")
     vct_pk_dim_account <- c("account_address","network")
     if(file.exists(dir_dim_account)){
       old_dim_account <- arrow::read_parquet(dir_dim_account)
@@ -47,7 +44,7 @@ df_account <-
     
 ## Load Account Bridge To Products
 
-    dir_bridge_account_product <- paste0(c(dir_cur,"Dim","bridge_account_product.parquet"),collapse="/")
+    dir_bridge_account_product <- paste0(c(dir_data_cur_dim,"bridge_account_product.parquet"),collapse="/")
     bridge_account_product <- 
       inner_join(
         df_account

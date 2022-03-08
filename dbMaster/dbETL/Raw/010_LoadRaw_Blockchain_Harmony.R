@@ -1,19 +1,8 @@
-library(tidyverse)
-library(lubridate)
-library(httr)
-library(jsonlite)
-library(devtools)
-library(arrow)
-
-library(foreach)
-library(doParallel)
-
 ## Blockchain Queries ----
-dir              <- paste0(raw_dir,"/blockchain/harmony/base")
+dir              <- paste0(dir_raw,"/blockchain/harmony/base")
 
-cat("Preparing Parallel Requirements","\n")
+# cat("Preparing Parallel Requirements","\n")
 parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
-parallelExport = c("fn_unixToTime","fn_hmyv2_getBlockByNumber","fn_getClosestBlock")
 
 cat("Preparing Harmony Query Requirements","\n")
 rpc              <- "https://a.api.s0.t.hmny.io/"

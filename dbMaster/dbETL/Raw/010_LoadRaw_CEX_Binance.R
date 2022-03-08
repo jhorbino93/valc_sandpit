@@ -1,21 +1,23 @@
-library(tidyverse)
-library(lubridate)
-library(httr)
-library(jsonlite)
-library(arrow)
-
 ## CEX BINANCE ----
-vct_tickers <- maintenance_dim_ticker[which(maintenance_dim_ticker$ticker_src_network == "binance" & maintenance_dim_ticker$data_src == "binance"),]$id
+maintenance_dim_headers  <- read.csv(
+  paste0(c(dir_ref,"maintenance_dim_headers.csv"),collapse="/")
+  ,stringsAsFactors = F
+  ,na.string=c("")
+) 
+
+vct_tickers <- maintenance_dim_ticker[which(maintenance_dim_ticker$ticker_src_network == "Binance" & maintenance_dim_ticker$data_src == "binance"),]$id
 glbStartTime <- with_tz(as_datetime("2017-09-01 00:00:00"),"UTC")
 binance_base <- "https://api.binance.com/api/v3/klines"
 loopDayJump  <- 14
 interval <- "1h"
 
+
+
 for(i in seq_along(vct_tickers)){
   k             <- vct_tickers[i]
   ticker        <- maintenance_dim_ticker[k,]$ticker_name
   data_src      <- maintenance_dim_ticker[k,]$data_src
-  dir           <- paste0(raw_dir,"/binance/",ticker)
+  dir           <- paste0(dir_raw,"/binance/",ticker)
   
   if(length(list.files(dir)) == 0){
     cat(paste0("File directory NOT found for ",ticker,"\n"))
@@ -55,6 +57,7 @@ for(i in seq_along(vct_tickers)){
       print(paste0("Trying GET request, attempt = ",retryCounter))
       resGet        <- httr::GET(url)
       resCont       <- content(resGet,"text")
+      Sys.sleep(1)
     }
     
     if(resCont != "Internal Server Error"){

@@ -1,19 +1,22 @@
 ## Get necessary dims
-dir_dim_datetime  <- paste0(c(dir_cur,"Dim","dim_datetime.parquet"),collapse="/")
-dir_dim_interval  <- paste0(c(dir_cur,"Dim","dim_interval.parquet"),collapse="/")
-dir_dim_asset     <- paste0(c(dir_cur,"Dim","dim_asset.parquet"),collapse="/")
+dir_dim_datetime  <- paste0(c(dir_data_cur_dim,"dim_datetime.parquet"),collapse="/")
+dir_dim_interval  <- paste0(c(dir_data_cur_dim,"dim_interval.parquet"),collapse="/")
+dir_dim_asset     <- paste0(c(dir_data_cur_dim,"dim_asset.parquet"),collapse="/")
 
 dim_datetime      <- read_parquet(dir_dim_datetime)
 dim_interval      <- read_parquet(dir_dim_interval)
 dim_asset         <- read_parquet(dir_dim_asset)
 
+cores <- detectCores()
+cl <- makeCluster(cores[1]-1)
+registerDoParallel(cl)
+parallelPackages=c("arrow","tidyverse","lubridate")
+
 vct_schema_cols <- c("datetime","date","dim_asset_id","dim_interval_id","quote_type","data_src"
                      ,"o","h","l","c","v","qav","num_trades"
 )
 
-
 vct_dexscreener <- list.files(paste0(dir_raw,"/dexscreener"))
-
 for(i in seq_along(vct_dexscreener)){
   print(i)
   
@@ -25,7 +28,7 @@ for(i in seq_along(vct_dexscreener)){
     
     asset <- vct_address[k]
     src_dir <- paste0(c(dir_raw,"dexscreener",network,asset),collapse="/")
-    dest_dir <- paste0(c(dir_cur,"Fact","dexscreener",network,asset),collapse="/")
+    dest_dir <- paste0(c(dir_data_cur_fact,"dexscreener",network,asset),collapse="/")
     
     if(length(list.files(dest_dir)) == 0){
       cat(paste0("File directory NOT found for ",asset,"\n"))
@@ -82,6 +85,7 @@ for(i in seq_along(vct_dexscreener)){
             ,quote_type = "USD"
             ,date = as_date(datetime)
           ) %>%
+          # select(asset_to,network)
           inner_join(
             select(dim_asset,dim_asset_id,asset_name,onchain_network)
             ,by=c("asset_to"="asset_name","network"="onchain_network")
@@ -122,19 +126,20 @@ for(i in seq_along(vct_dexscreener)){
     resOut <- bind_rows(list_res)
     
     cat(paste0("Writing to parquet files","\n"))
-    vct_date <- unique(resOut$date)
+    df_search <- distinct(resOut,date) %>% arrange(date)
     l <- 1L
-    while(l <= length(vct_date)){
+    while(l <= nrow(df_search)){
+      ref <- slice(df_search,l:(l+1007L))
       arrow::write_dataset(
-        resOut[which(resOut$date %in% vct_date[l:(min(length(vct_date),l+1023L))]),]
+        inner_join(resOut,ref)
         ,dest_dir
         ,format = "parquet"
-        ,partitioning = "date"
-        # ,basename_template = paste0(c(asset,"{i}.parquet"),collapse="_")
+        ,partitioning = c("date")
       )
-      l <- l+1024L
+      l <- l+1008L
     }
   }
+  gc()
 }
 stopCluster(cl)
 
