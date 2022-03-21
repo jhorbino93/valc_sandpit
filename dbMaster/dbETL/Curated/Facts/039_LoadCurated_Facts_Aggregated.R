@@ -59,10 +59,7 @@ if(length(list.files(dest_dir)) == 0){
         loop_res = arrow::open_dataset(src_dir_files) %>% collect() %>% as_tibble()
         list_df_raw2[[i]] = loop_res
       }
-      
     }
-  
-  
   
   df_src_max_date <- bind_rows(list_src_max_date,.id="asset_name") %>% as_tibble() %>%
     inner_join(

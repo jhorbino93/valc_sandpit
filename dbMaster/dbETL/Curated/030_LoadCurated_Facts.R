@@ -8,5 +8,3 @@ sapply(
     source(dir)
   }
 )
-
-

@@ -17,6 +17,8 @@ dim_asset         <- read_parquet(dir_dim_asset)
 dim_account       <- read_parquet(dir_dim_account)
 bridge_account_product <- read_parquet(dir_bridge_account_product)
 
+regex_find_date = "(.*?)(\\d{4}-)(\\d{1,2}-)(\\d{1,2})(.*)"
+
 vct_asset_short_name <-  filter(dim_asset,asset_type_l2 == "VWAP",!str_detect(asset_name,"/")) %>% distinct(asset_short_name) %>% pull()
 for(i in seq_along(vct_asset_short_name)){
   print(i)
@@ -95,9 +97,9 @@ for(i in seq_along(vct_asset_short_name)){
     cat(paste0("Removing latest day data = ",loopStartDate,"\n"))
     unlink(paste0(dest_dir,"/date=",loopStartDate),force=T,recursive=T)
     
-    src_dir_files <- list.files(c(vct_dir_cex,vct_dir_dex))
-    src_dir_files_idx <- as_date(gsub("date=","",src_dir_files))
-    src_dir_files <- list.files(c(vct_dir_cex,vct_dir_dex),full.names=T,recursive=T)[src_dir_files_idx>=loopStartDate]
+    src_dir_files <- list.files(c(vct_dir_cex,vct_dir_dex),full.names=T,recursive=T)
+    src_dir_files_idx <- as_date(sub(regex_find_date,"\\2\\3\\4",src_dir_files))
+    src_dir_files <- src_dir_files[src_dir_files_idx>=loopStartDate]
     
     res_raw = arrow::open_dataset(src_dir_files) %>% collect() %>% as_tibble()
     res_out = res_raw %>% 

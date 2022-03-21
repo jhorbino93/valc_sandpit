@@ -96,6 +96,7 @@ maintenance_account_balance <- read.csv(
 ## Begin load ----
 baseRObj <- c(ls(),"baseRObj")
 
+
   ## Execute dimensions load
   source(paste0(c(dir_etl,"Curated","020_LoadCurated_Dimensions.R"),collapse="/"))
   rm(list=setdiff(ls(),baseRObj))

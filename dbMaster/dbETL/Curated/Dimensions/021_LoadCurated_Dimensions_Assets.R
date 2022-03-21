@@ -26,6 +26,7 @@ tmp_asset1 <-
     ,onchain_network = ticker_src_network
     ,asset_alias = short_name
     ,asset_name = ticker_alias
+    ,is_native = 1
   ) %>%
   ## Select order
   select(
@@ -48,6 +49,7 @@ tmp_asset1 <-
     ## On chain stuff
     ,onchain_network
     ,onchain_address
+    ,is_native
   ) %>%
   
   ## Rename output 
@@ -110,6 +112,7 @@ tmp_asset3 <-
     ,exchange_name = "Calculated"
     ,onchain_network = "Calculated"
     ,onchain_address = "Calculated"
+    ,is_native = NA
   )  %>%
   select_at(colnames(dim_asset))
 

@@ -34,6 +34,7 @@ for(i in seq_along(vct_tickers)){
   startTime <- as_datetime(loopStartDate,tz="UTC")
   qryList   <- list()
   while(startTime <= refTime){
+    print(j)
     endTime       <- min(refTime,startTime + days(loopDayJump) - hours(1))
     cat(paste0("Loop ",j," from ",startTime," to ",endTime,"\n"))
     cb            <- interval(startTime,endTime) %/% hours(1)
@@ -56,6 +57,7 @@ for(i in seq_along(vct_tickers)){
       print(paste0("Trying GET request, attempt = ",retryCounter))
       resGet        <- httr::GET(url)
       resCont       <- content(resGet,"text")
+      Sys.sleep(3)
     }
     
     if(resCont != "Internal Server Error"){
@@ -72,6 +74,7 @@ for(i in seq_along(vct_tickers)){
     
     j <- j+1
     startTime <- endTime + hours(1)
+    Sys.sleep(3)
   }
   cat(paste0("Preparing data for parquet write","\n"))
   resOut <- bind_rows(qryList) %>% 
@@ -100,4 +103,5 @@ for(i in seq_along(vct_tickers)){
     )
     l <- l+1024L
   }
+  Sys.sleep(3) ## Dexscreener seems to have be quite sensitive
 }
