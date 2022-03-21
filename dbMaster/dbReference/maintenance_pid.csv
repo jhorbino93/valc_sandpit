@@ -1,61 +1,61 @@
-dex_platform,project_platform,masterchef_platform,masterchef_address,product_name,product_short_name,product_type,pid,address,friendly_alias,network,is_native
-Viper Swap,hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_iris_wone,IRIS/WONE,LP,4,0x54c59cc0ad2ec1de3c5b7057d900d306f16453ef,IRIS/WONE,Harmony Network,1
-Viper Swap,hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_plts_dai,PLTS/DAI,LP,11,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,PLTS/DAI,Harmony Network,1
-Harmony,hermes,hermes,,IRIS,IRIS,HRC20,,0x85fd5f8dbd0c9ef1806e6c7d4b787d438621c1dc,IRIS,Harmony Network,1
-Harmony,hermes,hermes,,PLTS,PLTS,HRC20,,0xd32858211fcefd0be0dd3fd6d069c3e821e0aef3,PLTS,Harmony Network,1
-Harmony,harmony,harmony,,eth1DAI,DAI,HRC20,,0xef977d2f931c1978db5f6747666fa1eacb0d0339,eth1DAI,Harmony Network,0
-Harmony,harmony,harmony,,WONE,ONE,HRC20,,0xcf664087a5bb0237a0bad6742852ec6c8d69a27a,WONE,Harmony Network,1
-Harmony,harmony,harmony,,eth1USDC,USDC,HRC20,,0x985458e523db3d53125813ed68c274899e9dfab4,eth1USDC,Harmony Network,0
-Harmony,harmony,harmony,,eth1USDT,USDT,HRC20,,0x3c2b8be99c50593081eaa2a724f0b8285f5aba8f,eth1USDT,Harmony Network,0
-Harmony,harmony,harmony,,eth1BUSD,BUSD,HRC20,,0xe176ebe47d621b984a73036b9da5d834411ef734,eth1BUSD,Harmony Network,0
-Harmony,harmony,harmony,,bsc1BUSD,BUSD,HRC20,,0x0ab43550a6915f9f67d0c454c2e90385e6497eaa,bsc1BUSD,Harmony Network,0
-Harmony,harmony,harmony,,bsc1USDC,USDC,HRC20,,0x44ced87b9f1492bf2dcf5c16004832569f7f6cba,bsc1USDC,Harmony Network,0
-Harmony,harmony,harmony,,eth1WBTC,BTC,HRC20,,0x3095c7557bcb296ccc6e363de01b760ba031f2d9,eth1WBTC,Harmony Network,0
-Harmony,harmony,harmony,,eth1ETH,ETH,HRC20,,0x6983d1e6def3690c4d616b13597a09e6193ea013,eth1ETH,Harmony Network,0
-Harmony,harmony,harmony,,btc1BTC,BTC,HRC20,,0xdc54046c0451f9269fee1840aec808d36015697d,btc1BTC,Harmony Network,0
-Defira,defira,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_defira_lp_stone_wone,STONE/WONE,LP,15,0x6b53ca1ed597ed7ccd5664ec9e03329992c2ba87,STONE/WONE,Harmony Network,1
-Viper Swap,viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_wswagmi_wone,WSWAGMI/ONE,LP,5,0x1cb93763241e0eee22b098f7d26baa0562f688e7,WSWAGMI/ONE,Harmony Network,1
-Viper Swap,viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_one_viper,WONE/VIPER,LP,6,0x96025483bd32c645b822a5a08004b84d674537cb,WONE/VIPER,Harmony Network,1
-Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_sushi_lp_wbtc_eth,1WBTC/1ETH,LP,8,0x39be7c95276954a6f7070f9baa38db2123691ed0,1WBTC/1ETH,Harmony Network,1
-Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_sushi_lp_eth_wone,1ETH/WONE,LP,9,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,1ETH/WONE,Harmony Network,1
-Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_sushi_lp_frax_usdc,1FRAX/1USDC,LP,13,0x29fc6e830ca8586a68dff325f6d2349fb58be951,1FRAX/1USDC,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,WSWAGMI,WSWAGMI,HRC20,2,0xbb948620fa9cd554ef9a331b13edea9b181f9d45,WSWAGMI,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,MAGIC,MAGIC,HRC20,27,0x892d81221484f690c0a97d3dd18b9144a3ecdfb7,MAGIC,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,COSMIC,COSMIC,HRC20,28,0x6008c8769bfacd92251ba838382e7e5637c7e74d,COSMIC,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,APE,APE,HRC20,10,0xd3a50c0dce15c12fe64941ffd2b864e887c9b9e1,APE,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,ROY,ROY,HRC20,14,0xfe1b516a7297eb03229a8b5afad80703911e81cb,ROY,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,LUMEN,LUMEN,HRC20,16,0xda7fe71960cd1c19e1b86d6929efd36058f60a03,LUMEN,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,HLY,HLY,HRC20,29,0x8d760497554eecc3b9036fb0364156ef2f0d02bc,HLY,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,eth1UNI,1UNI,HRC20,23,0x90d81749da8867962c760414c1c25ec926e889b6,1UNI,Harmony Network,0
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,XVIPER,XVIPER,HRC20,3,0xe064a68994e9380250cfee3e8c0e2ac5c0924548,XVIPER,Harmony Network,1
-Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,JEWEL,JEWEL,HRC20,12,0x72cb10c6bfa5624dd07ef608027e366bd690048f,JEWEL,Harmony Network,1
-Harmony,harmony,tranquil finance,,TRANQ,TRANQ,HRC20,,0xcf1709ad76a79d5a60210f23e81ce2460542a836,TRANQ,Harmony Network,1
-Sushi Swap,sushi swap,tranquil finance,,hrc20_sushi_lp_tranq_wone,TRANQ/WONE,LP,,0x643f94fc0a804ea13adb88b9e17244bf94022a25,TRANQ/WONE,Harmony Network,1
-Defira,defira,defira,,hrc20_defira_lp_tranq_wone,TRANQ/WONE,LP,,0xb91945e55bb4ff672ace118179cfdf281877bf35,TRANQ/WONE,Harmony Network,1
-Defira,defira,defira,,stONE,STONE,HRC20,,0x22d62b19b7039333ad773b7185bb61294f3adc19,STONE,Harmony Network,1
-Harmony,harmony,viper swap,,VIPER,VIPER,HRC20,,0xea589e93ff18b1a1f1e9bac7ef3e86ab62addc79,VIPER,Harmony Network,1
-Sushi Swap,harmony,sushi swap,,eth1FRAX,FRAX,HRC20,,0xfa7191d292d5633f702b0bd7e3e3bccc0e633200,eth1FRAX,Harmony Network,0
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_usdc,JEWEL/1USDC,LP,,0xa1221a5bbea699f507cc00bdedea05b5d2e32eba,JEWEL/1USDC,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_wone,JEWEL/WONE,LP,,0xeb579ddcd49a7beb3f205c9ff6006bb6390f138f,JEWEL/WONE,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_ust,JEWEL/1UST,LP,,0xb91a0dfa0178500fedc526f26a89803c387772e8,JEWEL/1UST,Harmony Network,1
-Harmony,harmony,harmony,,terra1UST,UST,HRC20,,0x224e64ec1bdce3870a6a6c777edd450454068fec,terra1UST,Harmony Network,0
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_wone_usdc,WONE/1USDC,LP,,0x66c17f5381d7821385974783be34c9b31f75eb78,WONE/1USDC,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_avax,JEWEL/1AVAX,LP,,0x093956649d43f23fe4e7144fb1c3ad01586ccf1e,JEWEL/1AVAX,Harmony Network,1
-Harmony,harmony,harmony,,avax1AVAX,AVAX,HRC20,,0xb12c13e66ade1f72f71834f2fc5082db8c091358,avax1AVAX,Harmony Network,0
-Defira,defira,defira,,hrc20_defira_lp_wone_usdc,WONE/1USDC,LP,,0x27f0bcb74822df54f36151434999cbc8db07d4d9,WONE/1USDC,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_busd,JEWEL/1BUSD,LP,,0xe01502db14929b7733e7112e173c3bcf566f996e,JEWEL/1BUSD,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_wbtc,JEWEL/1WBTC,LP,,0x0acce15d05b4ba4dbedfd7afd51ea4fa1592f75e,JEWEL/1WBTC,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_ftm,JEWEL/1FTM,LP,,0x7f89b5f33138c89fad4092a7c079973c95362d53,JEWEL/1FTM,Harmony Network,1
-Harmony,harmony,harmony,,ftm1FTM,FTM,HRC20,,0x735abe48e8782948a37c7765ecb76b98cde97b0f,ftm1FTM,Harmony Network,0
-Defira,defira,defira,,hrc20_defira_lp_fira_wone,FIRA/WONE,LP,,0x08de72c31ecf51dda637624d1e767578d1914dca,FIRA/WONE,Harmony Network,1
-Defira,defira,defira,,FIRA,FIRA,HRC20,,0x2a719af848bf365489e548be5edbec1d65858e59,FIRA,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_luna,JEWEL/1LUNA,LP,,0xb6e9754b90b338ccb2a74fa31de48ad89f65ec5e,JEWEL/1LUNA,Harmony Network,1
-Harmony,harmony,harmony,,terra1LUNA,LUNA,HRC20,,0x95ce547d730519a90def30d647f37d9e5359b6ae,terra1LUNA,Harmony Network,0
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_eth_jewel,1ETH/JEWEL,LP,,0xeab84868f6c8569e14263a5326ecd62f5328a70f,1ETH/JEWEL,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_wone_busd,WONE/1BUSD,LP,,0x3a0c4d87bde442150779d63c1c695d003184df52,WONE/1BUSD,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_bnb,JEWEL/1BNB,LP,,0xe7d0116dd1dbbba2efbad58f097d1ffbbedc4923,JEWEL/1BNB,Harmony Network,1
-Harmony,harmony,harmony,,bsc1BNB,BNB,HRC20,,0xb1f6e61e1e113625593a22fa6aa94f8052bc39e0,bsc1BNB,Harmony Network,0
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_eth_wone,1ETH/WONE,LP,,0x864fcd9a42a5f6e0f76bc309ee26c8fab473fc3e,1ETH/WONE,Harmony Network,1
-Sushi Swap,sushi swap,sushi swap,,hrc20_sushi_lp_eth_wone,1ETH/WONE,LP,,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,1ETH/WONE,Harmony Network,1
-Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_matic,JEWEL/1WMATIC,LP,,0x3e81154912e5e2cc9b10ad123bf14aeb93ae5318,JEWEL/1WMATIC,Harmony Network,1
-Harmony,harmony,harmony,,matic1WMATIC,MATIC,HRC20,,0xfbdd194376de19a88118e84e279b977f165d01b8,matic1WMATIC,Harmony Network,0
+dex_platform,project_platform,masterchef_platform,masterchef_address,product_name,product_short_name,product_type,pid,address,friendly_alias,network,is_native,is_external_liquidity
+Viper Swap,hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_iris_wone,IRIS/WONE,LP,4,0x54c59cc0ad2ec1de3c5b7057d900d306f16453ef,IRIS/WONE,Harmony Network,1,0.00
+Viper Swap,hermes,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_plts_dai,PLTS/DAI,LP,11,0xbbdcb6445b06df78db0b67ea3a0a03e16dc59936,PLTS/DAI,Harmony Network,1,0.00
+Harmony,hermes,hermes,,IRIS,IRIS,HRC20,,0x85fd5f8dbd0c9ef1806e6c7d4b787d438621c1dc,IRIS,Harmony Network,1,0.00
+Harmony,hermes,hermes,,PLTS,PLTS,HRC20,,0xd32858211fcefd0be0dd3fd6d069c3e821e0aef3,PLTS,Harmony Network,1,0.00
+Harmony,harmony,harmony,,eth1DAI,DAI,HRC20,,0xef977d2f931c1978db5f6747666fa1eacb0d0339,eth1DAI,Harmony Network,0,1.00
+Harmony,harmony,harmony,,WONE,ONE,HRC20,,0xcf664087a5bb0237a0bad6742852ec6c8d69a27a,WONE,Harmony Network,1,1.00
+Harmony,harmony,harmony,,eth1USDC,USDC,HRC20,,0x985458e523db3d53125813ed68c274899e9dfab4,eth1USDC,Harmony Network,0,1.00
+Harmony,harmony,harmony,,eth1USDT,USDT,HRC20,,0x3c2b8be99c50593081eaa2a724f0b8285f5aba8f,eth1USDT,Harmony Network,0,1.00
+Harmony,harmony,harmony,,eth1BUSD,BUSD,HRC20,,0xe176ebe47d621b984a73036b9da5d834411ef734,eth1BUSD,Harmony Network,0,1.00
+Harmony,harmony,harmony,,bsc1BUSD,BUSD,HRC20,,0x0ab43550a6915f9f67d0c454c2e90385e6497eaa,bsc1BUSD,Harmony Network,0,1.00
+Harmony,harmony,harmony,,bsc1USDC,USDC,HRC20,,0x44ced87b9f1492bf2dcf5c16004832569f7f6cba,bsc1USDC,Harmony Network,0,1.00
+Harmony,harmony,harmony,,eth1WBTC,BTC,HRC20,,0x3095c7557bcb296ccc6e363de01b760ba031f2d9,eth1WBTC,Harmony Network,0,1.00
+Harmony,harmony,harmony,,eth1ETH,ETH,HRC20,,0x6983d1e6def3690c4d616b13597a09e6193ea013,eth1ETH,Harmony Network,0,1.00
+Harmony,harmony,harmony,,btc1BTC,BTC,HRC20,,0xdc54046c0451f9269fee1840aec808d36015697d,btc1BTC,Harmony Network,0,1.00
+Defira,defira,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_defira_lp_stone_wone,STONE/WONE,LP,15,0x6b53ca1ed597ed7ccd5664ec9e03329992c2ba87,STONE/WONE,Harmony Network,1,0.00
+Viper Swap,viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_wswagmi_wone,WSWAGMI/ONE,LP,5,0x1cb93763241e0eee22b098f7d26baa0562f688e7,WSWAGMI/ONE,Harmony Network,1,0.00
+Viper Swap,viper swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_venom_lp_one_viper,WONE/VIPER,LP,6,0x96025483bd32c645b822a5a08004b84d674537cb,WONE/VIPER,Harmony Network,1,0.00
+Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_sushi_lp_wbtc_eth,1WBTC/1ETH,LP,8,0x39be7c95276954a6f7070f9baa38db2123691ed0,1WBTC/1ETH,Harmony Network,1,0.00
+Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_sushi_lp_eth_wone,1ETH/WONE,LP,9,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,1ETH/WONE,Harmony Network,1,0.00
+Sushi Swap,sushi swap,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,hrc20_sushi_lp_frax_usdc,1FRAX/1USDC,LP,13,0x29fc6e830ca8586a68dff325f6d2349fb58be951,1FRAX/1USDC,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,WSWAGMI,WSWAGMI,HRC20,2,0xbb948620fa9cd554ef9a331b13edea9b181f9d45,WSWAGMI,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,MAGIC,MAGIC,HRC20,27,0x892d81221484f690c0a97d3dd18b9144a3ecdfb7,MAGIC,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,COSMIC,COSMIC,HRC20,28,0x6008c8769bfacd92251ba838382e7e5637c7e74d,COSMIC,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,APE,APE,HRC20,10,0xd3a50c0dce15c12fe64941ffd2b864e887c9b9e1,APE,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,ROY,ROY,HRC20,14,0xfe1b516a7297eb03229a8b5afad80703911e81cb,ROY,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,LUMEN,LUMEN,HRC20,16,0xda7fe71960cd1c19e1b86d6929efd36058f60a03,LUMEN,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,HLY,HLY,HRC20,29,0x8d760497554eecc3b9036fb0364156ef2f0d02bc,HLY,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,eth1UNI,1UNI,HRC20,23,0x90d81749da8867962c760414c1c25ec926e889b6,1UNI,Harmony Network,0,1.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,XVIPER,XVIPER,HRC20,3,0xe064a68994e9380250cfee3e8c0e2ac5c0924548,XVIPER,Harmony Network,1,0.00
+Harmony,harmony,hermes,0x8c8dca27e450d7d93fa951e79ec354dce543629e,JEWEL,JEWEL,HRC20,12,0x72cb10c6bfa5624dd07ef608027e366bd690048f,JEWEL,Harmony Network,1,0.00
+Harmony,harmony,tranquil finance,,TRANQ,TRANQ,HRC20,,0xcf1709ad76a79d5a60210f23e81ce2460542a836,TRANQ,Harmony Network,1,0.00
+Sushi Swap,sushi swap,tranquil finance,,hrc20_sushi_lp_tranq_wone,TRANQ/WONE,LP,,0x643f94fc0a804ea13adb88b9e17244bf94022a25,TRANQ/WONE,Harmony Network,1,0.00
+Defira,defira,defira,,hrc20_defira_lp_tranq_wone,TRANQ/WONE,LP,,0xb91945e55bb4ff672ace118179cfdf281877bf35,TRANQ/WONE,Harmony Network,1,0.00
+Defira,defira,defira,,stONE,STONE,HRC20,,0x22d62b19b7039333ad773b7185bb61294f3adc19,STONE,Harmony Network,1,0.00
+Harmony,harmony,viper swap,,VIPER,VIPER,HRC20,,0xea589e93ff18b1a1f1e9bac7ef3e86ab62addc79,VIPER,Harmony Network,1,0.00
+Sushi Swap,harmony,sushi swap,,eth1FRAX,FRAX,HRC20,,0xfa7191d292d5633f702b0bd7e3e3bccc0e633200,eth1FRAX,Harmony Network,0,1.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_usdc,JEWEL/1USDC,LP,,0xa1221a5bbea699f507cc00bdedea05b5d2e32eba,JEWEL/1USDC,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_wone,JEWEL/WONE,LP,,0xeb579ddcd49a7beb3f205c9ff6006bb6390f138f,JEWEL/WONE,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_ust,JEWEL/1UST,LP,,0xb91a0dfa0178500fedc526f26a89803c387772e8,JEWEL/1UST,Harmony Network,1,0.00
+Harmony,harmony,harmony,,terra1UST,UST,HRC20,,0x224e64ec1bdce3870a6a6c777edd450454068fec,terra1UST,Harmony Network,0,1.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_wone_usdc,WONE/1USDC,LP,,0x66c17f5381d7821385974783be34c9b31f75eb78,WONE/1USDC,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_avax,JEWEL/1AVAX,LP,,0x093956649d43f23fe4e7144fb1c3ad01586ccf1e,JEWEL/1AVAX,Harmony Network,1,0.00
+Harmony,harmony,harmony,,avax1AVAX,AVAX,HRC20,,0xb12c13e66ade1f72f71834f2fc5082db8c091358,avax1AVAX,Harmony Network,0,1.00
+Defira,defira,defira,,hrc20_defira_lp_wone_usdc,WONE/1USDC,LP,,0x27f0bcb74822df54f36151434999cbc8db07d4d9,WONE/1USDC,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_busd,JEWEL/1BUSD,LP,,0xe01502db14929b7733e7112e173c3bcf566f996e,JEWEL/1BUSD,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_wbtc,JEWEL/1WBTC,LP,,0x0acce15d05b4ba4dbedfd7afd51ea4fa1592f75e,JEWEL/1WBTC,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_ftm,JEWEL/1FTM,LP,,0x7f89b5f33138c89fad4092a7c079973c95362d53,JEWEL/1FTM,Harmony Network,1,0.00
+Harmony,harmony,harmony,,ftm1FTM,FTM,HRC20,,0x735abe48e8782948a37c7765ecb76b98cde97b0f,ftm1FTM,Harmony Network,0,1.00
+Defira,defira,defira,,hrc20_defira_lp_fira_wone,FIRA/WONE,LP,,0x08de72c31ecf51dda637624d1e767578d1914dca,FIRA/WONE,Harmony Network,1,0.00
+Defira,defira,defira,,FIRA,FIRA,HRC20,,0x2a719af848bf365489e548be5edbec1d65858e59,FIRA,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_luna,JEWEL/1LUNA,LP,,0xb6e9754b90b338ccb2a74fa31de48ad89f65ec5e,JEWEL/1LUNA,Harmony Network,1,0.00
+Harmony,harmony,harmony,,terra1LUNA,LUNA,HRC20,,0x95ce547d730519a90def30d647f37d9e5359b6ae,terra1LUNA,Harmony Network,0,1.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_eth_jewel,1ETH/JEWEL,LP,,0xeab84868f6c8569e14263a5326ecd62f5328a70f,1ETH/JEWEL,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_wone_busd,WONE/1BUSD,LP,,0x3a0c4d87bde442150779d63c1c695d003184df52,WONE/1BUSD,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_bnb,JEWEL/1BNB,LP,,0xe7d0116dd1dbbba2efbad58f097d1ffbbedc4923,JEWEL/1BNB,Harmony Network,1,0.00
+Harmony,harmony,harmony,,bsc1BNB,BNB,HRC20,,0xb1f6e61e1e113625593a22fa6aa94f8052bc39e0,bsc1BNB,Harmony Network,0,1.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_eth_wone,1ETH/WONE,LP,,0x864fcd9a42a5f6e0f76bc309ee26c8fab473fc3e,1ETH/WONE,Harmony Network,1,0.00
+Sushi Swap,sushi swap,sushi swap,,hrc20_sushi_lp_eth_wone,1ETH/WONE,LP,,0xeb049f1ed546f8efc3ad57f6c7d22f081ccc7375,1ETH/WONE,Harmony Network,1,0.00
+Defi Kingdoms,defi kingdoms,defi kingdoms,,hrc20_dfk_lp_jewel_matic,JEWEL/1WMATIC,LP,,0x3e81154912e5e2cc9b10ad123bf14aeb93ae5318,JEWEL/1WMATIC,Harmony Network,1,0.00
+Harmony,harmony,harmony,,matic1WMATIC,MATIC,HRC20,,0xfbdd194376de19a88118e84e279b977f165d01b8,matic1WMATIC,Harmony Network,0,1.00

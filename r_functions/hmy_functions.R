@@ -203,6 +203,25 @@ fn_hmyv2_call_totalSupply <- function(
   return(out)
 }
 
+fn_hmyv2_call_circulatingSupply <- function(
+  address
+  ,data="0xfd3d27b8"
+  ,rpc="https://a.api.s0.t.hmny.io/"
+  ,block=NULL
+  ,id="1"
+  ,jsonrpc="2.0"
+  ,autoconv=T
+){
+  res <- fn_hmyv2_call(token=address,data=data,rpc=rpc,block=block)
+  if(autoconv){
+    dec <- fn_hmyv2_call_decimals(address=address,block=block)
+    out <- as.numeric(content(res)$result)/(10^dec)
+  } else {
+    out <- as.numeric(content(res)$result)
+  }
+  return(out)
+}
+
 fn_poolInfo_allocPoints <- function(x){
   ## Assumes result structure in line with address/uint256/uint256/uint16/uint256
   if(x == "0x"){

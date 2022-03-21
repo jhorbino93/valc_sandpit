@@ -26,7 +26,8 @@ tmp_asset1 <-
     ,onchain_network = ticker_src_network
     ,asset_alias = short_name
     ,asset_name = ticker_alias
-    ,is_native = 1
+    ,is_native = 1L
+    ,is_external_liquidity = 1L
   ) %>%
   ## Select order
   select(
@@ -50,6 +51,7 @@ tmp_asset1 <-
     ,onchain_network
     ,onchain_address
     ,is_native
+    ,is_external_liquidity
   ) %>%
   
   ## Rename output 
@@ -113,10 +115,11 @@ tmp_asset3 <-
     ,onchain_network = "Calculated"
     ,onchain_address = "Calculated"
     ,is_native = NA
+    ,is_external_liquidity = NA
   )  %>%
   select_at(colnames(dim_asset))
 
-dim_asset <- bind_rows(dim_asset,tmp_asset3)
+dim_asset <- bind_rows(dim_asset,tmp_asset3) %>% mutate(is_native = as.integer(is_native),is_external_liquidity=as.integer(is_external_liquidity))
 
 ## Match & merge
 if(file.exists(dir_dim_asset)){
