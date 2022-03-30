@@ -250,7 +250,7 @@ fn_hmyv2_call_balanceOf <- function(
     res = fn_hmyv2_call(token_address=token_address,rpc=rpc,block=block,id=id,jsonrpc=jsonrpc,data=data)
     
     if(autoconv){
-      dec <- fn_hmyv2_call_decimals(address=address,block=block)
+      dec <- fn_hmyv2_call_decimals(address=token_address,block=block)
       out <- as.numeric(content(res)$result)/(10^dec)
     } else {
       out <- as.numeric(content(res)$result)

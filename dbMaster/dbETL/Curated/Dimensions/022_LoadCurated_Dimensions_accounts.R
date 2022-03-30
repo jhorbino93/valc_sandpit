@@ -32,6 +32,17 @@ df_account <-
     ## Intermediate dim_account
     dim_account <- df_account %>% distinct(platform,account_address,account_name,account_type,network)
     
+    dim_account_other <- distinct(dim_account,network) %>%
+      mutate(
+        account_address = NA
+        ,platform = "Other"
+        ,account_name = "Other"
+        ,account_type = "Other"
+      ) %>%
+      select_at(colnames(dim_account))
+    
+    dim_account <- bind_rows(dim_account,dim_account_other)
+    
     ## Match & merge
     if(file.exists(dir_dim_account)){
       dim_account <- fn_db_merge_dim(dim_account,old_dim_account,vct_pk_dim_account,"dim_account_id")
@@ -39,7 +50,7 @@ df_account <-
       vct_attributes <- colnames(dim_account)[which(!colnames(dim_account) %in% c("dim_account_id",vct_pk_dim_account))]
       dim_account <- mutate(dim_account,dim_account_id=row_number()) %>% select_at(c("dim_account_id",vct_pk_dim_account,vct_attributes))
     }
-    
+
     arrow::write_parquet(dim_account,dir_dim_account)
     
 ## Load Account Bridge To Products
@@ -51,5 +62,25 @@ df_account <-
         ,dim_account
       ) %>% 
       select(dim_account_id,product_dim_asset_id,network)
+    
+    bridge_account_product_other <-
+      dim_asset %>%
+      filter(
+        asset_type_l1 == "On-chain"
+      ) %>%
+      distinct(dim_asset_id,ticker_src_network) %>%
+      rename(
+        product_dim_asset_id = dim_asset_id
+        ,network = ticker_src_network
+      ) %>%
+      inner_join(
+        dim_account %>% filter(account_name == "Other")
+        ,by="network"
+      ) %>%
+      select_at(colnames(bridge_account_product))
+      
+    bridge_account_product <- bind_rows(bridge_account_product,bridge_account_product_other)
+
     write_parquet(bridge_account_product,dir_bridge_account_product)
+    
     

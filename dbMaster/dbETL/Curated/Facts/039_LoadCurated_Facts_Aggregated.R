@@ -73,7 +73,7 @@ if(length(list.files(dest_dir)) == 0){
   
   res_out = bind_rows(df_raw1,df_raw2)
   
-  write_parquet(df_raw,paste0(c(dest_dir,"fact_prices_calculated.parquet"),collapse="/"))
+  write_parquet(res_out,paste0(c(dest_dir,"fact_prices_calculated.parquet"),collapse="/"))
 }
 
 

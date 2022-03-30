@@ -8,6 +8,11 @@ dir_balances        <- paste0(dir_raw,"/blockchain/harmony/balances")
 dir_lp              <- paste0(dir_raw,"/blockchain/harmony/lp")
 rpc                 <- "https://a.api.s0.t.hmny.io/"
 
+
+cores <- detectCores()
+cl <- makeCluster(cores[1]-1)
+registerDoParallel(cl)
+
 ## Get raw blocks data ----
 list_blocks <- lapply(
   list.files(dir_harmony,recursive = T)
@@ -46,24 +51,17 @@ for(i in 1:nrow(maintenance_pid)){
   
   tmp_block_search <- filter(df_blocks,as_date(target_time)>=loopStartDate) %>% pull(attempt_block)
   
-  cores <- detectCores()
-  cl <- makeCluster(cores[1]-1)
-  registerDoParallel(cl)
-  
   list_supply <- foreach(
     x=tmp_block_search
     ,.packages = parallelPackages
   ) %dopar% {
     
-    supply  <- fn_hmyv2_call_totalSupply(address,block=x,rpc=rpc,autoconv = F)
+    supply  <- fn_hmyv2_call_totalSupply(address,block=x,rpc=rpc,autoconv = T)
   
     dfRes   <- data.frame(block=x,supply=supply)
     
     return(dfRes)
   }
-  stopCluster(cl)  
-  
-  dec <- fn_hmyv2_call_decimals(address,rpc=rpc)
   
   df_supply <- 
     bind_rows(
@@ -78,7 +76,6 @@ for(i in 1:nrow(maintenance_pid)){
       target_date = as_date(target_time)
       ,address=address
       ,name=name
-      ,supply=supply/(10^dec)
     )
   
   cat("Writing raw supply data to parquet files","\n")
@@ -145,24 +142,16 @@ for(i in seq_along(account_balance_dist)){
                   filter(target_time >= min_date) %>% select(-c(min_date,target_time))
   tokenBalGrid <- split(tokenBalGrid,seq(nrow(tokenBalGrid)))
   
-  cores <- detectCores()
-  cl <- makeCluster(cores[1]-1)
-  registerDoParallel(cl)
-  
-  start.time <- Sys.time()
   list_bal <- foreach(
     x=tokenBalGrid
     ,.packages = parallelPackages
   ) %dopar% {
     
-    bal   <- fn_hmyv2_call_balanceOf(x$product_address,x$account_address,rpc=rpc,block=x$attempt_block,autoconv = F)
+    bal   <- fn_hmyv2_call_balanceOf(x$product_address,x$account_address,rpc=rpc,block=x$attempt_block,autoconv = T)
     dfRes <- mutate(x,amount=bal)
     
     return(dfRes)
   }
-  stopCluster(cl)
-  
-  dec <- fn_hmyv2_call_decimals(address,rpc=rpc)
   
   df_bal <- bind_rows(list_bal) %>% as_tibble() %>% 
     filter(!is.na(amount),amount>0) %>%
@@ -172,7 +161,6 @@ for(i in seq_along(account_balance_dist)){
     ) %>%
     mutate(
       target_date = as_date(target_time)
-      ,amount = amount/(10^dec)
     )
   
   cat("Writing raw balances data to parquet files","\n")
@@ -226,11 +214,7 @@ for(i in 1:nrow(ref_lp)){
   startBlock <- fn_hmyv2_Call_startBlock(masterchef)
   tmp_blocks <- filter(df_blocks,as_date(target_time) >= loopStartDate, attempt_block >= startBlock)
   tmp_blocks <- split(tmp_blocks,seq(nrow(tmp_blocks)))
-  
-  cores <- detectCores()
-  cl <- makeCluster(cores[1]-1)
-  registerDoParallel
-  
+
   list_lp <- foreach(
     x = tmp_blocks
     ,.packages = parallelPackages
@@ -254,7 +238,6 @@ for(i in 1:nrow(ref_lp)){
                           )
     return(dfRes)
   }
-  stopCluster(cl)
   
   df_lp <- bind_rows(list_lp) %>% as_tibble() %>%
     filter(!is.na(alloc_points) & !is.na(total_alloc_points) & !is.na(emission)) %>%
@@ -288,7 +271,7 @@ for(i in 1:nrow(ref_lp)){
     l <- l+1024L
   }
 }
-  
+stopCluster(cl)    
   
   
   
