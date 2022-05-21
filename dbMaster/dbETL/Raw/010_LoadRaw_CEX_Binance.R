@@ -17,6 +17,7 @@ for(i in seq_along(vct_tickers)){
   k             <- vct_tickers[i]
   ticker        <- maintenance_dim_ticker[k,]$ticker_name
   data_src      <- maintenance_dim_ticker[k,]$data_src
+  network       <- maintenance_dim_ticker[k,]$ticker_src_network
   dir           <- paste0(dir_raw,"/binance/",ticker)
   
   if(length(list.files(dir)) == 0){
@@ -26,11 +27,24 @@ for(i in seq_along(vct_tickers)){
     dir.create(dir,recursive=T)
   } else {
     cat(paste0("File directory found for ",ticker,"\n"))
-    loopStartDate <- max(as.Date(gsub("open_date=","",list.files(dir))))
+    
+    if(sel_op_save == 2){
+      loopStartDate <- date_load_from
+    } else {
+      loopStartDate <- max(as.Date(gsub("open_date=","",list.files(dir))))
+    }
   }
   cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
   
-  unlink(paste0(dir,"/open_date=",loopStartDate),force=T,recursive=T)
+  # unlink(paste0(dir,"/open_date=",loopStartDate),force=T,recursive=T)
+  
+  src_dir_files_full <- list.files(dir,full.names = T)
+  src_dir_files <- list.files(dir)
+  src_dir_files_idx <- as_date(gsub("open_date=","",src_dir_files))
+  src_dir_files_full <- src_dir_files_full[src_dir_files_idx>=loopStartDate]
+  
+  unlink(src_dir_files_full,force=T,recursive=T)
+  
   
   cat(paste0("Begin retrieval for ",ticker," from Binance","\n"))
   j <- 1
@@ -76,31 +90,35 @@ for(i in seq_along(vct_tickers)){
     startTime <- endTime + hours(1)
   }
   cat(paste0("Preparing data for parquet write","\n"))
-  resOut <- bind_rows(qryList) %>% mutate_all(as.numeric) %>%
-    mutate(
-      open_time    = as.POSIXct(open_time/1000 , origin="1970-01-01", tz = "UTC")
-      ,close_time  = as.POSIXct(close_time/1000, origin="1970-01-01", tz = "UTC")
-      ,open_date   = as_date(open_time)
-      ,close_date  = as_date(close_time)
-      
-      ,ticker      = ticker
-      ,interval    = interval
-      ,network     = "binance"
-      ,data_src    = data_src
-      ,last_modified = Sys.time()
-    )
   
-  cat(paste0("Writing to parquet files","\n"))
-  vct_open_date <- unique(resOut$open_date)
-  l <- 1L
-  while(l <= length(vct_open_date)){
-    arrow::write_dataset(
-      resOut[which(resOut$open_date %in% vct_open_date[l:(min(length(vct_open_date),l+1023L))]),]
-      ,dir
-      ,format = "parquet"
-      ,partitioning = "open_date"
-      ,basename_template = paste0(c(ticker,interval,l,"{i}.parquet"),collapse="_")
-    )
-    l <- l+1024L
+  if(length(qryList)>0){
+  
+    resOut <- bind_rows(qryList) %>% mutate_all(as.numeric) %>%
+      mutate(
+        open_time    = as.POSIXct(open_time/1000 , origin="1970-01-01", tz = "UTC")
+        ,close_time  = as.POSIXct(close_time/1000, origin="1970-01-01", tz = "UTC")
+        ,open_date   = as_date(open_time)
+        ,close_date  = as_date(close_time)
+        
+        ,ticker      = ticker
+        ,interval    = interval
+        ,network     = "binance"
+        ,data_src    = data_src
+        ,last_modified = Sys.time()
+      )
+    
+    cat(paste0("Writing to parquet files","\n"))
+    vct_open_date <- unique(resOut$open_date)
+    l <- 1L
+    while(l <= length(vct_open_date)){
+      arrow::write_dataset(
+        resOut[which(resOut$open_date %in% vct_open_date[l:(min(length(vct_open_date),l+1023L))]),]
+        ,dir
+        ,format = "parquet"
+        ,partitioning = "open_date"
+        ,basename_template = paste0(c(ticker,interval,l,"{i}.parquet"),collapse="_")
+      )
+      l <- l+1024L
+    }
   }
 }

@@ -9,9 +9,23 @@ library(ether)
 library(foreach)
 library(doParallel)
 
-
+library(svDialogs)
 ## Initialise Env ----
 options(scipen = 999)
+
+
+sel_op_save <- menu(
+  c("Latest","Past")
+  ,title = "Specify load type"
+  ,graphics = T
+)
+
+if (sel_op_save == 1){
+  date_load_from <- Sys.Date()
+} else if (sel_op_save == 2){
+  date_load_from <- as_date(dlg_input("Enter other date (yyyy-mm-dd)")$res)
+}
+
 setwd("C:/Users/jehor/Documents/GitHub/Hermes")
 
 dir_raw <- "./dbMaster/dbData/001Raw"
@@ -57,13 +71,24 @@ maintenance_masterchef_emission <- read.csv(
   ,na.string=c("")
 )
 
+maintenance_masterchef_functions <- read.csv(
+  paste0(c(dir_ref,"maintenance_masterchef_functions.csv"),collapse="/")
+  ,stringsAsFactors = F
+  ,colClasses=c(
+    "masterchef_address"="character"
+    ,"fn_abi"="character"
+  )
+  ,na.string=c("")
+)
+
 maintenance_pid <- read.csv(
   paste0(c(dir_ref,"maintenance_pid.csv"),collapse="/")
   ,colClasses=c(
     "address"="character"
     ,"masterchef_address"="character"
-    ,"token1_address"="character"
-    ,"token2_address"="character"
+    # ,"token1_address"="character"
+    # ,"token2_address"="character"
+    ,"lp_end_date"="Date"
   )
   ,na.string=c("")
 )
@@ -76,7 +101,11 @@ maintenance_account_balance <- read.csv(
     ,"account_address"="character"
   )
   ,na.string=c("")
-)
+) %>%
+  mutate(
+    min_date = as.Date(min_date,format="%d/%m/%Y")
+    ,max_date = as.Date(max_date,format="%d/%m/%Y")
+  )
 
 refTime                 <- as.POSIXct(format(Sys.time()),tz="UTC")
 refTimeUnix             <- fnConvTimeToUnix(refTime)

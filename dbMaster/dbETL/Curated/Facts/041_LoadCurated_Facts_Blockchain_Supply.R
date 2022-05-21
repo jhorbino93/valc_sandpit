@@ -17,13 +17,20 @@ cl <- makeCluster(cores[1]-1)
 registerDoParallel(cl)
 parallelPackages=c("arrow","tidyverse","lubridate")
 
-
 for(i in seq_along(list.files(dir_blockchain))){
   print(i)
   
   blockchain_name <- list.files(dir_blockchain)[i]
   
-  dir_contract <- list.files(paste0(c(dir_blockchain,blockchain_name,"supply"),collapse="/"))
+  # dir_contract <- list.files(paste0(c(dir_blockchain,blockchain_name,"supply"),collapse="/"))
+  
+  dir_contract <- sapply(
+    list.files(paste0(c(dir_blockchain,blockchain_name,"supply"),collapse="/"),full.names = T)
+    ,function(f){
+      length(list.files(f))
+    }
+  )
+  dir_contract <- list.files(paste0(c(dir_blockchain,blockchain_name,"supply"),collapse="/"))[which(dir_contract > 0L)]
   
   loop_dim_asset <-         
     filter(
@@ -48,12 +55,21 @@ for(i in seq_along(list.files(dir_blockchain))){
       dir.create(dest_dir,recursive=T)
     } else {
       cat(paste0("File directory found for ",contract,"\n"))
-      loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      if(sel_op_save == 2){
+        loopStartDate <- date_load_from
+      } else {
+        loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      }
+      
     }
     cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
     
     print(paste0("Removing latest day data = ",loopStartDate))
-    unlink(paste0(dest_dir,"/date=",loopStartDate),force=T,recursive=T)
+    dest_dir_files_full <- list.files(dest_dir,full.names = T)
+    dest_dir_files <- list.files(dest_dir)
+    dest_dir_files_idx <- as_date(gsub("date=","",dest_dir_files))
+    dest_dir_files_full <- dest_dir_files_full[dest_dir_files_idx>=loopStartDate]
+    unlink(dest_dir_files_full,force=T,recursive=T)
     
     src_dir_files <- list.files(src_dir)
     src_dir_files_idx <- as_date(gsub("target_date=","",src_dir_files))

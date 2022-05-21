@@ -37,12 +37,20 @@ for(i in seq_along(vct_dexscreener)){
       dir.create(dest_dir,recursive=T)
     } else {
       cat(paste0("File directory found for ",asset,"\n"))
-      loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      if(sel_op_save == 2){
+        loopStartDate <- date_load_from
+      } else {
+        loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      }
     }
     cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
     
     print(paste0("Removing latest day data = ",loopStartDate))
-    unlink(paste0(dest_dir,"/open_date=",loopStartDate),force=T,recursive=T)
+    dest_dir_files_full <- list.files(dest_dir,full.names = T)
+    dest_dir_files <- list.files(dest_dir)
+    dest_dir_files_idx <- as_date(gsub("open_date=","",dest_dir_files))
+    dest_dir_files_full <- dest_dir_files_full[dest_dir_files_idx>=loopStartDate]
+    unlink(dest_dir_files_full,force=T,recursive=T)
     
     src_dir_files <- list.files(src_dir)
     src_dir_files_idx <- as_date(gsub("open_date=","",src_dir_files))
@@ -70,6 +78,7 @@ for(i in seq_along(vct_dexscreener)){
           ) %>%
           select(-c("schemaVersion","bars.timestamp"))
         
+        ## Asset 1 in tx pair
         raw1 <-
           raw %>%
           rename(
@@ -96,6 +105,7 @@ for(i in seq_along(vct_dexscreener)){
           ) %>%
           select_at(vct_schema_cols)
         
+        ## Asset 2 in tx pair
         raw2 <- 
           raw %>%
           mutate(
@@ -120,10 +130,39 @@ for(i in seq_along(vct_dexscreener)){
           ) %>%
           select_at(vct_schema_cols)
         
-        res <- bind_rows(raw1,raw2)
+        ## Asset 3 = LP level
+        raw3 <- 
+          raw %>%
+          inner_join(
+            select(dim_asset,dim_asset_id,ticker_name,onchain_network)
+            ,by=c("ticker"="ticker_name","network"="onchain_network")
+          ) %>%
+          rename(
+            datetime = open_time
+            ,qav = bars.volumeUsd
+          ) %>%
+          mutate(
+            o = NA_real_
+            ,h = NA_real_
+            ,l = NA_real_
+            ,c = NA_real_
+            ,v = NA_real_
+            ,num_trades = NA_integer_
+            ,quote_type = "USD"
+            ,date = as_date(datetime)
+          ) %>%
+          inner_join(
+            select(dim_interval,dim_interval_id,interval_shortname)
+            ,by=c("interval"="interval_shortname")
+          ) %>%
+          select_at(vct_schema_cols)
+        
+        res <- bind_rows(raw1,raw2,raw3)
         return(res)
       }
     resOut <- bind_rows(list_res)
+    
+    resOut %>% filter(dim_asset_id == 64) %>% group_by(date,dim_asset_id) %>% filter(datetime==max(datetime)) %>% ungroup()
     
     cat(paste0("Writing to parquet files","\n"))
     df_search <- distinct(resOut,date) %>% arrange(date)

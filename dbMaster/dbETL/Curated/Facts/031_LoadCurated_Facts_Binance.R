@@ -34,12 +34,22 @@ for(i in seq_along(vct_binance_assets)){
     dir.create(dest_dir,recursive=T)
   } else {
     cat(paste0("File directory found for ",asset,"\n"))
-    loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+    
+    if(sel_op_save == 2){
+      loopStartDate <- date_load_from
+    } else {
+      loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+    }
+    
   }
   cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
   
   print(paste0("Removing latest day data = ",loopStartDate))
-  unlink(paste0(dest_dir,"/open_date=",loopStartDate),force=T,recursive=T)
+  dest_dir_files_full <- list.files(dest_dir,full.names = T)
+  dest_dir_files <- list.files(dest_dir)
+  dest_dir_files_idx <- as_date(gsub("open_date=","",dest_dir_files))
+  dest_dir_files_full <- dest_dir_files_full[dest_dir_files_idx>=loopStartDate]
+  unlink(dest_dir_files_full,force=T,recursive=T)
   
   src_dir_files <- list.files(src_dir)
   src_dir_files_idx <- as_date(gsub("open_date=","",src_dir_files))
@@ -81,20 +91,22 @@ for(i in seq_along(vct_binance_assets)){
       
       return(df1)
     }
-  resOut <- bind_rows(listk)
-
-  cat(paste0("Writing to parquet files","\n"))
-  df_search <- distinct(resOut,date) %>% arrange(date)
-  l <- 1L
-  while(l <= nrow(df_search)){
-    ref <- slice(df_search,l:(l+1007L))
-    arrow::write_dataset(
-      inner_join(resOut,ref)
-      ,dest_dir
-      ,format = "parquet"
-      ,partitioning = c("date")
-    )
-    l <- l+1008L
+  if(length(listk)>0){
+    resOut <- bind_rows(listk)
+  
+    cat(paste0("Writing to parquet files","\n"))
+    df_search <- distinct(resOut,date) %>% arrange(date)
+    l <- 1L
+    while(l <= nrow(df_search)){
+      ref <- slice(df_search,l:(l+1007L))
+      arrow::write_dataset(
+        inner_join(resOut,ref)
+        ,dest_dir
+        ,format = "parquet"
+        ,partitioning = c("date")
+      )
+      l <- l+1008L
+    }
   }
   gc()
 }

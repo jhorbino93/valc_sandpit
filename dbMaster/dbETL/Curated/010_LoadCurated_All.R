@@ -7,24 +7,6 @@ library(devtools)
 library(foreach)
 library(doParallel)
 
-## Initialise Spark
-# config <- spark_config()
-# config$`sparklyr.shell.driver-memory`   <- '16G'
-# config$`sparklyr.shell.executor-memory` <- '16G'
-# config$`sparklyr.cores.local` <- 4
-
-
-# sc <- spark_connect(master = "local"
-#                     ,spark_home = paste0("C:/Users/",Sys.getenv("USERNAME"),"/AppData/Local/spark/spark-3.0.2-bin-hadoop2.7")
-#                     ,packages = 'io.delta:delta-core_2.12:0.8.0'
-#                     ,config = config
-# )
-# 
-# sparklyr::invoke_static(sc, "java.util.TimeZone",  "getTimeZone", "GMT") %>%
-# sparklyr::invoke_static(sc, "java.util.TimeZone", "setDefault", .)
-# 
-# spark_disconnect_all()
-
 ## Initialise Env ----
 setwd("C:/Users/jehor/Documents/GitHub/Hermes")
 
@@ -105,4 +87,3 @@ baseRObj <- c(ls(),"baseRObj")
   source(paste0(c(dir_etl,"Curated","030_LoadCurated_Facts.R"),collapse="/"))
   rm(list=setdiff(ls(),baseRObj))
   gc()  
-

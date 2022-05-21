@@ -58,19 +58,20 @@ for(i in seq_along(vct_blockchain)){
       ticker_src_network == paste0(str_to_title(loop_blockchain)," Network")
       ,!asset_type_l2 %in% c("LP","CEX ticker")
     ) %>% pull(ticker_name)
-
+  
   loop_vct_supply_addresses <- list.files(loop_dir_supply)
   loop_vct_supply_addresses <- loop_vct_supply_addresses[which(loop_vct_supply_addresses %in% loop_ref_tokens)]
   
-
+  
   for(k in seq_along(loop_vct_supply_addresses)){
     ## Consolidates all holders into 1 file
     ## Consider having tree structure down to asset > holder > date level. This will allow greater control
     print(k)
     
     sel_address <- loop_vct_supply_addresses[k]
-    vct_accounts <- df_account_balances %>% filter(ticker_name == sel_address,!is.na(account_address)) %>% pull(account_address)
-    
+    ## Unique to not duplicate due to MM supply/borrow entries
+    vct_accounts <- df_account_balances %>% filter(ticker_name == sel_address,!is.na(account_address)) %>% pull(account_address) %>% unique()
+
     loop_dir_supply_address <- paste0(c(loop_dir_supply,sel_address),collapse="/")
     dest_dir <- paste0(c(loop_dir_base,"balances",sel_address),collapse="/")
     
@@ -90,7 +91,7 @@ for(i in seq_along(vct_blockchain)){
         ,ticker_name == sel_address
         ,account_name == "Other"
       )
-
+    
     ## Check if supply directory exists
     ## Perform start date logic
     if(length(list.files(dest_dir)) == 0){
@@ -100,12 +101,20 @@ for(i in seq_along(vct_blockchain)){
       dir.create(dest_dir,recursive=T)
     } else {
       cat(paste0("File directory found for ",sel_address,"\n"))
-      loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      if(sel_op_save == 2){
+        loopStartDate <- date_load_from
+      } else {
+        loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      }
     }
     cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
     
     print(paste0("Removing latest day data = ",loopStartDate))
-    unlink(paste0(dest_dir,"/date=",loopStartDate),force=T,recursive=T)
+    dest_dir_files_full <- list.files(dest_dir,full.names = T)
+    dest_dir_files <- list.files(dest_dir)
+    dest_dir_files_idx <- as_date(gsub("date=","",dest_dir_files))
+    dest_dir_files_full <- dest_dir_files_full[dest_dir_files_idx>=loopStartDate]
+    unlink(dest_dir_files_full,force=T,recursive=T)
     
     ## Loop for each date in supply and rebuild balances from holders
     src_dir_files <- list.files(loop_dir_supply_address)
@@ -114,13 +123,13 @@ for(i in seq_along(vct_blockchain)){
     
     ## Parallel construct holders per supply address
     list_res <-
-    foreach(
-      x = src_dir_files_idx
-      ,.packages=parallelPackages
-    ) %dopar% {
-      
+      foreach(
+        x = src_dir_files_idx
+        ,.packages=parallelPackages
+      ) %dopar% {
+        
         sel_date = x
-      
+        
         ## Get supply for loop date
         full_src_supply_dir <- paste0(c(loop_dir_supply_address,paste0("date=",sel_date)),collapse="/")
         df_supply <- read_parquet(list.files(full_src_supply_dir,full.names=T)) %>% as_tibble()
@@ -138,11 +147,12 @@ for(i in seq_along(vct_blockchain)){
             if(dir.exists(full_src_accounts_dir)){
               res_account <- read_parquet(list.files(full_src_accounts_dir,full.names=T)) %>%
                 filter(product_address == sel_address) %>%
-                select(attempt_block,account_address,amount)
+                select(attempt_block,account_address,account_type,amount)
             } else {
               res_account <- tibble(
                 attempt_block = double()
                 ,account_address = character()
+                ,account_type = character()
                 ,amount = double()
               )
             }
@@ -152,10 +162,11 @@ for(i in seq_along(vct_blockchain)){
           list_accounts[[1]] <- tibble(
             attempt_block = double()
             ,account_address = character()
+            ,account_type = character()
             ,amount = double()
           )
         }
-
+        
         vct_accounts_nrow <- unlist(lapply(list_accounts,nrow))
         
         df_accounts <- bind_rows(list_accounts)
@@ -177,7 +188,7 @@ for(i in seq_along(vct_blockchain)){
         
         df_balances <-
           df_accounts %>%
-          inner_join(loop_df_account,by=c("account_address")) %>%
+          inner_join(loop_df_account,by=c("account_address","account_type")) %>%
           rename(
             dim_asset_id=product_dim_asset_id
             ,block = attempt_block
@@ -197,7 +208,7 @@ for(i in seq_along(vct_blockchain)){
             ,by=c("block"="attempt_block")
           )
         return(df_res)
-    }
+      }
     
     resOut <- bind_rows(list_res) 
     

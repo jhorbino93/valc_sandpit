@@ -90,12 +90,20 @@ for(i in seq_along(vct_asset_short_name)){
       dir.create(dest_dir,recursive=T)
     } else {
       cat(paste0("File directory found for ",sel_asset_short_name,"\n"))
-      loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      if(sel_op_save == 2){
+        loopStartDate <- date_load_from
+      } else {
+        loopStartDate <- max(as.Date(gsub("date=","",list.files(dest_dir))))
+      }
     }
     cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
     
     cat(paste0("Removing latest day data = ",loopStartDate,"\n"))
-    unlink(paste0(dest_dir,"/date=",loopStartDate),force=T,recursive=T)
+    dest_dir_files_full <- list.files(dest_dir,full.names = T)
+    dest_dir_files <- list.files(dest_dir)
+    dest_dir_files_idx <- as_date(gsub("date=","",dest_dir_files))
+    dest_dir_files_full <- dest_dir_files_full[dest_dir_files_idx>=loopStartDate]
+    unlink(dest_dir_files_full,force=T,recursive=T)
     
     src_dir_files <- list.files(c(vct_dir_cex,vct_dir_dex),full.names=T,recursive=T)
     src_dir_files_idx <- as_date(sub(regex_find_date,"\\2\\3\\4",src_dir_files))
@@ -103,7 +111,7 @@ for(i in seq_along(vct_asset_short_name)){
     
     res_raw = arrow::open_dataset(src_dir_files) %>% collect() %>% as_tibble()
     res_out = res_raw %>% 
-      inner_join(select(dim_asset,dim_asset_id,asset_name,asset_short_name),by="dim_asset_id") %>%
+      inner_join(filter(dim_asset,asset_type_l2 != "LP") %>% select(dim_asset_id,asset_name,asset_short_name),by="dim_asset_id") %>%
       filter(asset_short_name == sel_asset_short_name) %>%
       group_by(datetime,asset_short_name,dim_interval_id,quote_type) %>%
       summarise(

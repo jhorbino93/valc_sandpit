@@ -131,4 +131,3 @@ if(file.exists(dir_dim_asset)){
 
 ## Write to dir
 arrow::write_parquet(dim_asset,dir_dim_asset)
-

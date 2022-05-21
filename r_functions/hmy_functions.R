@@ -171,6 +171,7 @@ fn_hmyv2_call_poolInfo <- function(
   masterchef_address
   ,data = NULL
   ,pid = NULL
+  ,abi = "0x1526fe27"
   ,rpc="https://a.api.s0.t.hmny.io/"
   ,block=NULL
   ,id="1"
@@ -178,7 +179,7 @@ fn_hmyv2_call_poolInfo <- function(
 ){
   if(is.null(data)){
     hex_pid = dec_to_hex(pid)
-    data = paste0("0x","1526fe27",gsub(" ","0",sprintf("%064s",substr(hex_pid,3,nchar(hex_pid)))))
+    data = paste0(abi,gsub(" ","0",sprintf("%064s",substr(hex_pid,3,nchar(hex_pid)))))
   }
   
   return(fn_hmyv2_call(token=masterchef_address,data=data,rpc=rpc,block=block))
@@ -241,6 +242,7 @@ fn_hmyv2_call_balanceOf <- function(
     ,jsonrpc="2.0"
     ,ABI="70a08231"
     ,autoconv=T
+    ,dec=NULL
   ){
     ## Default ABI is hermes balanceOf first 4 bytes
     my_address2 = sub("..","",my_address)
@@ -249,15 +251,43 @@ fn_hmyv2_call_balanceOf <- function(
   
     res = fn_hmyv2_call(token_address=token_address,rpc=rpc,block=block,id=id,jsonrpc=jsonrpc,data=data)
     
-    if(autoconv){
+    if(autoconv & is.null(dec)){
       dec <- fn_hmyv2_call_decimals(address=token_address,block=block)
+      out <- as.numeric(content(res)$result)/(10^dec)
+    } else if (autoconv & !is.null(dec)){
       out <- as.numeric(content(res)$result)/(10^dec)
     } else {
       out <- as.numeric(content(res)$result)
     }
     
     return(out)
+}
+
+fn_hmyv2_call_totalBorrows <- function(
+  token_address
+  ,rpc="https://a.api.s0.t.hmny.io/"
+  ,block=NULL
+  ,id="1"
+  ,jsonrpc="2.0"
+  ,data="0x47bd3718"
+  ,autoconv=T
+  ,dec=NULL
+){
+  ## Default ABI is hermes balanceOf first 4 bytes
+
+  res = fn_hmyv2_call(token_address=token_address,rpc=rpc,block=block,id=id,jsonrpc=jsonrpc,data=data)
+  
+  if(autoconv & is.null(dec)){
+    dec <- fn_hmyv2_call_decimals(address=token_address,block=block)
+    out <- as.numeric(content(res)$result)/(10^dec)
+  } else if (autoconv & !is.null(dec)){
+    out <- as.numeric(content(res)$result)/(10^dec)
+  } else {
+    out <- as.numeric(content(res)$result)
   }
+  
+  return(out)
+}
 
 fn_hmyv2_getBlockByNumber <- function(block,fullTx=T,inclTx=T,withSigners=F,rpc="https://a.api.s0.t.hmny.io/",id="1",jsonrpc="2.0"){
   
@@ -333,8 +363,25 @@ fn_getClosestBlock <- function(block=content(fn_hmyv2_getBlock(rpc="https://a.ap
 }
 
 fn_hmyv2_call_startBlock <- function(
-  masterchef_address = "0x8c8dca27e450d7d93fa951e79ec354dce543629e"
+  masterchef_address
   ,data = "0x48cd4cb1"
+  ,block=NULL
+  ,id="1"
+  ,jsonrpc="2.0"
+  ,rpc = "https://a.api.s0.t.hmny.io/"
+){
+  return(
+    as.numeric(
+      content(
+        fn_hmyv2_call(token_address=masterchef_address,rpc=rpc,data=data,block=block,id=id,jsonrpc=jsonrpc)
+      )$result
+    )
+  )
+}
+
+fn_hmyv2_call_START_BLOCK <- function(
+  masterchef_address
+  ,data = "0x39b3e826"
   ,block=NULL
   ,id="1"
   ,jsonrpc="2.0"
@@ -476,25 +523,7 @@ fn_getCodeStartBlock <- function(
 }
 
 
-fn_hmyv2_Call_startBlock <- function(
-  address
-  ,block=NULL
-  ,rpc="https://a.api.s0.t.hmny.io/"  
-  ,id="1"
-  ,jsonrpc="2.0"
-){
-  as.numeric(
-    content(
-      fn_hmyv2_call(
-        token_address=address
-        ,data="0x48cd4cb1"
-        ,rpc=rpc
-        ,id=id
-        ,jsonrpc=jsonrpc
-      )
-    )$result
-  )
-}
+
 
 fn_hmyv2_call_decimals <- function(
   address
@@ -516,3 +545,119 @@ fn_hmyv2_call_decimals <- function(
     )$result
   )
 }
+
+fn_hmyv2_call_poolId1 <- function(
+  masterchef_address
+  ,lp_address
+  ,data = NULL
+  ,rpc="https://a.api.s0.t.hmny.io/"
+  ,block=NULL
+  ,id="1"
+  ,jsonrpc="2.0"
+  ,max_length = 74
+){
+  if(is.null(data)){
+    lp_address_length = nchar(lp_address)
+    pad0 = paste0(rep("0",64-lp_address_length+2),collapse="")
+    
+    data = paste0("0x","ce2529c9",pad0,substr(lp_address,3,nchar(lp_address)))
+  }
+  
+  return(
+    as.numeric(
+      content(fn_hmyv2_call(token=masterchef_address,data=data,rpc=rpc,block=block))$result
+    )
+  )
+}
+
+fn_get_dfk_epoch = function(block,start_epoch=16350367,epoch_delta=302400,type=c("raw","friendly")){
+  type = type[1]
+  block_delta = max(0,block-start_epoch)
+  raw_epoch = floor(block_delta/epoch_delta)
+  res = if(type=="raw"){raw_epoch} else {raw_epoch+1}
+  return(res)
+}
+
+
+fn_hmyv2_call_REWARD_MULTIPLIER <- function(
+  .masterchef_address
+  ,.current_epoch
+  ,.abi = "0xfc0c546a"
+  ,.rpc="https://a.api.s0.t.hmny.io/"
+  ,.block=NULL
+  ,.id="1"
+  ,.jsonrpc="2.0"
+){
+  
+  epoch_hash = dec_to_hex(.current_epoch)
+  pad0 = paste0(rep("0",64-nchar(epoch_hash)+2),collapse="")
+  data = paste0(.abi,pad0,substr(epoch_hash,3,nchar(epoch_hash)))
+  
+  res = fn_hmyv2_call(token_address=.masterchef_address,data=data,rpc=.rpc,id=.id,jsonrpc=.jsonrpc)
+  res = as.numeric(content(res)$result)
+  return(res)
+}  
+
+fn_hmyv2_call_decimals <- function(
+  address
+  ,data = "0x313ce567"
+  ,rpc="https://a.api.s0.t.hmny.io/"
+  ,block=NULL
+  ,id="1"
+  ,jsonrpc="2.0"
+){
+  res = fn_hmyv2_call(
+    token_address = address
+    ,data = data
+    ,rpc = rpc
+    ,block = block
+    ,id = id
+    ,jsonrpc = jsonrpc
+  )
+  
+  return(
+    as.numeric(content(res)$result)
+  )
+}
+
+fn_hmyv2_getTransactionsHistory <- 
+  function(
+    address
+    ,pageIndex = 0
+    ,pageSize = 1000
+    ,fullTx = T
+    ,txType = "ALL"
+    ,order = "DESC"
+    ,rpc="https://a.api.s0.t.hmny.io/"
+    ,id="1"
+    ,jsonrpc="2.0"
+  ){
+    res <- 
+      POST(
+        url = rpc
+        ,body = jsonlite::toJSON(
+          list(
+            jsonrpc = jsonrpc
+            ,method = "hmyv2_getTransactionsHistory"
+            ,params = list(
+              list(
+                address = address
+                ,pageIndex = pageIndex
+                ,pageSize = pageSize
+                ,fullTx = fullTx
+                ,txType = txType
+                ,order = order
+              )
+            )
+            ,id = id
+          )
+          ,auto_unbox = T
+          ,pretty = T
+        )
+        ,httr::content_type('application/json')
+      )
+    return(res)
+  }
+
+
+

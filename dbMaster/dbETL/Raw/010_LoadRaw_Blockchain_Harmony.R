@@ -7,12 +7,22 @@ parallelPackages=c("httr","jsonlite","ether","dplyr","lubridate")
 cat("Preparing Harmony Query Requirements","\n")
 rpc              <- "https://a.api.s0.t.hmny.io/"
 glbStartTime     <- with_tz(as_datetime("2021-07-01 00:00:00"),"UTC")
-maxDirDate       <- max(as.Date(gsub("target_date=","",list.files(dir))))
+
+if(sel_op_save == 2){
+  maxDirDate <- date_load_from
+} else {
+  maxDirDate <- max(as.Date(gsub("target_date=","",list.files(dir))))
+}
 startTime        <- with_tz(as_datetime(maxDirDate),"UTC")
 
 ## Remove latest day data
 cat("Removing latest day data","\n")
-unlink(paste0(dir,"/target_date=",maxDirDate),force=T,recursive=T) 
+src_dir_files_full <- list.files(dir,full.names = T)
+src_dir_files <- list.files(dir)
+src_dir_files_idx <- as_date(gsub("target_date=","",src_dir_files))
+src_dir_files_full <- src_dir_files_full[src_dir_files_idx>=maxDirDate]
+
+unlink(src_dir_files_full,force=T,recursive=T)
 
 ## Get latest block data
 cat("Retrieving blocks to query","\n")

@@ -24,13 +24,13 @@ df_account <-
 
 ## Load Accounts
     dir_dim_account <- paste0(c(dir_data_cur_dim,"dim_account.parquet"),collapse="/")
-    vct_pk_dim_account <- c("account_address","network")
+    vct_pk_dim_account <- c("account_address","network","account_type")
     if(file.exists(dir_dim_account)){
       old_dim_account <- arrow::read_parquet(dir_dim_account)
     }
     
     ## Intermediate dim_account
-    dim_account <- df_account %>% distinct(platform,account_address,account_name,account_type,network)
+    dim_account <- df_account %>% distinct(platform,account_address,account_name,account_type,account_dim_asset_id,network)
     
     dim_account_other <- distinct(dim_account,network) %>%
       mutate(
@@ -38,11 +38,12 @@ df_account <-
         ,platform = "Other"
         ,account_name = "Other"
         ,account_type = "Other"
+        ,account_dim_asset_id = NA
       ) %>%
       select_at(colnames(dim_account))
     
     dim_account <- bind_rows(dim_account,dim_account_other)
-    
+
     ## Match & merge
     if(file.exists(dir_dim_account)){
       dim_account <- fn_db_merge_dim(dim_account,old_dim_account,vct_pk_dim_account,"dim_account_id")

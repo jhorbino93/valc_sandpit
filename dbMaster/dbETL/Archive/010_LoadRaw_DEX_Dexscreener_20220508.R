@@ -6,8 +6,8 @@ bar              <- 60
 interval         <- "1h"
 loopDayJump      <- 14
 
-cols_dexscreener <- c("schemaVersion","bars.timestamp","bars.open","bars.openUsd","bars.high","bars.highUsd","bars.low","bars.lowUsd","bars.close","bars.closeUsd","bars.volumeUsd")
-startTime <- as_datetime("2022-02-01",tz="UTC")
+
+
 
 for(i in seq_along(vct_tickers)){
   k              <- vct_tickers[i]
@@ -25,21 +25,12 @@ for(i in seq_along(vct_tickers)){
     dir.create(dir,recursive=T)
   } else {
     cat(paste0("File directory found for ",ticker,"\n"))
-    
-    if(sel_op_save == 2){
-      loopStartDate <- date_load_from
-    } else {
-      loopStartDate <- max(as.Date(gsub("open_date=","",list.files(dir))))
-    }
+    loopStartDate <- max(as.Date(gsub("open_date=","",list.files(dir))))
   }
   cat(paste0("Starting data retrieval from ",loopStartDate,"\n"))
   
   ## Remove latest day data
-  src_dir_files_full <- list.files(dir,full.names = T)
-  src_dir_files <- list.files(dir)
-  src_dir_files_idx <- as_date(gsub("open_date=","",src_dir_files))
-  src_dir_files_full <- src_dir_files_full[src_dir_files_idx>=loopStartDate]
-  unlink(src_dir_files_full,force=T,recursive=T)
+  unlink(paste0(dir,"/open_date=",loopStartDate),force=T,recursive=T) 
   
   cat(paste0("Begin retrieval for ",ticker," from dexscreener on network ",network,"\n"))
   j <- 1
@@ -62,21 +53,31 @@ for(i in seq_along(vct_tickers)){
       ,"&cb=",cb
     )
     
-    resRaw <- read_json(url)
-    if(!is.null(resRaw$bars)){
-      resOut <- bind_cols(
-        schemaVersion = resRaw$schemaVersion
-        ,lapply(resRaw$bars,as_tibble) %>% bind_rows() %>% mutate_all(.funs=as.double)
-      ) %>% `colnames<-`(cols_dexscreener) %>%
-        filter(bars.timestamp >= startTimeUnix)
+    retryCounter  <- 0
+    resCont <- "seed"
+    while((resCont == "Internal Server Error" | resCont == "seed") & retryCounter < 3){
+      retryCounter <- retryCounter+1
+      print(paste0("Trying GET request, attempt = ",retryCounter))
+      resGet        <- httr::GET(url)
+      resCont       <- content(resGet,"text")
+      Sys.sleep(3)
+    }
+
+    if(resCont != "Internal Server Error"){
+      resJson       <- fromJSON(resCont,flatten=T)  
       
-      qryList[[j]] <- resOut
+      if(!is.null(resJson$bars)){
+        resRaw       <- as.data.frame(resJson)  
+        resRaw       <- resRaw[which(resRaw$bars.timestamp >= startTimeUnix),] ## dexscreener query can go before startTime
+        qryList[[j]] <- resRaw
+      } else {
+        cat(paste0("No data retrieved for ",ticker," in network ",network," at start time = ",startTime," and end time = ",endTime,"\n"))
+      }
     }
     
     j <- j+1
     startTime <- endTime + hours(1)
     Sys.sleep(3)
-    
   }
   cat(paste0("Preparing data for parquet write","\n"))
   resOut <- bind_rows(qryList) %>% 

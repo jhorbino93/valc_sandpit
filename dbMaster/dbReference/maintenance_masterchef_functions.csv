@@ -1,0 +1,8 @@
+masterchef_address,network,friendly_name,fn_desc,fn_actual_name,fn_abi
+0x8c8dca27e450d7d93fa951e79ec354dce543629e,Harmony Network,plutus,Pool Info,poolInfo,0x1526fe27
+0x8c8dca27e450d7d93fa951e79ec354dce543629e,Harmony Network,plutus,Total Farming Allocation,totalAllocPoint,0x17caf6f1
+0x8c8dca27e450d7d93fa951e79ec354dce543629e,Harmony Network,plutus,Total Emission Volume,tokenPerBlock,0x4198709a
+0xdb30643c71ac9e2122ca0341ed77d09d5f99f924,Harmony Network,defi kingdoms,Pool Info,poolInfo,0x1526fe27
+0xdb30643c71ac9e2122ca0341ed77d09d5f99f924,Harmony Network,defi kingdoms,Total Farming Allocation,totalAllocPoint,0x17caf6f1
+0xdb30643c71ac9e2122ca0341ed77d09d5f99f924,Harmony Network,defi kingdoms,Total Emission Volume,REWARD_PER_BLOCK,0x975532dc
+0xdb30643c71ac9e2122ca0341ed77d09d5f99f924,Harmony Network,defi kingdoms,Emission Multiplier,REWARD_MULTIPLIER,0x2fda7735
